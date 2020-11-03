@@ -6,7 +6,7 @@
 /*   By: gbudau <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 21:34:03 by gbudau            #+#    #+#             */
-/*   Updated: 2020/10/26 20:49:28 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/01 13:36:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct	s_list
 	struct s_list	*next;
 }				t_list;
 
-enum	e_state
+enum	e_word_count_state
 {
 	OUT,
 	IN

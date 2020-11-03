@@ -34,14 +34,14 @@ $(NAME): $(OBJ)
 
 .PHONY: fsanitize
 fsanitize: CFLAGS += -g3 -O0 -fsanitize=address
-fsanitize: $(OBJ)
+fsanitize: fclean $(OBJ)
 	make CFLAGS="$(CFLAGS)" -C $(LIB_DIR)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 	./$(NAME)
 
 .PHONY: debug
 debug: CFLAGS += -g3 -O0
-debug: $(OBJ)
+debug: fclean $(OBJ)
 	make CFLAGS="$(CFLAGS)" -C $(LIB_DIR)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 
