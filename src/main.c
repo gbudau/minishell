@@ -58,6 +58,14 @@ char	peek(t_scanner *scanner)
 	return (*scanner->current);
 }
 
+
+/*
+** Return the character after the character pointed by current pointer
+*/
+char	peek_next(t_scanner *scanner)
+{
+	return (*(scanner->current + 1));
+}
 /*
 ** Advance the pointer until it points at a non-space character
 */
@@ -141,7 +149,7 @@ int		is_backslash(char c)
 */
 int		is_general_delimiter(char c)
 {
-	return (is_backslash(c) || ft_isspace(c) ||
+	return (ft_isspace(c) ||
 			ft_strchr(OPERATORS, c) || ft_strchr(QUOTES, c));
 }
 
@@ -164,16 +172,56 @@ void	advance_general(t_scanner *scanner)
 /*
 ** Advance a string delimited by quotes
 */
-void	advance_quote(char c, t_scanner *scanner)
+void	advance_quote(t_scanner *scanner)
 {
 	advance(scanner);
-	while (!is_at_end(scanner) && peek(scanner) != c)
+	while (!is_at_end(scanner) && peek(scanner) != CHAR_QUOTE)
 		advance(scanner);
 	if (is_at_end(scanner))
 		scanner->error = TRUE;
 	else
 		advance(scanner);
 }
+
+/*
+** https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html
+** #tag_02_02_03
+** Return TRUE if the character is a character considered special
+** when a backslash is encountered inside a double quote
+** Return FALSE otherwise
+*/
+int		is_dquote_backslash_special(char c)
+{
+	return (c == CHAR_DQUOTE || c == CHAR_BACKSLASH || c == CHAR_DOLLAR_SIGN);
+}
+
+/*
+** Advance a string delimited by double quotes
+*/
+void	advance_double_quote(t_scanner *scanner)
+{
+	char	c;
+	char	next;
+
+	advance(scanner);
+	c = peek(scanner);
+	while (!is_at_end(scanner) && c != CHAR_DQUOTE)
+	{
+		next = peek_next(scanner);
+		if (is_backslash(c) && is_dquote_backslash_special(next))
+			advance_backslash(scanner);
+		else
+			advance(scanner);
+		if (scanner->error)
+			return ;
+		c = peek(scanner);
+	}
+	if (is_at_end(scanner))
+		scanner->error = TRUE;
+	else
+		advance(scanner);
+}
+
 
 /*
 ** Advance words, quoted strings or backslash
@@ -188,9 +236,9 @@ int		advance_word(t_scanner *scanner)
 	if (!scanner->state && (ft_isspace(c) || ft_strchr(OPERATORS, c)))
 		return (TRUE);
 	if (scanner->state == STATE_IN_QUOTE)
-		advance_quote(CHAR_QUOTE, scanner);
+		advance_quote(scanner);
 	else if (scanner->state == STATE_IN_DQUOTE)
-		advance_quote(CHAR_DQUOTE, scanner);
+		advance_double_quote(scanner);
 	else if (scanner->state == STATE_BACKSLASH)
 		advance_backslash(scanner);
 	else
@@ -240,7 +288,7 @@ void	scan_tokens(t_scanner *scanner)
 }
 
 /*
-** Tokenize the line into OPERATORS or WORD tokens
+** Split the line into a list of OPERATORS or WORD tokens
 */
 t_list	*tokenize(char *line)
 {
@@ -303,23 +351,23 @@ void	prompt(void)
 int	main(void)
 {
 	char	*line;
-	ssize_t	nread;
+	int		gnl;
 	t_list	*tokens;
 
 	line = NULL;
 	tokens = NULL;
-	while (1)
+	while (TRUE)
 	{
 		prompt();
-		nread = get_next_line(STDIN_FILENO, &line);
-		if (nread == -1)
+		gnl = get_next_line(STDIN_FILENO, &line);
+		if (gnl == -1)
 			break;
 		tokens = tokenize(line);
 		print_tokens(tokens);
 		ft_lstclear(&tokens, clear_token);
 		free(line);
 		line = NULL;
-		if (nread == 0)
+		if (gnl == 0)
 			break;
 	}
 	return (0);

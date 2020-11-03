@@ -7,7 +7,7 @@
 # include "libft.h"
 # define PROMPT "minishell> "
 # define OPERATORS "|;><"
-# define QUOTES "\'\""
+# define QUOTES "\'\"\\"
 
 enum	e_bool
 {
@@ -19,7 +19,8 @@ enum	e_special_chars
 {
 	CHAR_QUOTE = '\'',
 	CHAR_DQUOTE = '\"',
-	CHAR_BACKSLASH = '\\'
+	CHAR_BACKSLASH = '\\',
+	CHAR_DOLLAR_SIGN = '$'
 };
 
 /*
@@ -39,7 +40,7 @@ typedef enum	e_tokentype
 }				t_tokentype;
 
 /*
-** State machine to deal with quotes
+** State machine for quotes and backslash escape in WORD tokens
 */
 typedef enum	e_scan_state
 {
@@ -60,6 +61,7 @@ typedef	struct	s_token
 }				t_token;
 
 /*
+** Variables used for splitting the line into tokens
 ** *tokens = list of tokens for the current line
 ** *start = start of the token
 ** *current = current character that is being analyzed
@@ -76,6 +78,12 @@ typedef struct	s_scanner
 }				t_scanner;
 
 /*
+** List of processes
+** argv = arguments array for execve
+** env = environment variables array for execve
+** status = status of the process
+*/
+
 typedef struct	s_process
 {
 	struct process	*next;
@@ -83,6 +91,5 @@ typedef struct	s_process
 	char			**env;
 	int				status;
 }				t_process;
-*/
 
 #endif
