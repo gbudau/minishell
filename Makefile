@@ -1,4 +1,4 @@
-NAME=minishell
+NAME = minishell
 
 CC = gcc
 DEBUGGER = lldb
@@ -13,9 +13,17 @@ OBJ_DIR = obj
 UNAME = $(shell uname -s)
 
 _OBJ = main.o
+
+# Lexer
+_OBJ += lexer.o \
+		lexer_word_token.o \
+		lexer_word_utils.o \
+		lexer_utils1.o \
+		lexer_utils2.o
+
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
-_DEPS = minishell.h libft.h
+_DEPS = minishell.h lexer.h libft.h
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
 .PHONY: all
