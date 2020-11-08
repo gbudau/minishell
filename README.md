@@ -1,24 +1,24 @@
 ## Minishell roadmap/progress status
 
-[Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
+[Shell](https://pubs.opengroup.org/onlinepubs/9699919799/idx/shell.html)
 
-[Bash Beginners Guide](https://tldp.org/LDP/Bash-Beginners-Guide/html/chap_01.html)
+[Bash Guide for Beginners](https://tldp.org/LDP/Bash-Beginners-Guide/html/index.html)
 
 [The Architecture of Open Source Applications: The Bourne-Again Shell](https://www.aosabook.org/en/bash.html)
 
-- [x] Lexical analysis and parsing
+- [x] Lexical analysis
   
-  - [x] Split the line into tokens
-  
-  - [ ] Parse (analyze and substitute) the tokens into simple commands
+  - [x] Split the line into token
 
-- [ ] Expansion
+- [ ] Expansion 
   
-  - [ ] Parameter expansion
-    
-    - [ ] Environmental variables
+  - [ ] Environmental variables substitution
   
-  - [ ] Word splitting
+  - [ ] Field splitting
+  
+  - [ ] Quote removal
+
+- [ ] Parse (analyze and substitute) the tokens into simple commands
 
 - [ ] Command Execution
   

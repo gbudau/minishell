@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
+/*   Updated: 2020/11/08 01:14:42 by gbudau           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include <errno.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-# include <errno.h>
 # include <stdio.h>
 # include "libft.h"
 # define PROMPT "minishell> "

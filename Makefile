@@ -1,6 +1,7 @@
 NAME=minishell
 
 CC = gcc
+DEBUGGER = lldb
 CFLAGS = -Wall -Werror -Wextra
 LDFLAGS = -lft
 RMF=rm -rf
@@ -33,28 +34,30 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 
 .PHONY: fsanitize
-fsanitize: CFLAGS += -g3 -O0 -fsanitize=address
+fsanitize: CFLAGS += -g3 -fsanitize=address
 fsanitize: fclean $(OBJ)
 	make CFLAGS="$(CFLAGS)" -C $(LIB_DIR)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 	./$(NAME)
 
-.PHONY: debug
-debug: CFLAGS += -g3 -O0
-debug: fclean $(OBJ)
+.PHONY: debuginfo
+debuginfo: CFLAGS += -g3
+debuginfo: fclean $(OBJ)
 	make CFLAGS="$(CFLAGS)" -C $(LIB_DIR)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 
-ifeq ($(UNAME),Linux)
-.PHONY: valgrind
-valgrind: fclean debug
-	valgrind --leak-check=full ./$(NAME)
-endif
+.PHONY: debug
+debug: debuginfo
+	$(DEBUGGER) ./$(NAME)
 
-ifeq ($(UNAME),Darwin)
 .PHONY: leaks
-leaks: fclean debug
+leaks: debuginfo
+ifeq ($(UNAME),Linux)
+	valgrind --leak-check=full ./$(NAME)
+else
+ifeq ($(UNAME),Darwin)
 	DYLD_INSERT_LIBRARIES=/Applications/Xcode.app/Contents/Developer/usr/lib/libLeaksAtExit.dylib leaks -atExit -- ./$(NAME)
+endif	
 endif
 
 .PHONY: clean

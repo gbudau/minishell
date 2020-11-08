@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "../include/minishell.h"
 
 void	init_scanner(char *line, t_scanner *scanner)
@@ -294,6 +293,8 @@ t_list	*tokenize(char *line)
 {
 	t_scanner	scanner;
 
+	if (line == NULL)
+		return (NULL);
 	init_scanner(line, &scanner);
 	while (!is_at_end(&scanner) && !scanner.error)
 	{
@@ -326,6 +327,8 @@ void	print_tokens(t_list *tokens)
 		"DGREAT",
 		"WORD",};
 
+	if (tokens == NULL)
+		return ;
 	while (tokens != NULL)
 	{
 		t_token *token = tokens->content;
@@ -343,6 +346,14 @@ void	clear_token(void *node)
 	free(node);
 }
 
+int		compare_token(const void *a, const void *b)
+{
+	const t_token *t;
+
+	t = a;
+	return (ft_strcmp((const char *)t->token, (const char *)b));
+}
+
 void	prompt(void)
 {
 	ft_putstr_fd(PROMPT, STDOUT_FILENO);
@@ -356,19 +367,19 @@ int	main(void)
 
 	line = NULL;
 	tokens = NULL;
-	while (TRUE)
+	gnl = 1;
+	while (gnl > 0)
 	{
 		prompt();
 		gnl = get_next_line(STDIN_FILENO, &line);
-		if (gnl == -1)
-			break;
 		tokens = tokenize(line);
+		print_tokens(tokens);
+		size_t n = ft_lstdelcmp(&tokens, compare_token, "exit", clear_token);
+		printf("Number of deleted nodes = %zu\n", n);
 		print_tokens(tokens);
 		ft_lstclear(&tokens, clear_token);
 		free(line);
 		line = NULL;
-		if (gnl == 0)
-			break;
 	}
 	return (0);
 }
