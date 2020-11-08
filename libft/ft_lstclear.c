@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/29 17:05:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/10/30 18:50:58 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/05 16:56:21 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 			ft_lstdelone(*lst, del);
 			*lst = temp;
 		}
+		*lst = NULL;
 	}
-	*lst = NULL;
 }
