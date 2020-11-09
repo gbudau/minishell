@@ -44,10 +44,8 @@
   
   - [ ] Nonbuilt-in commands
   
-  - [ ] 
-  
   - [ ] Exit status
   
   - [ ] Signals SIGINT (CTRL-C), SIGQUIT \(CTRL-\\\) and EOF \(CTRL-D\)
   
-      
+    
