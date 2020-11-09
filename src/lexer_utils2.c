@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:54:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 00:15:32 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/09 01:29:19 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,19 @@ void	skip_space(t_scanner *scanner)
 }
 
 /*
-** If the current character is the expected one advance a character and return TRUE
+** If the current character is the expected one
+** advance a character and return TRUE
 ** Return FALSE otherwise
 */
 
 int		match(char expected, t_scanner *scanner)
 {
 	if (is_at_end(scanner))
-		return FALSE;
+		return (FALSE);
 	if (*scanner->current != expected)
-		return FALSE;
+		return (FALSE);
 	scanner->current++;
-	return TRUE;
+	return (TRUE);
 }
 
 /*
@@ -50,21 +51,22 @@ void	clear_token(void *node)
 
 void	print_tokens(t_list *tokens)
 {
-	static char *tok[] = {"PIPE",
+	t_token				*token;
+	const char const	*tok_name[] = {"PIPE",
 		"SEMICOLON",
 		"SINGLE_QUOTE",
 		"DOUBLE_QUOTE",
 		"GREAT",
 		"LESS",
 		"DGREAT",
-		"WORD",};
+		"WORD"};
 
 	if (tokens == NULL)
 		return ;
 	while (tokens != NULL)
 	{
-		t_token *token = tokens->content;
-		printf("%s = %s\n", tok[token->type], token->token);
+		token = tokens->content;
+		printf("%s = %s\n", tok_name[token->type], token->token);
 		tokens = tokens->next;
 	}
 }

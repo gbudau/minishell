@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:51:27 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 00:11:05 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/09 01:24:19 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	peek(t_scanner *scanner)
 {
 	return (*scanner->current);
 }
-
 
 /*
 ** Return the character after the character pointed by current pointer

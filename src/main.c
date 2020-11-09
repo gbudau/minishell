@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/08 18:53:48 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/09 01:31:03 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	prompt(void)
 	ft_putstr_fd(PROMPT, STDOUT_FILENO);
 }
 
-int	main(void)
+int		main(void)
 {
 	char	*line;
 	int		gnl;

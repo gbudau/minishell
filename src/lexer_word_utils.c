@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:46:36 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 00:09:58 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/09 01:30:54 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		is_backslash(char c)
 ** Return TRUE if char is a backslash, space, OPERATOR or quote
 ** Return FALSE otherwise
 */
+
 int		is_general_delimiter(char c)
 {
 	return (ft_isspace(c) ||
@@ -44,9 +45,10 @@ int		is_dquote_backslash_special(char c)
 /*
 ** Return the state of the current word scan
 */
-void		get_state(t_scanner *scanner)
+
+void	get_state(t_scanner *scanner)
 {
-	char			c;
+	char	c;
 
 	c = peek(scanner);
 	if (c == CHAR_BACKSLASH)

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:29:26 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 00:04:41 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/09 01:23:43 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 ** And adds the token to the tokens list
 ** In case of error sets scanner->error to TRUE
 */
+
 static void	make_token(t_tokentype type, t_scanner *scanner)
 {
 	t_token	*new;
 	t_list	*node;
-	
+
 	new = malloc(sizeof(*new));
 	if (new == NULL)
 	{
@@ -98,6 +99,7 @@ static void	init_scanner(char *line, t_scanner *scanner)
 /*
 ** Split the line into a list of OPERATORS or WORD tokens
 */
+
 t_list		*tokenize(char *line)
 {
 	t_scanner	scanner;
