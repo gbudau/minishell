@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:54:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 01:29:19 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/09 16:55:02 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	clear_token(void *node)
 void	print_tokens(t_list *tokens)
 {
 	t_token				*token;
-	const char const	*tok_name[] = {"PIPE",
+	const char			*tok_name[] = {"PIPE",
 		"SEMICOLON",
 		"SINGLE_QUOTE",
 		"DOUBLE_QUOTE",

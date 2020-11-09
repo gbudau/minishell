@@ -6,13 +6,15 @@
 
 [The Architecture of Open Source Applications: The Bourne-Again Shell](https://www.aosabook.org/en/bash.html)
 
+- [x] Save the environment variables
+
 - [x] Lexical analysis
   
-  - [x] Split the line into token
+  - [x] Split the line into tokens
 
 - [ ] Expansion 
   
-  - [ ] Environmental variables substitution
+  - [ ] Environment variables substitution
   
   - [ ] Field splitting
   

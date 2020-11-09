@@ -14,12 +14,18 @@ UNAME = $(shell uname -s)
 
 _OBJ = main.o
 
+# Environment variables
+_OBJ += env.o
+
 # Lexer
 _OBJ += lexer.o \
 		lexer_word_token.o \
 		lexer_word_utils.o \
 		lexer_utils1.o \
 		lexer_utils2.o
+
+# Other objects
+_OBJ += error_utils.o
 
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
