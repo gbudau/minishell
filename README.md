@@ -48,6 +48,6 @@
   
   - [ ] Exit status
   
-  - [ ] Signals (CTRL-C, CTRL-\\) and EOF (CTRL-D)
+  - [ ] Signals SIGINT (CTRL-C), SIGQUIT \(CTRL-\\\) and EOF \(CTRL-D\)
   
       
