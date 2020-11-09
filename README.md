@@ -18,11 +18,15 @@
   
   - [ ] Quote removal
 
-- [ ] Parse (analyze and substitute) the tokens into simple commands
+- [ ] Parse (analyze and substitute) the tokens into commands
 
 - [ ] Command Execution
   
-  - [ ] Builtin commands
+  - [ ] Redirection of IO
+  
+  - [ ] Pipelines
+  
+  - [ ] Built-in commands
     
     - [ ] echo with option '-n'
     
@@ -38,13 +42,9 @@
     
     - [ ] exit
   
-  - [ ] Simple commands
+  - [ ] Nonbuilt-in commands
   
-  - [ ] Redirection of IO
-  
-  - [ ] Pipelines
-  
-  - [ ] Job control
+  - [ ] 
   
   - [ ] Exit status
   
