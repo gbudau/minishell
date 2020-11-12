@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:54:37 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 19:26:08 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/12 01:00:41 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,10 @@ enum	e_environ
 
 void	init_env(t_list **environ);
 void	print_env(t_list *environ);
+char	*get_env(t_list *environ, char *match);
+void	set_env(t_list **environ, char **newenv);
+void	clear_env(void *content);
+int		compare_env(const void *content, const void *match);
+int		unset_env(t_list **environ, char *env);
 
 #endif

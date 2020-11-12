@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:38:55 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 20:28:54 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/12 01:05:11 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,77 @@ void	print_env(t_list *environ)
 		ft_putchar_fd('\n', 1);
 		environ = environ->next;
 	}
+}
+
+char	*get_env(t_list *environ, char *match)
+{
+	char	**env;
+
+	while (environ != NULL)
+	{
+		env = environ->content;
+		if (ft_strcmp(env[NAME], match) == 0)
+		{
+			return (env[VALUE]);
+		}
+		environ = environ->next;
+	}
+	return (NULL);
+}
+
+void	add_env_front(t_list **environ, char **env)
+{
+	t_list	*node;
+
+	node = ft_lstnew(env);
+	if (node == NULL)
+		error_exit();
+	ft_lstadd_front(environ, node);
+}
+
+void	set_env(t_list **environ, char **newenv)
+{
+	t_list	*node;
+	char	**env;
+
+	if (*environ == NULL)
+		add_env_front(environ, newenv);
+	else
+	{
+		node = *environ;
+		while (node != NULL)
+		{
+			env = node->content;
+			if (ft_strcmp(env[NAME], newenv[NAME]) == 0)
+				break ;
+			node = node->next;
+		}
+		if (node == NULL)
+			add_env_front(environ, newenv);
+		else
+		{
+			ft_free_strarr(env);
+			node->content = newenv;
+		}
+	}
+}
+
+void	clear_env(void *content)
+{
+	ft_free_strarr(content);
+}
+
+int		compare_env(const void *content, const void *match)
+{
+	const char	**env;
+	const char	*str;
+
+	env = (const char **)content;
+	str = match;
+	return (ft_strcmp(env[NAME], str));
+}
+
+int		unset_env(t_list **environ, char *env_name)
+{
+	return (ft_lstdelcmp(environ, &compare_env, env_name, &clear_env));
 }
