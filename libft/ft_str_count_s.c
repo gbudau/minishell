@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:18:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/07/22 16:38:15 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/15 16:51:44 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ size_t	ft_str_count_s(const char *s, const char *delim)
 	size_t state;
 
 	i = 0;
-	state = OUT;
+	state = STATE_OUT_WORD;
 	while (*s != '\0')
 	{
 		if (ft_strchr(delim, *s))
-			state = OUT;
-		else if (state == OUT)
+			state = STATE_OUT_WORD;
+		else if (state == STATE_OUT_WORD)
 		{
-			state = IN;
+			state = STATE_IN_WORD;
 			i++;
 		}
 		s++;

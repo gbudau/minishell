@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/23 17:15:15 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/05 18:39:00 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/15 17:08:50 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int				get_next_line(int fd, char **line)
 			*next++ = '\0';
 			save = ft_strdup(next);
 		}
-		if ((next && !save) || !(*line = ft_strjoin_free(*line, buff, 1)))
+		if ((next && !save) || !(*line = ft_strjoin_free(*line, buff, 0)))
 			nbytes = -1;
 	}
 	if (next == NULL || nbytes < 0)

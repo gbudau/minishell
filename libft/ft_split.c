@@ -6,11 +6,24 @@
 /*   By: gbudau <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 22:19:21 by gbudau            #+#    #+#             */
-/*   Updated: 2020/07/22 16:42:10 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/15 16:49:36 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+/*
+** While inside a word check if next character is a delimiter or end of string
+** s = string of words separated by a delimiter
+** state = state of current scan
+** c = delimiter character
+*/
+
+static int		next_is_delimiter_or_end(const char *s, int state, char c)
+{
+	return ((state == STATE_IN_WORD && *(s + 1) == c) ||
+			(state == STATE_IN_WORD && *(s + 1) == '\0'));
+}
 
 /*
 ** Assign substrings separated by any char in delim into split array
@@ -28,14 +41,14 @@ static char		**ft_strtomatr(char **split, const char *s, char c)
 	while (*s != '\0')
 	{
 		if (*s == c)
-			state = OUT;
-		else if (state == OUT)
+			state = STATE_OUT_WORD;
+		else if (state == STATE_OUT_WORD)
 		{
-			state = IN;
+			state = STATE_IN_WORD;
 			word_start = s;
 			i++;
 		}
-		if ((state == IN && *(s + 1) == c) || (state == IN && *(s + 1) == '\0'))
+		if (next_is_delimiter_or_end(s, state, c))
 			if ((split[i] = ft_strndup(word_start, s - word_start + 1)) == NULL)
 			{
 				ft_free_strarr(split);

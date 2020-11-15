@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 20:01:20 by gbudau            #+#    #+#             */
-/*   Updated: 2020/07/01 20:01:41 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/15 16:57:27 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 /*
 ** Join s1 and s2 and return the new string
-** flag(1) - Free s1
-** flag(2) - Free s2
-** flag(12) - Free both
+** Free the strings based on a flag
 */
 
 char	*ft_strjoin_free(char *s1, char *s2, size_t flag)
@@ -24,11 +22,11 @@ char	*ft_strjoin_free(char *s1, char *s2, size_t flag)
 	char	*ret;
 
 	ret = ft_strjoin(s1, s2);
-	if (flag == 1)
+	if (flag == FREE_FIRST)
 		free(s1);
-	else if (flag == 2)
+	else if (flag == FREE_SECOND)
 		free(s2);
-	else if (flag == 12)
+	else if (flag == FREE_BOTH)
 	{
 		free(s1);
 		free(s2);

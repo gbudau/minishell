@@ -6,7 +6,7 @@
 /*   By: gbudau <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 21:34:03 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/08 00:12:26 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/15 16:42:55 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,15 @@ typedef struct	s_list
 
 enum	e_state
 {
-	OUT,
-	IN
+	STATE_OUT_WORD,
+	STATE_IN_WORD
+};
+
+enum	e_strjoin_free
+{
+	FREE_FIRST,
+	FREE_SECOND,
+	FREE_BOTH
 };
 
 /*

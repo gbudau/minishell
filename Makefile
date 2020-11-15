@@ -17,6 +17,9 @@ _OBJ = main.o
 # Environment variables
 _OBJ += env.o
 
+# Parser
+_OBJ += parser.o
+
 # Lexer
 _OBJ += lexer.o \
 		lexer_word_token.o \

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 15:57:28 by gbudau            #+#    #+#             */
-/*   Updated: 2020/07/22 16:39:22 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/15 17:00:41 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static char		**ft_strtomatr(char **split, const char *s, const char *delim)
 	while (*s != '\0')
 	{
 		if (ft_strchr(delim, *s))
-			state = OUT;
-		else if (state == OUT)
+			state = STATE_OUT_WORD;
+		else if (state == STATE_OUT_WORD)
 		{
-			state = IN;
+			state = STATE_IN_WORD;
 			word_start = s;
 			i++;
 		}
