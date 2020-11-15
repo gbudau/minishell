@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:38:55 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/12 01:05:11 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/15 21:52:44 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	print_env(t_list *environ)
 	while (environ != NULL)
 	{
 		env = environ->content;
-		ft_putstr_fd(env[NAME], 1);
-		ft_putchar_fd('=', 1);
+		ft_putstr_fd(env[NAME], STDOUT_FILENO);
+		ft_putchar_fd('=', STDOUT_FILENO);
 		if (env[VALUE] != NULL)
-			ft_putstr_fd(env[VALUE], 1);
-		ft_putchar_fd('\n', 1);
+			ft_putstr_fd(env[VALUE], STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		environ = environ->next;
 	}
 }
