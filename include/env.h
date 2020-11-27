@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:54:37 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/12 01:00:41 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/27 16:26:50 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 enum	e_environ
 {
-	NAME,
-	VALUE
+	ENV_NAME,
+	ENV_VALUE
 };
 
 void	init_env(t_list **environ);

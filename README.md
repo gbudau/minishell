@@ -1,4 +1,4 @@
-## Minishell roadmap/progress status
+## References
 
 [Shell](https://pubs.opengroup.org/onlinepubs/9699919799/idx/shell.html)
 
@@ -6,21 +6,25 @@
 
 [The Architecture of Open Source Applications: The Bourne-Again Shell](https://www.aosabook.org/en/bash.html)
 
+
+
+## Minishell roadmap/progress status
+
 - [x] Save the environment variables
 
 - [x] Lexical analysis
   
   - [x] Split the line into tokens
 
-- [ ] Expansion 
+- [ ]  Parse (analyze and substitute) the tokens into commands
+
+- [ ] Expansion
   
   - [ ] Environment variables substitution
   
   - [ ] Field splitting
   
   - [ ] Quote removal
-
-- [ ] Parse (analyze and substitute) the tokens into commands
 
 - [ ] Command Execution
   
@@ -44,7 +48,7 @@
     
     - [ ] exit
   
-  - [ ] Nonbuilt-in commands
+  - [ ] Execute nonbuilt-in commands
   
   - [ ] Exit status
   

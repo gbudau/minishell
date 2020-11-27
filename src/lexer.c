@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:29:26 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 15:37:56 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/27 16:24:09 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,19 @@
 
 static void	make_token(t_tokentype type, t_scanner *scanner)
 {
-	t_token	*new;
+	t_token	*token;
 	t_list	*node;
 
-	new = malloc(sizeof(*new));
-	if (new == NULL)
-	{
-		scanner->error = TRUE;
-		return ;
-	}
-	new->type = type;
-	new->token = ft_strndup(scanner->start, scanner->current - scanner->start);
-	if (new->token == NULL)
-	{
-		scanner->error = TRUE;
-		return ;
-	}
-	node = ft_lstnew(new);
+	token = malloc(sizeof(*token));
+	if (token == NULL)
+		error_exit();
+	token->type = type;
+	token->str = ft_strndup(scanner->start, scanner->current - scanner->start);
+	if (token->str == NULL)
+		error_exit();
+	node = ft_lstnew(token);
 	if (node == NULL)
-	{
-		scanner->error = TRUE;
-		return ;
-	}
+		error_exit();
 	ft_lstadd_front(&scanner->tokens, node);
 }
 
@@ -59,7 +50,7 @@ static void	make_token_word(t_scanner *scanner)
 	}
 	if (scanner->error)
 		return ;
-	make_token(WORD, scanner);
+	make_token(TOKEN_WORD, scanner);
 }
 
 static void	scan_tokens(t_scanner *scanner)
@@ -68,17 +59,17 @@ static void	scan_tokens(t_scanner *scanner)
 
 	c = advance(scanner);
 	if (c == '|')
-		make_token(PIPE, scanner);
+		make_token(TOKEN_PIPE, scanner);
 	else if (c == ';')
-		make_token(SEMICOLON, scanner);
+		make_token(TOKEN_SEMICOLON, scanner);
 	else if (c == '<')
-		make_token(LESS, scanner);
+		make_token(TOKEN_LESS, scanner);
 	else if (c == '>')
 	{
 		if (match('>', scanner))
-			make_token(DGREAT, scanner);
+			make_token(TOKEN_DGREAT, scanner);
 		else
-			make_token(GREAT, scanner);
+			make_token(TOKEN_GREAT, scanner);
 	}
 	else
 	{

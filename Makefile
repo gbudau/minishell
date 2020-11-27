@@ -51,11 +51,9 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 
 .PHONY: fsanitize
-fsanitize: CFLAGS += -g3 -fsanitize=address
-fsanitize: fclean $(OBJ)
-	make CFLAGS="$(CFLAGS)" -C $(LIB_DIR)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
-	./$(NAME)
+fsanitize: CFLAGS += -fsanitize=address
+fsanitize: debuginfo
+	ASAN_OPTIONS=detect_leaks=1 ./$(NAME)
 
 .PHONY: debuginfo
 debuginfo: CFLAGS += -g3

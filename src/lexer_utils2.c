@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:54:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 16:55:02 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/27 16:23:07 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,28 @@ int		match(char expected, t_scanner *scanner)
 
 void	clear_token(void *node)
 {
-	free(((t_token *)node)->token);
+	free(((t_token *)node)->str);
 	free(node);
 }
 
 void	print_tokens(t_list *tokens)
 {
 	t_token				*token;
-	const char			*tok_name[] = {"PIPE",
-		"SEMICOLON",
-		"SINGLE_QUOTE",
-		"DOUBLE_QUOTE",
-		"GREAT",
-		"LESS",
-		"DGREAT",
-		"WORD"};
+	const char			*token_types[] = {"TOKEN_PIPE",
+		"TOKEN_SEMICOLON",
+		"TOKEN_SINGLE_QUOTE",
+		"TOKEN_DOUBLE_QUOTE",
+		"TOKEN_GREAT",
+		"TOKEN_LESS",
+		"TOKEN_DGREAT",
+		"TOKEN_WORD"};
 
 	if (tokens == NULL)
 		return ;
 	while (tokens != NULL)
 	{
 		token = tokens->content;
-		printf("%s = %s\n", tok_name[token->type], token->token);
+		printf("%s = %s\n", token_types[token->type], token->str);
 		tokens = tokens->next;
 	}
 }

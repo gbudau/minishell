@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 15:55:58 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/15 16:06:29 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/11/27 18:17:07 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,5 @@
 # define PARSER_H
 # include "../include/minishell.h"
 # include "../include/lexer.h"
-
 
 #endif
