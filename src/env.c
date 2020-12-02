@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:38:55 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/27 16:18:24 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/02 00:55:10 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,17 @@ void	print_env(t_list *environ)
 char	*get_env(t_list *environ, char *match)
 {
 	char	**env;
+	char	*ret;
 
 	while (environ != NULL)
 	{
 		env = environ->content;
 		if (ft_strcmp(env[ENV_NAME], match) == 0)
 		{
-			return (env[ENV_VALUE]);
+			ret = ft_strdup(env[ENV_VALUE]);
+			if (ret == NULL)
+				error_exit();
+			return (ret);
 		}
 		environ = environ->next;
 	}
