@@ -6,11 +6,12 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/02 21:23:10 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/02 23:53:35 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/lexer.h"
 
 /*
 ** The flag variable control if ft_isdigit is used or not
@@ -21,7 +22,7 @@
 
 int		is_env_format(char c, int flag)
 {
-	return (ft_isalpha(c) || c == '_' || (flag && ft_isdigit(c)));
+	return (ft_isalpha(c) || c == '_' || c == '?' || (flag && ft_isdigit(c)));
 }
 
 char	*env_value(char **words, size_t *i, t_list *environ)
@@ -49,17 +50,41 @@ char	*env_value(char **words, size_t *i, t_list *environ)
 	return (env_name);
 }
 
-size_t	substitute_env(char **words, size_t *i, t_list *environ)
+char	*last_status_value(size_t *i, int last_status)
+{
+	char	*status;
+
+	*i += 2;
+	status = ft_itoa(last_status);
+	if (status == NULL)
+		error_exit();
+	return (status);
+}
+
+char	*env_or_last_status(char **words, size_t *i,
+							t_list *environ, int last_status)
+{
+	if ((*words)[*i + 1] == '?')
+		return (last_status_value(i, last_status));
+	else
+		return (env_value(words, i, environ));
+}
+
+size_t	substitute_env(char **words, size_t *i,
+						t_list *environ, int last_status)
 {
 	char	*beginning;
 	char	*middle;
 	char	*end;
 
 	if ((*words)[*i + 1] == '\0' || !is_env_format((*words)[*i + 1], 0))
+	{
+		(*i)++;
 		return (0);
+	}
 	if ((beginning = ft_strndup(*words, *i)) == NULL)
 		error_exit();
-	middle = env_value(words, i, environ);
+	middle = env_or_last_status(words, i, environ, last_status);
 	if ((end = ft_strndup(*words + *i, ft_strlen(*words + *i))) == NULL)
 		error_exit();
 	*i = ft_strlen(beginning) + ft_strlen(middle);
@@ -80,7 +105,8 @@ void	skip_single_quote(char **words, size_t *i)
 		(*i)++;
 }
 
-size_t	parse_double_quotes(char **words, size_t *i, t_list *environ)
+size_t	parse_double_quotes(char **words, size_t *i,
+							t_list *environ, int last_status)
 {
 	size_t	expanded;
 
@@ -91,35 +117,26 @@ size_t	parse_double_quotes(char **words, size_t *i, t_list *environ)
 		if ((*words)[*i] == '\\')
 			*i += 2;
 		else if ((*words)[*i] == '$')
-			expanded = substitute_env(words, i, environ);
+			expanded = substitute_env(words, i, environ, last_status);
 		else if ((*words)[*i])
 			(*i)++;
 	}
 	return (expanded);
 }
 
-/*
-**	t_token	*token;
-**
-**	(void)environ;
-**	token = malloc(sizeof(*token));
-**	if (token == NULL)
-**		error_exit();
-**	token->type = TOKEN_WORD;
-**	token->str = ft_strdup(words);
-**	if (token->str == NULL)
-**		error_exit();
-**	*word_list = ft_lstnew(token);
-**	if (*word_list == NULL)
-**		error_exit();
-*/
+void	remove_quotes(t_list *word_list, char *words, size_t expanded)
+{
+	(void)words;
+	(void)word_list;
+	(void)expanded;
+}
 
-int		expand_words(char **words, t_list **word_list, t_list *environ)
+int		variable_expansion(char **words, t_list **word_list,
+							t_list *environ, int last_status)
 {
 	size_t	expanded;
 	size_t	i;
 
-	(void)word_list;
 	expanded = 0;
 	i = 0;
 	while ((*words)[i])
@@ -127,45 +144,40 @@ int		expand_words(char **words, t_list **word_list, t_list *environ)
 		if ((*words)[i] == '\'')
 			skip_single_quote(words, &i);
 		else if ((*words)[i] == '"')
-			expanded = parse_double_quotes(words, &i, environ);
+			expanded = parse_double_quotes(words, &i, environ, last_status);
 		else if ((*words)[i] == '\\')
 			i += 2;
 		else if ((*words)[i] == '$')
-			expanded = substitute_env(words, &i, environ);
+			expanded = substitute_env(words, &i, environ, last_status);
 		else if ((*words)[i])
 			i++;
 	}
+	if (expanded)
+		*word_list = tokenize(*words);
+	remove_quotes(*word_list, *words, expanded);
 	return (expanded);
 }
 
-/*
-** //t_list	*tmp;
-**
-**
-** tmp = trav->next;
-** if (expand_words(&token->str, &sublist, environ))
-** {
-** 	*tokens = sublist;
-** 	sublist = ft_lstlast(*tokens);
-** 	sublist->next = tmp;
-** 	tokens = &sublist->next;
-** 	ft_lstdelone(trav, clear_token);
-** }
-*/
-
-void	expansion(t_list **tokens, t_list *environ)
+void	word_expansion(t_list **tokens, t_list *environ, int last_status)
 {
 	t_list	*trav;
 	t_list	*sublist;
+	t_list	*tmp;
 	t_token	*token;
 
 	while ((trav = *tokens))
 	{
 		token = trav->content;
-		if (token->type == TOKEN_WORD)
+		tmp = trav->next;
+		if (token->type == TOKEN_WORD &&
+			variable_expansion(&token->str, &sublist, environ, last_status) &&
+			sublist != NULL)
 		{
-			expand_words(&token->str, &sublist, environ);
-			tokens = &trav->next;
+			*tokens = sublist;
+			sublist = ft_lstlast(*tokens);
+			sublist->next = tmp;
+			tokens = &sublist->next;
+			ft_lstdelone(trav, clear_token);
 		}
 		else
 			tokens = &trav->next;
@@ -177,7 +189,7 @@ void	parse(t_shell *shell, char *input)
 	t_list	*tokens;
 
 	tokens = tokenize(input);
-	expansion(&tokens, shell->environ);
+	word_expansion(&tokens, shell->environ, shell->last_status);
 	print_tokens(tokens);
 	ft_lstclear(&tokens, clear_token);
 }
