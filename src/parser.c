@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/02 01:21:52 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/02 19:22:37 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ char	*env_value(char **words, size_t *i, t_list *environ)
 {
 	size_t	len;
 	char	*env_name;
+	char	*tmp;
 
 	len = *i;
 	while (is_env_format((*words)[len], 1))
 		len++;
 	if ((env_name = ft_strndup(&(*words)[*i], len - *i)) == NULL)
 		error_exit();
+	tmp = env_name;
 	env_name = get_env(environ, env_name);
+	free(tmp);
 	if (env_name == NULL)
 	{
 		env_name = ft_strdup("");
