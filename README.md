@@ -6,8 +6,6 @@
 
 [The Architecture of Open Source Applications: The Bourne-Again Shell](https://www.aosabook.org/en/bash.html)
 
-
-
 ## Minishell roadmap/progress status
 
 - [x] Save the environment variables
@@ -16,15 +14,15 @@
   
   - [x] Split the line into tokens
 
-- [ ]  Parse (analyze and substitute) the tokens into commands
-
 - [ ] Expansion
   
-  - [ ] Environment variables substitution
+  - [x] Environment variables substitution
   
   - [ ] Field splitting
   
   - [ ] Quote removal
+
+- [ ] Parse (analyze and substitute) the tokens into commands
 
 - [ ] Command Execution
   
