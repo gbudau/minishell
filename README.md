@@ -18,7 +18,7 @@
   
   - [x] Environment variables substitution
   
-  - [ ] Field splitting
+  - [x] Field splitting
   
   - [ ] Quote removal
 
