@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/02 23:53:35 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/03 20:28:48 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,68 @@ size_t	parse_double_quotes(char **words, size_t *i,
 	return (expanded);
 }
 
+void	copy_inside_squotes(char *words, size_t *i, size_t *j)
+{
+	(*i)++;
+	while (words[*i] && words[*i] != '\'')
+		words[(*j)++] = words[(*i)++];
+	if (words[*i])
+		(*i)++;
+}
+
+void	copy_backslash(char *words, size_t *i, size_t *j)
+{
+	(*i)++;
+	words[(*j)++] = words[(*i)++];
+}
+
+void	copy_inside_dquotes(char *words, size_t *i, size_t *j)
+{
+	(*i)++;
+	while (words[*i] && words[*i] != '"')
+	{
+		if (words[*i] == '\\')
+			copy_backslash(words, i, j);
+		else
+			words[(*j)++] = words[(*i)++];
+	}
+	if (words[*i])
+		(*i)++;
+}
+
+void	copy_without_quotes(char *words)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	while (words[i])
+	{
+		if (words[i] == '\'')
+			copy_inside_squotes(words, &i, &j);
+		else if (words[i] == '"')
+			copy_inside_dquotes(words, &i, &j);
+		else if (words[i] == '\\')
+			copy_backslash(words, &i, &j);
+		else
+			words[j++] = words[i++];
+	}
+	words[j] = '\0';
+}
+
 void	remove_quotes(t_list *word_list, char *words, size_t expanded)
 {
-	(void)words;
-	(void)word_list;
-	(void)expanded;
+	if (!expanded)
+		copy_without_quotes(words);
+	else
+	{
+		while (word_list != NULL)
+		{
+			copy_without_quotes(word_list->content);
+			word_list = word_list->next;
+		}
+	}
 }
 
 int		variable_expansion(char **words, t_list **word_list,
