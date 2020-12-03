@@ -14,13 +14,13 @@
   
   - [x] Split the line into tokens
 
-- [ ] Expansion
+- [x] Expansion
   
   - [x] Environment variables substitution
   
   - [x] Field splitting
   
-  - [ ] Quote removal
+  - [x] Quote removal
 
 - [ ] Parse (analyze and substitute) the tokens into commands
 
