@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/27 18:12:10 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/04 20:00:28 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	manage_eof(char **line)
 
 	while ((gnl = get_next_line(STDIN_FILENO, &input)) == 0)
 		*line = ft_strjoin_free(*line, input, FREE_BOTH);
-	*line = ft_strjoin_free(*line, input, FREE_BOTH);
 	if (gnl == -1)
 		error_exit();
+	*line = ft_strjoin_free(*line, input, FREE_BOTH);
 }
 
 /*
