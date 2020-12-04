@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/27 18:16:31 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/04 00:21:19 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ enum	e_bool
 	TRUE
 };
 
+enum	e_redirection_type
+{
+	REDIRECTION_NONE = -1,
+	REDIRECTION_OUTPUT,
+	REDIRECTION_INPUT,
+	REDIRECTION_APPEND
+};
+
 /*
 ** Command
 ** argc = number of arguments
@@ -36,6 +44,7 @@ enum	e_bool
 ** ispipe = pipe simbol follow this command
 ** input = input redirection file
 ** output = output redirection file
+** output_redirect_type = type of output redirection (normal or append)
 */
 
 typedef struct	s_command
@@ -47,6 +56,7 @@ typedef struct	s_command
 	char	*output;
 	int		ispipe;
 	int		status;
+	int		output_redirect_type;
 }				t_command;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:38:55 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/02 00:55:10 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/04 19:33:03 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,6 @@ char	*get_env(t_list *environ, char *match)
 	return (NULL);
 }
 
-void	add_env_front(t_list **environ, char **env)
-{
-	t_list	*node;
-
-	node = ft_lstnew(env);
-	if (node == NULL)
-		error_exit();
-	ft_lstadd_front(environ, node);
-}
-
 void	set_env(t_list **environ, char **newenv)
 {
 	t_list	*node;
@@ -104,21 +94,6 @@ void	set_env(t_list **environ, char **newenv)
 			node->content = newenv;
 		}
 	}
-}
-
-void	clear_env(void *content)
-{
-	ft_free_strarr(content);
-}
-
-int		compare_env(const void *content, const void *match)
-{
-	const char	**env;
-	const char	*str;
-
-	env = (const char **)content;
-	str = match;
-	return (ft_strcmp(env[ENV_NAME], str));
 }
 
 int		unset_env(t_list **environ, char *env_name)

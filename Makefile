@@ -15,7 +15,8 @@ UNAME = $(shell uname -s)
 _OBJ = main.o
 
 # Environment variables
-_OBJ += env.o
+_OBJ += env.o \
+		env_utils.o
 
 # Parser
 _OBJ += parser.o
@@ -27,12 +28,17 @@ _OBJ += lexer.o \
 		lexer_utils1.o \
 		lexer_utils2.o
 
+# Words Expansion
+_OBJ += word_exp.o \
+		word_exp_utils.o \
+		quote_removal.o
+
 # Other objects
 _OBJ += error_utils.o
 
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
-_DEPS = minishell.h lexer.h libft.h
+_DEPS = minishell.h libft.h env.h lexer.h parser.h wordexp.h
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
 .PHONY: all
