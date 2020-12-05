@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:29:11 by gbudau            #+#    #+#             */
-/*   Updated: 2020/07/22 16:43:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/05 01:14:17 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	**ft_free_strarr(char **info)
 {
 	int	i;
 
+	if (info == NULL)
+		return (NULL);
 	i = 0;
 	while (info[i])
 	{
