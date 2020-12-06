@@ -33,12 +33,15 @@ _OBJ += word_exp.o \
 		word_exp_utils.o \
 		quote_removal.o
 
-# Other objects
+# Clear lists functions
+_OBJ += clear.o
+
+# Other object
 _OBJ += error_utils.o
 
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
-_DEPS = minishell.h libft.h env.h lexer.h parser.h wordexp.h
+_DEPS = minishell.h libft.h env.h lexer.h parser.h wordexp.h clear.h
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
 .PHONY: all

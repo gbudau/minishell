@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:29:26 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/02 19:29:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/04 23:44:07 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_list		*tokenize(char *line)
 	{
 		if (errno != 0)
 			error_exit();
-		ft_putstr_fd("minishell: syntax error\n", 2);
+		ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
 		ft_lstclear(&scanner.tokens, clear_token);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/04 00:21:19 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/06 19:30:30 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "libft.h"
 # include "env.h"
 # include "parser.h"
+# include "clear.h"
 # define PROMPT "minishell> "
 
 enum	e_bool
@@ -29,7 +30,7 @@ enum	e_bool
 
 enum	e_redirection_type
 {
-	REDIRECTION_NONE = -1,
+	REDIRECTION_NONE,
 	REDIRECTION_OUTPUT,
 	REDIRECTION_INPUT,
 	REDIRECTION_APPEND
@@ -44,7 +45,7 @@ enum	e_redirection_type
 ** ispipe = pipe simbol follow this command
 ** input = input redirection file
 ** output = output redirection file
-** output_redirect_type = type of output redirection (normal or append)
+** redirect_type = type of output redirection (normal or append)
 */
 
 typedef struct	s_command
@@ -56,7 +57,7 @@ typedef struct	s_command
 	char	*output;
 	int		ispipe;
 	int		status;
-	int		output_redirect_type;
+	int		redirect_type;
 }				t_command;
 
 /*

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   clear.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/15 15:55:58 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/06 18:57:57 by gbudau           ###   ########.fr       */
+/*   Created: 2020/12/06 19:29:23 by gbudau            #+#    #+#             */
+/*   Updated: 2020/12/06 19:35:58 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
-# include "../include/minishell.h"
-# include "../include/lexer.h"
+#ifndef CLEAR_H
+# define CLEAR_H
 
+void	clear_env(void *content);
+void	clear_token(void *node);
 void	clear_command(void *command);
 
 #endif

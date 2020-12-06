@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:54:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/27 16:23:07 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/06 19:33:58 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,6 @@ int		match(char expected, t_scanner *scanner)
 		return (FALSE);
 	scanner->current++;
 	return (TRUE);
-}
-
-/*
-** Free one token node from the list of tokens
-*/
-
-void	clear_token(void *node)
-{
-	free(((t_token *)node)->str);
-	free(node);
 }
 
 void	print_tokens(t_list *tokens)

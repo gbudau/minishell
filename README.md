@@ -22,7 +22,7 @@
   
   - [x] Quote removal
 
-- [ ] Parse (analyze and substitute) the tokens into commands
+- [x] Parse (analyze and substitute) the tokens into commands
 
 - [ ] Command Execution
   

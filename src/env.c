@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:38:55 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/04 19:33:03 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/06 19:46:54 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,18 @@ void	init_env(t_list **head)
 	char		**env;
 	t_list		*node;
 	size_t		i;
+	int			equal_sign_idx;
 
 	i = 0;
 	while (environ[i])
 	{
-		env = ft_split(environ[i++], '=');
+		equal_sign_idx = verify_env(environ[i]);
+		if (equal_sign_idx < 0)
+		{
+			ft_putstr_fd("minishell: invalid env format\n", STDERR_FILENO);
+			error_exit();
+		}
+		env = split_env(environ[i++], equal_sign_idx);
 		if (env == NULL)
 			error_exit();
 		node = ft_lstnew(env);
