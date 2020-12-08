@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:35:25 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/06 19:06:07 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/08 20:07:33 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ size_t	substitute_env(char **words, size_t *i,
 	char	*middle;
 	char	*end;
 
-	if ((*words)[*i + 1] == '\0' || !is_env_format((*words)[*i + 1], 0) ||
-			(*words)[*i + 1] != '?')
+	if ((*words)[*i + 1] == '\0' || (!is_env_format((*words)[*i + 1], 0) &&
+			(*words)[*i + 1] != '?'))
 	{
 		(*i)++;
 		return (0);
