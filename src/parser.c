@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/06 23:40:49 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/09 01:29:55 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int		add_input_redirection(t_list **tokens, t_command *cmd)
 	cmd->input = ft_strdup(token->str);
 	if (cmd->input == NULL)
 		error_exit();
-	cmd->redirect_type = REDIRECTION_INPUT;
 	*tokens = (*tokens)->next;
 	return (0);
 }
@@ -168,11 +167,13 @@ void	create_commands(t_list *tokens, t_list **commands)
 }
 
 
+#if 0
 void	print_commands(t_list *commands)
 {
 	t_command	*cmd;
 	size_t		i;
 
+	setvbuf(stdout, NULL, _IONBF, 0);
 	while (commands != NULL)
 	{
 		cmd = commands->content;
@@ -189,11 +190,12 @@ void	print_commands(t_list *commands)
 		if (cmd->output)
 			printf("Output file: %s\n", cmd->output);
 		printf("Command is piped: %d \n", cmd->ispipe);
-		printf("Exit status of the command: %d\n", cmd->status);
+		printf("Exit status of the previous command: %d\n", cmd->status);
 		printf("Output redirect type: %d\n", cmd->redirect_type);
 		commands = commands->next;
 	}
 }
+#endif
 
 void	parse(t_shell *shell, char *input)
 {
@@ -201,10 +203,8 @@ void	parse(t_shell *shell, char *input)
 
 	tokens = tokenize(input);
 	word_expansion(&tokens, shell->environ, shell->last_status);
-	print_tokens(tokens);
+	//print_tokens(tokens);
 	create_commands(tokens, &shell->commands);
-	setvbuf(stdout, NULL, _IONBF, 0);
-	print_commands(shell->commands);
+	//print_commands(shell->commands);
 	ft_lstclear(&tokens, clear_token);
-	ft_lstclear(&shell->commands, clear_command);
 }

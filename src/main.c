@@ -6,11 +6,13 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/04 20:00:28 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/10 23:05:36 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+//TODO delete this header and remove asserts
+#include <assert.h>
 
 void	prompt(void)
 {
@@ -60,6 +62,180 @@ int		end_of_input(int gnl, char **input)
 	return (0);
 }
 
+int		cmd_not_found(char *str)
+{
+	char	*not_found;
+
+	not_found = ft_strjoin(str, ": command not found\n");
+	if (not_found == NULL)
+		error_exit();
+	ft_putstr_fd(not_found, STDERR_FILENO);
+	free(not_found);
+	return (127);
+}
+
+int		is_builtin(t_command *cmd)
+{
+	static const char	*builtins[] = {"echo", "exit", NULL};
+	int					i;
+
+	i = 0;
+	while (builtins[i])
+	{
+		if (ft_strcmp(cmd->argv[0], builtins[i]) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+// TODO: Write this function
+int		msh_echo(t_command *cmd, t_list *environ, int *last_status)
+{
+	(void)cmd;
+	(void)environ;
+	(void)last_status;
+	ft_putstr_fd("Executing echo builtin\n", STDOUT_FILENO);
+	return (0);
+}
+
+// TODO: Write this function
+int		msh_exit(t_command *cmd, t_list *environ, int *last_status)
+{
+	(void)cmd;
+	(void)environ;
+	(void)last_status;
+	ft_putstr_fd("Executing exit builtin\n", STDOUT_FILENO);
+	return (0);
+}
+
+void	do_builtin(t_command *cmd, t_list *environ, int *last_status, int idx)
+{
+	static int	(*fptr[3])(t_command *, t_list *, int *) =
+								{ msh_echo, msh_exit, NULL };
+	*last_status = fptr[idx](cmd, environ, last_status);
+}
+
+int		get_last_status(int status)
+{
+	if (WIFEXITED(status))
+		return(WEXITSTATUS(status));
+	return (0);
+}
+
+void	do_cmd(t_command *cmd, t_list *environ, int *last_status)
+{
+	int		pid;
+	int		status;
+	int		idx;
+
+	if ((idx = is_builtin(cmd)) != -1)
+	{
+		do_builtin(cmd, environ, last_status, idx);
+		return ;
+	}
+	pid = fork();
+	if (pid == -1)
+		error_exit();
+	if (pid == 0)
+	{
+		// TODO change this to execve
+		execvp(cmd->argv[0], cmd->argv);
+		exit(cmd_not_found(cmd->argv[0]));
+	}
+	if (waitpid(pid, &status, 0) < 0)
+		error_exit();
+	*last_status = get_last_status(status);
+}
+
+void	do_pipeline(t_list **commands, t_list *environ, int *last_status)
+{
+	pid_t		newpid = 0;
+	int			havepipe = 1;
+	int			lastpipe[2] = {-1, -1};
+	int			curpipe[2];
+	t_list		*trav;
+	t_command	*cmd;
+	int			status;
+
+	(void)environ;
+	trav = *commands;
+	while (newpid != -1 && havepipe)
+	{
+		cmd = trav->content;
+		if (cmd->ispipe)
+		{
+			int r = pipe(curpipe);
+			assert(r == 0);
+		}
+		newpid = fork();
+		assert(newpid >= 0);
+		if (newpid == 0)
+		{
+			if (havepipe)
+			{
+				close(lastpipe[1]);
+				dup2(lastpipe[0], STDIN_FILENO);
+				close(lastpipe[0]);
+			}
+			if (cmd->ispipe)
+			{
+				close(curpipe[0]);
+				dup2(curpipe[1], STDOUT_FILENO);
+				close(curpipe[1]);
+			}
+			// TODO Change this to execve
+			execvp(cmd->argv[0], cmd->argv);
+			exit(cmd_not_found(cmd->argv[0]));
+		}
+		if (havepipe)
+		{
+			close(lastpipe[0]);
+			close(lastpipe[1]);
+		}
+		havepipe = cmd->ispipe;
+		if (cmd->ispipe)
+		{
+			lastpipe[0] = curpipe[0];
+			lastpipe[1] = curpipe[1];
+		}
+		cmd->pid = newpid;
+		trav = trav->next;
+	}
+
+	trav = *commands;
+	havepipe = 1;
+	while (havepipe)
+	{
+		cmd = trav->content;
+		waitpid(cmd->pid, &status, 0);
+		*last_status = get_last_status(status);
+		havepipe = cmd->ispipe;
+		trav = trav->next;
+	}
+
+	*commands = trav;
+}
+
+void	execute_cmds(t_shell *shell)
+{
+	t_list		*trav;
+	t_command	*cmd;
+
+	trav = shell->commands;
+	while (trav != NULL)
+	{
+		cmd = trav->content;
+		if (cmd->ispipe)
+			do_pipeline(&trav, shell->environ, &shell->last_status);
+		else
+		{
+			do_cmd(cmd, shell->environ, &shell->last_status);
+			trav = trav->next;
+		}
+	}
+}
+
 int		main(void)
 {
 	t_shell	shell;
@@ -76,6 +252,8 @@ int		main(void)
 		gnl = !end_of_input(gnl, &input);
 		parse(&shell, input);
 		free(input);
+		execute_cmds(&shell);
+		ft_lstclear(&shell.commands, clear_command);
 	}
 	ft_lstclear(&shell.environ, clear_env);
 	return (0);

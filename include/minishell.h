@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/06 19:30:30 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/10 17:21:26 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ enum	e_redirection_type
 ** input = input redirection file
 ** output = output redirection file
 ** redirect_type = type of output redirection (normal or append)
+** pid = pid running this command
 */
 
 typedef struct	s_command
@@ -58,6 +59,7 @@ typedef struct	s_command
 	int		ispipe;
 	int		status;
 	int		redirect_type;
+	pid_t	pid;
 }				t_command;
 
 /*
