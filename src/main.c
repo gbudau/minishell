@@ -6,13 +6,11 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/10 23:05:36 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/10 23:22:11 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-//TODO delete this header and remove asserts
-#include <assert.h>
 
 void	prompt(void)
 {
@@ -164,12 +162,10 @@ void	do_pipeline(t_list **commands, t_list *environ, int *last_status)
 	{
 		cmd = trav->content;
 		if (cmd->ispipe)
-		{
-			int r = pipe(curpipe);
-			assert(r == 0);
-		}
-		newpid = fork();
-		assert(newpid >= 0);
+			if (pipe(curpipe) != 0)
+				error_exit();
+		if ((newpid = fork()) < 0)
+			error_exit();
 		if (newpid == 0)
 		{
 			if (havepipe)
