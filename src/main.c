@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/10 23:22:11 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/10 23:32:03 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		is_builtin(t_command *cmd)
 }
 
 // TODO: Write this function
-int		msh_echo(t_command *cmd, t_list *environ, int *last_status)
+int		msh_echo(t_command *cmd, t_list **environ, int *last_status)
 {
 	(void)cmd;
 	(void)environ;
@@ -98,7 +98,7 @@ int		msh_echo(t_command *cmd, t_list *environ, int *last_status)
 }
 
 // TODO: Write this function
-int		msh_exit(t_command *cmd, t_list *environ, int *last_status)
+int		msh_exit(t_command *cmd, t_list **environ, int *last_status)
 {
 	(void)cmd;
 	(void)environ;
@@ -107,9 +107,9 @@ int		msh_exit(t_command *cmd, t_list *environ, int *last_status)
 	return (0);
 }
 
-void	do_builtin(t_command *cmd, t_list *environ, int *last_status, int idx)
+void	do_builtin(t_command *cmd, t_list **environ, int *last_status, int idx)
 {
-	static int	(*fptr[3])(t_command *, t_list *, int *) =
+	static int	(*fptr[3])(t_command *, t_list **, int *) =
 								{ msh_echo, msh_exit, NULL };
 	*last_status = fptr[idx](cmd, environ, last_status);
 }
@@ -121,7 +121,7 @@ int		get_last_status(int status)
 	return (0);
 }
 
-void	do_cmd(t_command *cmd, t_list *environ, int *last_status)
+void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 {
 	int		pid;
 	int		status;
@@ -146,6 +146,7 @@ void	do_cmd(t_command *cmd, t_list *environ, int *last_status)
 	*last_status = get_last_status(status);
 }
 
+// TODO Refactor this function
 void	do_pipeline(t_list **commands, t_list *environ, int *last_status)
 {
 	pid_t		newpid = 0;
@@ -226,7 +227,7 @@ void	execute_cmds(t_shell *shell)
 			do_pipeline(&trav, shell->environ, &shell->last_status);
 		else
 		{
-			do_cmd(cmd, shell->environ, &shell->last_status);
+			do_cmd(cmd, &shell->environ, &shell->last_status);
 			trav = trav->next;
 		}
 	}
