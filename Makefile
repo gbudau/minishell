@@ -33,6 +33,9 @@ _OBJ += word_exp.o \
 		word_exp_utils.o \
 		quote_removal.o
 
+# Pipeline
+_OBJ += pipeline.o
+
 # Clear lists functions
 _OBJ += clear.o
 
@@ -41,7 +44,15 @@ _OBJ += error_utils.o
 
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
-_DEPS = minishell.h libft.h env.h lexer.h parser.h wordexp.h clear.h
+_DEPS = minishell.h \
+		libft.h \
+		command.h \
+		env.h \
+		lexer.h \
+		parser.h \
+		wordexp.h \
+		pipeline.h \
+		clear.h
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
 .PHONY: all

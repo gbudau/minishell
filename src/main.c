@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/10 23:32:03 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/11 17:33:01 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,73 +146,6 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 	*last_status = get_last_status(status);
 }
 
-// TODO Refactor this function
-void	do_pipeline(t_list **commands, t_list *environ, int *last_status)
-{
-	pid_t		newpid = 0;
-	int			havepipe = 1;
-	int			lastpipe[2] = {-1, -1};
-	int			curpipe[2];
-	t_list		*trav;
-	t_command	*cmd;
-	int			status;
-
-	(void)environ;
-	trav = *commands;
-	while (newpid != -1 && havepipe)
-	{
-		cmd = trav->content;
-		if (cmd->ispipe)
-			if (pipe(curpipe) != 0)
-				error_exit();
-		if ((newpid = fork()) < 0)
-			error_exit();
-		if (newpid == 0)
-		{
-			if (havepipe)
-			{
-				close(lastpipe[1]);
-				dup2(lastpipe[0], STDIN_FILENO);
-				close(lastpipe[0]);
-			}
-			if (cmd->ispipe)
-			{
-				close(curpipe[0]);
-				dup2(curpipe[1], STDOUT_FILENO);
-				close(curpipe[1]);
-			}
-			// TODO Change this to execve
-			execvp(cmd->argv[0], cmd->argv);
-			exit(cmd_not_found(cmd->argv[0]));
-		}
-		if (havepipe)
-		{
-			close(lastpipe[0]);
-			close(lastpipe[1]);
-		}
-		havepipe = cmd->ispipe;
-		if (cmd->ispipe)
-		{
-			lastpipe[0] = curpipe[0];
-			lastpipe[1] = curpipe[1];
-		}
-		cmd->pid = newpid;
-		trav = trav->next;
-	}
-
-	trav = *commands;
-	havepipe = 1;
-	while (havepipe)
-	{
-		cmd = trav->content;
-		waitpid(cmd->pid, &status, 0);
-		*last_status = get_last_status(status);
-		havepipe = cmd->ispipe;
-		trav = trav->next;
-	}
-
-	*commands = trav;
-}
 
 void	execute_cmds(t_shell *shell)
 {
