@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/12 22:57:41 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/12 23:07:43 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int		do_builtin(t_command *cmd, t_list **environ, int idx)
 	int			stdout_fd_copy;
 	
 	save_stdin_and_stdout(&stdin_fd_copy, &stdout_fd_copy);
+	set_redirections(cmd);
 	status = fptr[idx](cmd, environ);
 	restore_and_close_stdin_and_stdout(stdin_fd_copy, stdout_fd_copy);
 	return(status);
