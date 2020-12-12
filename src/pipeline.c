@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/12 21:14:31 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/12 23:27:44 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ)
 	}
 	error = set_redirections(p->cmd);
 	if (error)
-		error_exit();
+		exit(EXIT_FAILURE);
 	search_path_and_execute(p->cmd->argv, environ);
 }
 
