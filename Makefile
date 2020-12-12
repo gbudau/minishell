@@ -36,6 +36,12 @@ _OBJ += word_exp.o \
 # Pipeline
 _OBJ += pipeline.o
 
+# Input/Output redirection
+_OBJ += io_redirection.o
+
+# Execute command
+_OBJ += execute_cmd.o
+
 # Clear lists functions
 _OBJ += clear.o
 
@@ -52,6 +58,7 @@ _DEPS = minishell.h \
 		parser.h \
 		wordexp.h \
 		pipeline.h \
+		ioredirection.h \
 		clear.h
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 

@@ -6,13 +6,14 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/11 23:29:52 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/12 21:14:31 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include "pipeline.h"
+#include "ioredirection.h"
 #include "command.h"
 
 static void	init_pipeline(t_pipeline *p)
@@ -37,29 +38,32 @@ t_list	*wait_all_childrens(t_pipeline *p, int *last_status)
 	return (p->trav);
 }
 
-void		execute_in_child_process(t_pipeline *p)
+void		close_pipe_fds(int *pipefds)
 {
+	if (pipefds[0] != -1)
+		close(pipefds[0]);
+	if (pipefds[1] != -1)
+		close(pipefds[1]);
+}
+
+void		execute_in_child_process(t_pipeline *p, t_list *environ)
+{
+	int	error;
+
 	if (p->havepipe)
 	{
-		close(p->lastpipe[1]);
 		dup2(p->lastpipe[0], STDIN_FILENO);
-		close(p->lastpipe[0]);
+		close_pipe_fds(p->lastpipe);
 	}
 	if (p->cmd->ispipe)
 	{
-		close(p->curpipe[0]);
 		dup2(p->curpipe[1], STDOUT_FILENO);
-		close(p->curpipe[1]);
+		close_pipe_fds(p->curpipe);
 	}
-	// TODO Change this to execve
-	execvp(p->cmd->argv[0], p->cmd->argv);
-	exit(cmd_not_found(p->cmd->argv[0]));
-}
-
-void		close_lastpipe(int *lastpipe)
-{
-	close(lastpipe[0]);
-	close(lastpipe[1]);
+	error = set_redirections(p->cmd);
+	if (error)
+		error_exit();
+	search_path_and_execute(p->cmd->argv, environ);
 }
 
 void		set_lastpipe_to_curpipe(int *lastpipe, int *curpipe)
@@ -72,7 +76,6 @@ void		do_pipeline(t_list **commands, t_list *environ, int *last_status)
 {
 	t_pipeline	p;
 
-	(void)environ;
 	init_pipeline(&p);
 	p.trav = *commands;
 	while (p.newpid != -1 && p.havepipe)
@@ -84,9 +87,9 @@ void		do_pipeline(t_list **commands, t_list *environ, int *last_status)
 		if ((p.newpid = fork()) < 0)
 			error_exit();
 		if (p.newpid == 0)
-			execute_in_child_process(&p);
+			execute_in_child_process(&p, environ);
 		if (p.havepipe)
-			close_lastpipe(p.lastpipe);
+			close_pipe_fds(p.lastpipe);
 		p.havepipe = p.cmd->ispipe;
 		p.cmd->pid = p.newpid;
 		if (p.cmd->ispipe)
