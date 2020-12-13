@@ -26,13 +26,13 @@
 
 - [ ] Command Execution
   
-  - [ ] Redirection of IO
+  - [x] Redirection of IO
   
-  - [ ] Pipelines
+  - [x] Pipelines
   
   - [ ] Built-in commands
     
-    - [ ] echo with option '-n'
+    - [x] echo with option '-n'
     
     - [ ] cd with relative or absolute path
     
@@ -48,7 +48,7 @@
   
   - [ ] Execute nonbuilt-in commands
   
-  - [ ] Exit status
+  - [x] Exit status
   
   - [ ] Signals SIGINT (CTRL-C), SIGQUIT \(CTRL-\\\) and EOF \(CTRL-D\)
   
