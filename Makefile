@@ -39,13 +39,18 @@ _OBJ += pipeline.o
 # Input/Output redirection
 _OBJ += io_redirection.o
 
+# Builtins
+_OBJ += builtins.o \
+		msh_echo.o \
+		msh_exit.o
+
 # Execute command
 _OBJ += execute_cmd.o
 
 # Clear lists functions
 _OBJ += clear.o
 
-# Other object
+# Error functions
 _OBJ += error_utils.o
 
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
@@ -59,6 +64,7 @@ _DEPS = minishell.h \
 		wordexp.h \
 		pipeline.h \
 		ioredirection.h \
+		builtins.h \
 		clear.h
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 

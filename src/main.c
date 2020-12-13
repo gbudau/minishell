@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/12 23:19:56 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/13 17:42:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,94 +70,6 @@ int		cmd_not_found(char *str)
 	ft_putstr_fd(not_found, STDERR_FILENO);
 	free(not_found);
 	return (127);
-}
-
-int		is_builtin(t_command *cmd)
-{
-	static const char	*builtins[] = {"echo", "exit", NULL};
-	int					i;
-
-	i = 0;
-	while (builtins[i])
-	{
-		if (ft_strcmp(cmd->argv[0], builtins[i]) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int		msh_echo(t_command *cmd, t_list **environ)
-{
-	char	**argv;
-	int		no_trailing_newline;
-
-	(void)environ;
-	no_trailing_newline = FALSE;
-	argv = cmd->argv;
-	if (cmd->argc > 1)
-		no_trailing_newline = ft_strcmp(argv[1], "-n") == 0;
-	argv++;
-	if (no_trailing_newline)
-		argv++;
-	while (*argv)
-	{
-		ft_putstr_fd(*argv, STDOUT_FILENO);
-		if (argv + 1)
-			ft_putstr_fd(" ", STDOUT_FILENO);
-		argv++;
-	}
-	if (no_trailing_newline == FALSE)
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (0);
-}
-
-// TODO: Write this function
-int		msh_exit(t_command *cmd, t_list **environ)
-{
-	(void)cmd;
-	(void)environ;
-	ft_putstr_fd("Executing exit builtin\n", STDOUT_FILENO);
-	return (0);
-}
-
-/*
-** Save a copy of stdin and stdout file descriptors
-*/
-
-void	save_stdin_and_stdout(int *stdin_fd_copy, int *stdout_fd_copy)
-{
-	*stdin_fd_copy = dup(STDIN_FILENO);
-	*stdout_fd_copy = dup(STDOUT_FILENO);
-}
-
-/*
-** Restore stdin and stdout file descriptors
-** From the copies and close the copies
-*/
-
-void	restore_and_close_stdin_and_stdout(int stdin_fd_copy, int stdout_fd_copy)
-{
-	dup2(stdin_fd_copy, STDIN_FILENO);
-	dup2(stdout_fd_copy, STDOUT_FILENO);
-	close(stdin_fd_copy);
-	close(stdout_fd_copy);
-}
-
-int		do_builtin(t_command *cmd, t_list **environ, int idx)
-{
-	static int	(*fptr[3])(t_command *, t_list **) =
-								{ msh_echo, msh_exit, NULL };
-	int			status;
-	int			stdin_fd_copy;
-	int			stdout_fd_copy;
-	
-	save_stdin_and_stdout(&stdin_fd_copy, &stdout_fd_copy);
-	status = set_redirections(cmd);
-	if (status == 0)
-		status = fptr[idx](cmd, environ);
-	restore_and_close_stdin_and_stdout(stdin_fd_copy, stdout_fd_copy);
-	return(status);
 }
 
 int		get_last_status(int status)

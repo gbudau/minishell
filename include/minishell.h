@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/12 21:23:32 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/13 17:39:51 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "parser.h"
 # include "pipeline.h"
 # include "ioredirection.h"
+# include "builtins.h"
 # include "execute.h"
 # include "clear.h"
 # define PROMPT "minishell> "

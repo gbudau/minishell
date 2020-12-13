@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/12 23:27:44 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/13 17:40:10 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "pipeline.h"
 #include "ioredirection.h"
+#include "builtins.h"
 #include "command.h"
 
 static void	init_pipeline(t_pipeline *p)
@@ -49,6 +50,7 @@ void		close_pipe_fds(int *pipefds)
 void		execute_in_child_process(t_pipeline *p, t_list *environ)
 {
 	int	error;
+	int	idx;
 
 	if (p->havepipe)
 	{
@@ -63,6 +65,8 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ)
 	error = set_redirections(p->cmd);
 	if (error)
 		exit(EXIT_FAILURE);
+	if ((idx = is_builtin(p->cmd)) != -1)
+		exit(do_builtin(p->cmd, &environ, idx));
 	search_path_and_execute(p->cmd->argv, environ);
 }
 
@@ -88,10 +92,10 @@ void		do_pipeline(t_list **commands, t_list *environ, int *last_status)
 			error_exit();
 		if (p.newpid == 0)
 			execute_in_child_process(&p, environ);
+		p.cmd->pid = p.newpid;
 		if (p.havepipe)
 			close_pipe_fds(p.lastpipe);
 		p.havepipe = p.cmd->ispipe;
-		p.cmd->pid = p.newpid;
 		if (p.cmd->ispipe)
 			set_lastpipe_to_curpipe(p.lastpipe, p.curpipe);
 		p.trav = p.trav->next;
