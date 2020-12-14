@@ -6,13 +6,14 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/09 01:29:55 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/14 16:10:58 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/lexer.h"
 #include "../include/wordexp.h"
+#include "../include/command.h"
 
 t_command	*create_new_command(void)
 {
@@ -25,11 +26,11 @@ t_command	*create_new_command(void)
 	return (cmd);
 }
 
-void	skip_semicolon_tokens(t_list **tokens)
+void		skip_semicolon_tokens(t_list **tokens)
 {
 	t_token *t;
 
-	while (tokens != NULL)
+	while (*tokens != NULL)
 	{
 		t = (*tokens)->content;
 		if (t->type != TOKEN_SEMICOLON)
@@ -38,7 +39,7 @@ void	skip_semicolon_tokens(t_list **tokens)
 	}
 }
 
-void	add_argument(t_list **tokens, t_command *cmd)
+void		add_argument(t_list **tokens, t_command *cmd)
 {
 	t_token	*token;
 	char	**tmp_argv;
@@ -63,7 +64,7 @@ void	add_argument(t_list **tokens, t_command *cmd)
 	*tokens = (*tokens)->next;
 }
 
-int		add_pipe(t_list **tokens, t_command *cmd)
+int			add_pipe(t_list **tokens, t_command *cmd)
 {
 	t_token	*token;
 
@@ -77,10 +78,10 @@ int		add_pipe(t_list **tokens, t_command *cmd)
 	return (0);
 }
 
-int		add_input_redirection(t_list **tokens, t_command *cmd)
+int			add_input_redirection(t_list **tokens, t_command *cmd)
 {
 	t_token	*token;
-	
+
 	*tokens = (*tokens)->next;
 	if (tokens == NULL || cmd->input != NULL)
 		return (1);
@@ -94,7 +95,8 @@ int		add_input_redirection(t_list **tokens, t_command *cmd)
 	return (0);
 }
 
-int		add_output_redirection(t_list **tokens, t_command *cmd, int	redirect_type)
+int			add_output_redirection(t_list **tokens, t_command *cmd,
+		int redirect_type)
 {
 	t_token *token;
 
@@ -112,11 +114,11 @@ int		add_output_redirection(t_list **tokens, t_command *cmd, int	redirect_type)
 	return (0);
 }
 
-int		add_command(t_list **tokens, t_command *cmd)
+int			add_command(t_list **tokens, t_command *cmd)
 {
-	t_token	*token;	
+	t_token	*token;
 	int		error;
-	
+
 	error = FALSE;
 	while (*tokens != NULL && !error)
 	{
@@ -137,12 +139,12 @@ int		add_command(t_list **tokens, t_command *cmd)
 		else if (token->type == TOKEN_DGREAT)
 			error = add_output_redirection(tokens, cmd, REDIRECTION_APPEND);
 	}
-	if (error == TRUE)
-		ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
+	if (cmd->argc == 0)
+		error = TRUE;
 	return (error == TRUE ? -1 : 0);
 }
 
-void	create_commands(t_list *tokens, t_list **commands)
+void		create_commands(t_list *tokens, t_list **commands)
 {
 	t_command	*cmd;
 	t_list		*node;
@@ -150,6 +152,8 @@ void	create_commands(t_list *tokens, t_list **commands)
 	while (tokens != NULL)
 	{
 		skip_semicolon_tokens(&tokens);
+		if (tokens == NULL)
+			break ;
 		cmd = create_new_command();
 		if (cmd == NULL)
 			error_exit();
@@ -159,6 +163,7 @@ void	create_commands(t_list *tokens, t_list **commands)
 		ft_lstadd_front(commands, node);
 		if (add_command(&tokens, (*commands)->content) == -1)
 		{
+			ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
 			ft_lstclear(commands, clear_command);
 			break ;
 		}
@@ -166,9 +171,7 @@ void	create_commands(t_list *tokens, t_list **commands)
 	ft_lstrev(commands);
 }
 
-
-#if 0
-void	print_commands(t_list *commands)
+void		print_commands(t_list *commands)
 {
 	t_command	*cmd;
 	size_t		i;
@@ -195,16 +198,21 @@ void	print_commands(t_list *commands)
 		commands = commands->next;
 	}
 }
-#endif
 
-void	parse(t_shell *shell, char *input)
+/*
+** TODO: Remove printing of tokens and commands before submitting
+*/
+
+void		parse(t_shell *shell, char *input)
 {
 	t_list	*tokens;
 
 	tokens = tokenize(input);
 	word_expansion(&tokens, shell->environ, shell->last_status);
-	//print_tokens(tokens);
+	if (FALSE)
+		print_tokens(tokens);
 	create_commands(tokens, &shell->commands);
-	//print_commands(shell->commands);
+	if (FALSE)
+		print_commands(shell->commands);
 	ft_lstclear(&tokens, clear_token);
 }

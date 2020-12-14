@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/13 17:42:42 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/14 15:12:33 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		cmd_not_found(char *str)
 int		get_last_status(int status)
 {
 	if (WIFEXITED(status))
-		return(WEXITSTATUS(status));
+		return (WEXITSTATUS(status));
 	return (0);
 }
 
@@ -105,7 +105,6 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 		error_exit();
 	*last_status = get_last_status(status);
 }
-
 
 void	execute_cmds(t_shell *shell)
 {

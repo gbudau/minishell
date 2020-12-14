@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:59:01 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/12 23:24:31 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/14 15:07:10 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			print_error_io(char *str)
 	joined = ft_strjoin("minishell: ", str);
 	if (joined == NULL)
 		error_exit();
-	perror(joined);	
+	perror(joined);
 	free(joined);
 	return (1);
 }

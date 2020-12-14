@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/13 17:40:10 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/14 15:17:52 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	init_pipeline(t_pipeline *p)
 	p->lastpipe[1] = -1;
 }
 
-t_list	*wait_all_childrens(t_pipeline *p, int *last_status)
+t_list		*wait_all_childrens(t_pipeline *p, int *last_status)
 {
 	p->havepipe = 1;
 	while (p->havepipe)

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:31:32 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/06 19:42:21 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/14 15:08:26 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**split_env(const char *str, size_t idx)
 	char	**str_array;
 
 	if (idx > ft_strlen(str))
-			return (NULL);
+		return (NULL);
 	str_array = ft_calloc(sizeof(*str_array), 3);
 	if (str_array == NULL)
 		return (NULL);
