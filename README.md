@@ -1,3 +1,7 @@
+## 
+
+![norminette](https://github.com/gbudau/minishell/workflows/norminette/badge.svg)
+
 ## References
 
 [Shell](https://pubs.opengroup.org/onlinepubs/9699919799/idx/shell.html)
