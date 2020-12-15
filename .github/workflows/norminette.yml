@@ -1,4 +1,6 @@
+# .github/workflows/norminette.yml
 on: [push, pull_request]
+name: norminette
 
 jobs:
   norminette_job:
