@@ -6,12 +6,13 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 21:30:34 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/11 21:31:16 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/15 23:10:12 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_H
 # define COMMAND_H
+# include "minishell.h"
 
 /*
 ** Command
@@ -38,5 +39,8 @@ typedef struct	s_command
 	int		redirect_type;
 	pid_t	pid;
 }				t_command;
+
+int				get_last_status(int status);
+int				cmd_not_found(char *str);
 
 #endif

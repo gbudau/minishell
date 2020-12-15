@@ -14,12 +14,16 @@ UNAME = $(shell uname -s)
 
 _OBJ = main.o
 
+# Signal handling
+_OBJ += signal_handlers.o
+
 # Environment variables
 _OBJ += env.o \
 		env_utils.o
 
 # Parser
-_OBJ += parser.o
+_OBJ += parser.o \
+		parser_utils.o
 
 # Lexer
 _OBJ += lexer.o \
@@ -34,7 +38,8 @@ _OBJ += word_exp.o \
 		quote_removal.o
 
 # Pipeline
-_OBJ += pipeline.o
+_OBJ += pipeline.o \
+		pipeline_utils.o
 
 # Input/Output redirection
 _OBJ += io_redirection.o
@@ -45,7 +50,8 @@ _OBJ += builtins.o \
 		msh_exit.o
 
 # Execute command
-_OBJ += execute_cmd.o
+_OBJ += execute_cmd.o \
+		execute_cmd_utils.o
 
 # Clear lists functions
 _OBJ += clear.o
@@ -60,6 +66,7 @@ OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
 _DEPS = minishell.h \
 		libft.h \
+		signalhandlers.h \
 		command.h \
 		env.h \
 		lexer.h \

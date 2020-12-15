@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.h                                         :+:      :+:    :+:   */
+/*   signalhandlers.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/11 17:28:58 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:21:26 by gbudau           ###   ########.fr       */
+/*   Created: 2020/12/15 21:48:36 by gbudau            #+#    #+#             */
+/*   Updated: 2020/12/15 21:49:16 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPELINE_H
-# define PIPELINE_H
+#ifndef SIGNALHANDLERS_H
+# define SIGNALHANDLERS_H
 # include "minishell.h"
 
-typedef struct	s_pipeline
-{
-	t_list		*trav;
-	t_command	*cmd;
-	pid_t		newpid;
-	int			havepipe;
-	int			lastpipe[2];
-	int			curpipe[2];
-	int			status;
-}				t_pipeline;
-
-void			do_pipeline(t_list **commands, t_list *environ,
-				int *last_status);
-t_list			*wait_all_childrens(t_pipeline *p, int *last_status);
+int			end_of_input(int gnl, char **input);
 
 #endif

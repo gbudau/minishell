@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.h                                         :+:      :+:    :+:   */
+/*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/11 17:28:58 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:21:26 by gbudau           ###   ########.fr       */
+/*   Created: 2020/12/15 23:19:57 by gbudau            #+#    #+#             */
+/*   Updated: 2020/12/15 23:20:58 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPELINE_H
-# define PIPELINE_H
-# include "minishell.h"
+#include "../include/minishell.h"
 
-typedef struct	s_pipeline
+t_list		*wait_all_childrens(t_pipeline *p, int *last_status)
 {
-	t_list		*trav;
-	t_command	*cmd;
-	pid_t		newpid;
-	int			havepipe;
-	int			lastpipe[2];
-	int			curpipe[2];
-	int			status;
-}				t_pipeline;
-
-void			do_pipeline(t_list **commands, t_list *environ,
-				int *last_status);
-t_list			*wait_all_childrens(t_pipeline *p, int *last_status);
-
-#endif
+	p->havepipe = 1;
+	while (p->havepipe)
+	{
+		p->cmd = p->trav->content;
+		waitpid(p->cmd->pid, &p->status, 0);
+		*last_status = get_last_status(p->status);
+		p->havepipe = p->cmd->ispipe;
+		p->trav = p->trav->next;
+	}
+	return (p->trav);
+}

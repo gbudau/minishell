@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 19:45:46 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/15 23:10:20 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include "ioredirection.h"
 # include "builtins.h"
 # include "execute.h"
+# include "signalhandlers.h"
 # include "clear.h"
 # define PROMPT "minishell> "
 
@@ -60,8 +61,8 @@ typedef struct	s_shell
 }				t_shell;
 
 void			parse(t_shell *shell, char *input);
+void			execute_cmds(t_shell *shell);
 void			error_exit(void);
 int				get_last_status(int status);
-int				cmd_not_found(char *str);
 
 #endif

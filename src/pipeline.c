@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/14 15:17:52 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/15 23:20:54 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,6 @@ static void	init_pipeline(t_pipeline *p)
 	p->havepipe = 1;
 	p->lastpipe[0] = -1;
 	p->lastpipe[1] = -1;
-}
-
-t_list		*wait_all_childrens(t_pipeline *p, int *last_status)
-{
-	p->havepipe = 1;
-	while (p->havepipe)
-	{
-		p->cmd = p->trav->content;
-		waitpid(p->cmd->pid, &p->status, 0);
-		*last_status = get_last_status(p->status);
-		p->havepipe = p->cmd->ispipe;
-		p->trav = p->trav->next;
-	}
-	return (p->trav);
 }
 
 void		close_pipe_fds(int *pipefds)

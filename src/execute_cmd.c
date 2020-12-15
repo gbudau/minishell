@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 19:46:27 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/15 21:55:09 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,55 @@
 ** V3_chap02.html#tag_18_09_01_01
 */
 
-void		search_path_and_execute(char **argv, t_list *environ)
+void	search_path_and_execute(char **argv, t_list *environ)
 {
 	(void)environ;
 	execvp(argv[0], argv);
 	exit(cmd_not_found(argv[0]));
+}
+
+void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
+{
+	int		pid;
+	int		status;
+	int		idx;
+	int		error;
+
+	if ((idx = is_builtin(cmd)) != -1)
+	{
+		*last_status = do_builtin(cmd, environ, idx);
+		return ;
+	}
+	pid = fork();
+	if (pid == -1)
+		error_exit();
+	if (pid == 0)
+	{
+		error = set_redirections(cmd);
+		if (error)
+			error_exit();
+		search_path_and_execute(cmd->argv, *environ);
+	}
+	if (waitpid(pid, &status, 0) < 0)
+		error_exit();
+	*last_status = get_last_status(status);
+}
+
+void	execute_cmds(t_shell *shell)
+{
+	t_list		*trav;
+	t_command	*cmd;
+
+	trav = shell->commands;
+	while (trav != NULL)
+	{
+		cmd = trav->content;
+		if (cmd->ispipe)
+			do_pipeline(&trav, shell->environ, &shell->last_status);
+		else
+		{
+			do_cmd(cmd, &shell->environ, &shell->last_status);
+			trav = trav->next;
+		}
+	}
 }

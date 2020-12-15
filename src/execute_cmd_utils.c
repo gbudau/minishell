@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.h                                         :+:      :+:    :+:   */
+/*   execute_cmd_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/11 17:28:58 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:21:26 by gbudau           ###   ########.fr       */
+/*   Created: 2020/12/15 21:52:08 by gbudau            #+#    #+#             */
+/*   Updated: 2020/12/15 21:57:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPELINE_H
-# define PIPELINE_H
-# include "minishell.h"
+#include "minishell.h"
+#include "command.h"
 
-typedef struct	s_pipeline
+int		get_last_status(int status)
 {
-	t_list		*trav;
-	t_command	*cmd;
-	pid_t		newpid;
-	int			havepipe;
-	int			lastpipe[2];
-	int			curpipe[2];
-	int			status;
-}				t_pipeline;
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (0);
+}
 
-void			do_pipeline(t_list **commands, t_list *environ,
-				int *last_status);
-t_list			*wait_all_childrens(t_pipeline *p, int *last_status);
+int		cmd_not_found(char *str)
+{
+	char	*not_found;
 
-#endif
+	not_found = ft_strjoin(str, ": command not found\n");
+	if (not_found == NULL)
+		error_exit();
+	ft_putstr_fd(not_found, STDERR_FILENO);
+	free(not_found);
+	return (127);
+}
