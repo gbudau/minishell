@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.h                                         :+:      :+:    :+:   */
+/*   debugprinting.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/11 17:28:58 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 19:45:09 by gbudau           ###   ########.fr       */
+/*   Created: 2020/12/15 19:49:59 by gbudau            #+#    #+#             */
+/*   Updated: 2020/12/15 19:53:55 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPELINE_H
-# define PIPELINE_H
+#ifndef DEBUGPRINTING_H
+# define DEBUGPRINTING_H
 # include "minishell.h"
+# include "lexer.h"
+# include "command.h"
 
-typedef struct	s_pipeline
-{
-	t_list		*trav;
-	t_command	*cmd;
-	pid_t		newpid;
-	int			havepipe;
-	int			lastpipe[2];
-	int			curpipe[2];
-	int			status;
-}				t_pipeline;
-
-void			do_pipeline(t_list **commands, t_list *environ,
-				int *last_status);
+void	print_commands(t_list *commands);
+void	print_tokens(t_list *tokens);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/14 15:49:26 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/15 19:46:27 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 ** Create a function that search in PATH for the command name
 ** Then use execve
 **
-** https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_09_01_01
+** https://pubs.opengroup.org/onlinepubs/9699919799/utilities/
+** V3_chap02.html#tag_18_09_01_01
 */
 
 void		search_path_and_execute(char **argv, t_list *environ)

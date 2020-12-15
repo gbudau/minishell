@@ -53,6 +53,9 @@ _OBJ += clear.o
 # Error functions
 _OBJ += error_utils.o
 
+# TODO: Remove this object when submitting the project
+_OBJ += debug_printing.o
+
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
 _DEPS = minishell.h \
@@ -66,6 +69,10 @@ _DEPS = minishell.h \
 		ioredirection.h \
 		builtins.h \
 		clear.h
+
+# TODO: Remove this header when submitting the project
+_DEPS += debugprinting.h
+
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
 .PHONY: all

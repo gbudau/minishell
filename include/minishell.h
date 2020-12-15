@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/13 17:39:51 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/15 19:45:46 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ typedef struct	s_shell
 	int		last_status;
 }				t_shell;
 
-void	parse(t_shell *shell, char *input);
-void	error_exit(void);
-int		get_last_status(int status);
-int		cmd_not_found(char *str);
+void			parse(t_shell *shell, char *input);
+void			error_exit(void);
+int				get_last_status(int status);
+int				cmd_not_found(char *str);
 
 #endif
