@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:35:25 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/08 20:07:33 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/16 19:25:31 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*env_value(char **words, size_t *i, t_list *environ)
 }
 
 size_t	substitute_env(char **words, size_t *i,
-						t_list *environ, int last_status)
+						t_list *environ, int *last_status)
 {
 	char	*beginning;
 	char	*middle;
@@ -68,7 +68,7 @@ size_t	substitute_env(char **words, size_t *i,
 }
 
 size_t	parse_double_quotes(char **words, size_t *i,
-							t_list *environ, int last_status)
+							t_list *environ, int *last_status)
 {
 	size_t	expanded;
 
@@ -87,7 +87,7 @@ size_t	parse_double_quotes(char **words, size_t *i,
 }
 
 int		variable_expansion(char **words, t_list **word_list,
-							t_list *environ, int last_status)
+							t_list *environ, int *last_status)
 {
 	size_t	expanded;
 	size_t	i;
@@ -108,12 +108,12 @@ int		variable_expansion(char **words, t_list **word_list,
 			i++;
 	}
 	if (expanded)
-		*word_list = tokenize(*words);
+		*word_list = tokenize(*words, last_status);
 	remove_quotes(*word_list, *words, expanded);
 	return (expanded);
 }
 
-void	word_expansion(t_list **tokens, t_list *environ, int last_status)
+void	word_expansion(t_list **tokens, t_list *environ, int *last_status)
 {
 	t_list	*trav;
 	t_list	*sublist;

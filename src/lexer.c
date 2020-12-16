@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:29:26 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/04 23:44:07 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/16 19:04:32 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	init_scanner(char *line, t_scanner *scanner)
 ** Split the line into a list of OPERATORS or WORD tokens
 */
 
-t_list		*tokenize(char *line)
+t_list		*tokenize(char *line, int *last_status)
 {
 	t_scanner	scanner;
 
@@ -112,6 +112,7 @@ t_list		*tokenize(char *line)
 			error_exit();
 		ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
 		ft_lstclear(&scanner.tokens, clear_token);
+		*last_status = 2;
 		return (NULL);
 	}
 	ft_lstrev(&scanner.tokens);

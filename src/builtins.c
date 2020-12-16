@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:34:40 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/14 15:01:48 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/16 23:15:14 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,19 @@ void	restore_and_close_stdin_and_stdout(int stdin_copy, int stdout_copy)
 	close(stdout_copy);
 }
 
-int		do_builtin(t_command *cmd, t_list **environ, int idx)
+void	do_builtin(t_command *cmd, t_list **environ, int idx, int *last_status)
 {
-	static int	(*const fptr[3])(t_command *, t_list **) =
+	static int	(*const fptr[3])(t_command *, t_list **, int *) =
 	{msh_echo, msh_exit, NULL};
-	int			status;
 	int			stdin_fd_copy;
 	int			stdout_fd_copy;
+	int			error;
 
 	save_stdin_and_stdout(&stdin_fd_copy, &stdout_fd_copy);
-	status = set_redirections(cmd);
-	if (status == 0)
-		status = fptr[idx](cmd, environ);
+	error = set_redirections(cmd);
+	if (error == FALSE)
+		fptr[idx](cmd, environ, last_status);
+	else
+		*last_status = error;
 	restore_and_close_stdin_and_stdout(stdin_fd_copy, stdout_fd_copy);
-	return (status);
 }

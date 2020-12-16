@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:01:02 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/27 18:16:52 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/16 19:15:16 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct	s_scanner
 	int				error;
 }				t_scanner;
 
-t_list			*tokenize(char *line);
+t_list			*tokenize(char *line, int *last_status);
 int				advance_word(t_scanner *scanner);
 void			get_state(t_scanner *scanner);
 int				is_at_end(t_scanner *scanner);
