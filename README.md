@@ -48,7 +48,7 @@
     
     - [ ] env without arguments
     
-    - [ ] exit
+    - [x] exit
   
   - [ ] Execute nonbuilt-in commands
   
