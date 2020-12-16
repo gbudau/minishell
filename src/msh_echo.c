@@ -6,13 +6,13 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:40:39 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/13 17:46:34 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/16 19:03:43 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		msh_echo(t_command *cmd, t_list **environ)
+int		msh_echo(t_command *cmd, t_list **environ, int *last_status)
 {
 	char	**argv;
 	int		no_trailing_newline;
@@ -34,5 +34,6 @@ int		msh_echo(t_command *cmd, t_list **environ)
 	}
 	if (no_trailing_newline == FALSE)
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (0);
+	*last_status = 0;
+	return (*last_status);
 }

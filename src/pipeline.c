@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:20:54 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/16 19:14:25 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void		close_pipe_fds(int *pipefds)
 		close(pipefds[1]);
 }
 
-void		execute_in_child_process(t_pipeline *p, t_list *environ)
+void		execute_in_child_process(t_pipeline *p, t_list *environ,
+		int *last_status)
 {
 	int	error;
 	int	idx;
@@ -52,7 +53,10 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ)
 	if (error)
 		exit(EXIT_FAILURE);
 	if ((idx = is_builtin(p->cmd)) != -1)
-		exit(do_builtin(p->cmd, &environ, idx));
+	{
+		do_builtin(p->cmd, &environ, idx, last_status);
+		exit(*last_status);
+	}
 	search_path_and_execute(p->cmd->argv, environ);
 }
 
@@ -77,7 +81,7 @@ void		do_pipeline(t_list **commands, t_list *environ, int *last_status)
 		if ((p.newpid = fork()) < 0)
 			error_exit();
 		if (p.newpid == 0)
-			execute_in_child_process(&p, environ);
+			execute_in_child_process(&p, environ, last_status);
 		p.cmd->pid = p.newpid;
 		if (p.havepipe)
 			close_pipe_fds(p.lastpipe);

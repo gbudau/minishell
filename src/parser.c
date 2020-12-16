@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:17:16 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/16 23:09:02 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		skip_semicolon_tokens(t_list **tokens)
 	}
 }
 
-void		create_commands(t_list *tokens, t_list **commands)
+void		create_commands(t_list *tokens, t_list **commands, int *last_status)
 {
 	t_command	*cmd;
 	t_list		*node;
@@ -67,7 +67,8 @@ void		create_commands(t_list *tokens, t_list **commands)
 		{
 			ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
 			ft_lstclear(commands, clear_command);
-			break ;
+			*last_status = 2;
+			return ;
 		}
 	}
 	ft_lstrev(commands);
@@ -81,11 +82,11 @@ void		parse(t_shell *shell, char *input)
 {
 	t_list	*tokens;
 
-	tokens = tokenize(input);
-	word_expansion(&tokens, shell->environ, shell->last_status);
+	tokens = tokenize(input, &shell->last_status);
+	word_expansion(&tokens, shell->environ, &shell->last_status);
 	if (FALSE)
 		print_tokens(tokens);
-	create_commands(tokens, &shell->commands);
+	create_commands(tokens, &shell->commands, &shell->last_status);
 	if (FALSE)
 		print_commands(shell->commands);
 	ft_lstclear(&tokens, clear_token);
