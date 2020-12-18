@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:15:12 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/18 17:33:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int			main(void)
 	int		gnl;
 
 	init_shell(&shell);
+	setup_signals_handlers();
 	gnl = 1;
 	while (gnl > 0)
 	{

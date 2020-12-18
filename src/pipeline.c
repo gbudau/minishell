@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/16 19:14:25 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/18 17:33:44 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ,
 	int	error;
 	int	idx;
 
+	restore_signals_handlers();
 	if (p->havepipe)
 	{
 		dup2(p->lastpipe[0], STDIN_FILENO);

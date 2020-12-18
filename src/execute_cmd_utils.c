@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 21:52:08 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 21:57:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/18 17:38:06 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		get_last_status(int status)
 {
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (WTERMSIG(status));
 	return (0);
 }
 

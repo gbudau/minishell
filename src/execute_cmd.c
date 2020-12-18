@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/16 23:39:07 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/18 17:33:41 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 		error_exit();
 	if (pid == 0)
 	{
+		restore_signals_handlers();
 		error = set_redirections(cmd);
 		if (error)
 			exit(EXIT_FAILURE);
