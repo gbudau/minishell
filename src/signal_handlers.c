@@ -6,12 +6,39 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 21:46:57 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 21:48:18 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/18 17:33:35 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "signalhandlers.h"
+
+void		signal_handle(int signum)
+{
+	if (signum == SIGQUIT)
+	{
+		ft_putstr_fd("\b\b", STDIN_FILENO);
+		ft_putstr_fd("  ", STDIN_FILENO);
+		ft_putstr_fd("\b\b", STDIN_FILENO);
+	}
+	if (signum == SIGINT || signum == SIGQUIT)
+	{
+		ft_putstr_fd("\nminishell> ", STDOUT_FILENO);
+	}
+	signal(signum, signal_handle);
+}
+
+void		setup_signals_handlers(void)
+{
+	signal(SIGINT, signal_handle);
+	signal(SIGQUIT, signal_handle);
+}
+
+void		restore_signals_handlers(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
 
 /*
 ** Join the line with the input until it finds a newline in it
