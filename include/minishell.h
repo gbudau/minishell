@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:10:20 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/20 22:25:03 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,14 @@ typedef struct	s_shell
 
 void			parse(t_shell *shell, char *input);
 void			execute_cmds(t_shell *shell);
-void			error_exit(void);
 int				get_last_status(int status);
+
+/*
+** TODO: Maybe set the functions prototyes below to a header
+** that contain only error functions and include it in here
+*/
+
+void			not_a_valid_identifier(char *str);
+void			error_exit(void);
 
 #endif
