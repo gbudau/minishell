@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/18 17:33:41 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/20 20:32:41 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 		do_builtin(cmd, environ, idx, last_status);
 		return ;
 	}
-	pid = fork();
-	if (pid == -1)
+	if ((pid = fork()) == -1)
 		error_exit();
 	if (pid == 0)
 	{
@@ -60,9 +59,11 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 			exit(EXIT_FAILURE);
 		search_path_and_execute(cmd->argv, *environ);
 	}
+	ignore_signals();
 	if (waitpid(pid, &status, 0) < 0)
 		error_exit();
 	*last_status = get_last_status(status);
+	setup_signals_handlers();
 }
 
 void	execute_cmds(t_shell *shell)

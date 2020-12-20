@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/18 17:33:42 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/20 20:39:53 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	prompt(void)
 {
-	ft_putstr_fd(PROMPT, STDOUT_FILENO);
+	ft_putstr_fd(PROMPT, STDERR_FILENO);
 }
 
 static void	init_shell(t_shell *shell)

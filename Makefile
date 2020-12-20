@@ -15,7 +15,8 @@ UNAME = $(shell uname -s)
 _OBJ = main.o
 
 # Signal handling
-_OBJ += signal_handlers.o
+_OBJ += signal_handlers.o \
+		signal_handlers_utils.o
 
 # Environment variables
 _OBJ += env.o \
@@ -115,7 +116,7 @@ debug: debuginfo
 .PHONY: leaks
 leaks: debuginfo
 ifeq ($(UNAME),Linux)
-	valgrind --leak-check=full ./$(NAME)
+	valgrind --leak-check=full --track-fds=yes ./$(NAME)
 else
 ifeq ($(UNAME),Darwin)
 	DYLD_INSERT_LIBRARIES=/Applications/Xcode.app/Contents/Developer/usr/lib/libLeaksAtExit.dylib leaks -atExit -- ./$(NAME)
