@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:31:32 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/14 15:08:26 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/20 22:25:24 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int		is_env_format(char c, int flag)
 
 /*
 ** Verify if the environmental variable is in a proper format
-** Return -1 in case of allocation error or if '=' char is not found in string
+** Return -1 in case of allocation error
+** Return -2 in case '=' is not found in the string,
+** this means the env only has a name and no value set
 ** Return the index of the '=' char otherwise
 ** Example str -> "TEST=ok" returns 4
 */
@@ -40,7 +42,7 @@ int		verify_env(const char *str)
 		return (-1);
 	find_equal_sign = ft_strchr(str, '=');
 	if (find_equal_sign == NULL)
-		return (-1);
+		return (-2);
 	return (find_equal_sign - str);
 }
 
@@ -51,21 +53,26 @@ int		verify_env(const char *str)
 ** Return NULL in case of allocation error or any other error
 */
 
-char	**split_env(const char *str, size_t idx)
+char	**split_env(const char *str, int idx)
 {
 	char	**str_array;
+	int		env_with_no_value;
 
-	if (idx > ft_strlen(str))
-		return (NULL);
 	str_array = ft_calloc(sizeof(*str_array), 3);
 	if (str_array == NULL)
 		return (NULL);
+	env_with_no_value = idx < 0;
+	if (env_with_no_value)
+		idx = 0;
 	str_array[0] = ft_strndup(str, idx);
 	if (str_array[0] == NULL)
 		return (NULL);
-	str_array[1] = ft_strdup(&str[idx + 1]);
-	if (str_array[1] == NULL)
-		return (NULL);
+	if (env_with_no_value == FALSE)
+	{
+		str_array[1] = ft_strdup(&str[idx + 1]);
+		if (str_array[1] == NULL)
+			return (NULL);
+	}
 	return (str_array);
 }
 
