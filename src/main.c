@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/20 20:39:53 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/21 18:57:03 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ int			main(void)
 	char	*input;
 	int		gnl;
 
-	init_shell(&shell);
 	setup_signals_handlers();
+	init_shell(&shell);
 	gnl = 1;
 	while (gnl > 0)
 	{
 		prompt();
+		setup_signals_handlers();
 		gnl = get_next_line(STDIN_FILENO, &input);
 		if (gnl < 0)
 			error_exit();
 		gnl = !end_of_input(gnl, &input);
+		ignore_signals();
 		parse(&shell, input);
 		free(input);
 		execute_cmds(&shell);
