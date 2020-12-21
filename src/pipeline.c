@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/20 20:35:48 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/21 18:54:00 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void		do_pipeline(t_list **commands, t_list *environ, int *last_status)
 			error_exit();
 		if (p.newpid == 0)
 			execute_in_child_process(&p, environ, last_status);
-		ignore_signals();
 		p.cmd->pid = p.newpid;
 		if (p.havepipe)
 			close_pipe_fds(p.lastpipe);
@@ -93,5 +92,4 @@ void		do_pipeline(t_list **commands, t_list *environ, int *last_status)
 	}
 	p.trav = *commands;
 	*commands = wait_all_childrens(&p, last_status);
-	setup_signals_handlers();
 }
