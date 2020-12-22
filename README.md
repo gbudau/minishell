@@ -40,7 +40,7 @@
     
     - [ ] cd with relative or absolute path
     
-    - [ ] pwd
+    - [x] pwd
     
     - [ ] export
     
