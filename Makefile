@@ -48,7 +48,8 @@ _OBJ += io_redirection.o
 # Builtins
 _OBJ += builtins.o \
 		msh_echo.o \
-		msh_exit.o
+		msh_exit.o \
+		msh_pwd.o
 
 # Execute command
 _OBJ += execute_cmd.o \

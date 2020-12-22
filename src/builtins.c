@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:34:40 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/16 23:15:14 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/22 19:30:59 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		is_builtin(t_command *cmd)
 {
-	static const char	*builtins[] = {"echo", "exit", NULL};
+	static const char	*builtins[] = {"echo", "exit", "pwd", NULL};
 	int					i;
 
 	i = 0;
@@ -52,8 +52,8 @@ void	restore_and_close_stdin_and_stdout(int stdin_copy, int stdout_copy)
 
 void	do_builtin(t_command *cmd, t_list **environ, int idx, int *last_status)
 {
-	static int	(*const fptr[3])(t_command *, t_list **, int *) =
-	{msh_echo, msh_exit, NULL};
+	static int	(*const fptr[])(t_command *, t_list **, int *) =
+	{msh_echo, msh_exit, msh_pwd, NULL};
 	int			stdin_fd_copy;
 	int			stdout_fd_copy;
 	int			error;
