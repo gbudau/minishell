@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:31:32 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/20 22:25:24 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/23 12:03:26 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ char	**split_env(const char *str, int idx)
 	if (str_array == NULL)
 		return (NULL);
 	env_with_no_value = idx < 0;
-	if (env_with_no_value)
-		idx = 0;
-	str_array[0] = ft_strndup(str, idx);
+	if (env_with_no_value == TRUE)
+		str_array[0] = ft_strdup(str);
+	else
+		str_array[0] = ft_strndup(str, idx);
 	if (str_array[0] == NULL)
 		return (NULL);
 	if (env_with_no_value == FALSE)
