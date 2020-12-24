@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:31:32 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/20 22:25:24 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/23 15:26:18 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ int		is_env_format(char c, int flag)
 
 int		verify_env(const char *str)
 {
-	char	*find_equal_sign;
+	int	i;
 
-	if (!is_env_format(*str, 1))
-		return (-1);
-	find_equal_sign = ft_strchr(str, '=');
-	if (find_equal_sign == NULL)
+	i = 0;
+	while (is_env_format(str[i], i > 0))
+		i++;
+	if (str[i] == '=')
+		return (i);
+	else if (str[i] == '\0')
 		return (-2);
-	return (find_equal_sign - str);
+	return (-1);
 }
 
 /*
