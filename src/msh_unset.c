@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 19:50:50 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/27 20:30:04 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/27 21:25:43 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	print_invalid_identifier(char *str)
 int			msh_unset(t_command *cmd, t_list **environ, int *last_status)
 {
 	char	**argv;
-	
+
 	argv = cmd->argv;
 	argv++;
 	*last_status = 0;
