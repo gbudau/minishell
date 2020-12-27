@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:34:40 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/28 00:23:15 by fportela         ###   ########.fr       */
+/*   Updated: 2020/12/28 00:30:18 by fportela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int		is_builtin(t_command *cmd)
 {
-	static const char	*builtins[] = {"echo", "exit", "pwd", "env", "unset", NULL};
+	static const char	*builtins[] = {"echo", "exit", "pwd", "env", "unset",
+		NULL};
 	int					i;
 
 	i = 0;
