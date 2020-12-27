@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:34:40 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/27 20:51:21 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/28 00:23:15 by fportela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 int		is_builtin(t_command *cmd)
 {
-	static const char	*builtins[] = {"echo", "exit", "pwd", "unset", NULL};
+	static const char	*builtins[] = {"echo", "exit", "pwd", "env", "unset", NULL};
 	int					i;
 
 	i = 0;
@@ -53,7 +53,7 @@ void	restore_and_close_stdin_and_stdout(int stdin_copy, int stdout_copy)
 void	do_builtin(t_command *cmd, t_list **environ, int idx, int *last_status)
 {
 	static int	(*const fptr[])(t_command *, t_list **, int *) =
-	{msh_echo, msh_exit, msh_pwd, msh_unset, NULL};
+	{msh_echo, msh_exit, msh_pwd, msh_env, msh_unset, NULL};
 	int			stdin_fd_copy;
 	int			stdout_fd_copy;
 	int			error;
