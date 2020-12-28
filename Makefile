@@ -50,7 +50,8 @@ _OBJ += builtins.o \
 		msh_echo.o \
 		msh_exit.o \
 		msh_pwd.o \
-		msh_env.o
+		msh_env.o \
+		msh_unset.o
 
 # Execute command
 _OBJ += execute_cmd.o \
