@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:31:32 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/23 15:26:18 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/28 23:14:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int		verify_env(const char *str)
 	i = 0;
 	while (is_env_format(str[i], i > 0))
 		i++;
-	if (str[i] == '=')
+	if (i > 0 && str[i] == '=')
 		return (i);
-	else if (str[i] == '\0')
+	else if (i > 0 && str[i] == '\0')
 		return (-2);
 	return (-1);
 }

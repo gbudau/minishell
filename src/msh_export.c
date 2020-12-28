@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/28 22:56:19 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/28 23:13:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int			msh_export(t_command *cmd, t_list **environ, int *last_status)
 		return (print_sorted_env(*environ, last_status));
 	while (*(++argv))
 	{
-		if (*argv[0] == '\0' || (idx = verify_env(*argv)) == -1)
+		if ((idx = verify_env(*argv)) == -1)
 		{
 			print_invalid_identifier(*argv);
 			*last_status = 1;
