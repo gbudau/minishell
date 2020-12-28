@@ -51,7 +51,9 @@ _OBJ += builtins.o \
 		msh_exit.o \
 		msh_pwd.o \
 		msh_env.o \
-		msh_unset.o
+		msh_unset.o \
+		msh_export.o \
+		msh_cd.o
 
 # Execute command
 _OBJ += execute_cmd.o \

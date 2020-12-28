@@ -44,9 +44,9 @@
     
     - [ ] export
     
-    - [ ] unset
+    - [x] unset
     
-    - [ ] env without arguments
+    - [x] env without arguments
     
     - [x] exit
   
