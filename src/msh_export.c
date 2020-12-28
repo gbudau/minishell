@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/28 21:17:54 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/28 22:56:19 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	print_invalid_identifier(char *str)
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }
 
-void		*copy_env(void *content)
+static void	*copy_env(void *content)
 {
 	char	**new_env;
 	char	**env;
@@ -42,31 +42,31 @@ void		*copy_env(void *content)
 	return ((void *)new_env);
 }
 
+static void	print_exported_env(void *content)
+{
+	char	**env;
+
+	env = content;
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	ft_putstr_fd(env[ENV_NAME], STDOUT_FILENO);
+	if (env[ENV_VALUE] != NULL)
+	{
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(env[ENV_VALUE], STDOUT_FILENO);
+		ft_putstr_fd("\"", STDOUT_FILENO);
+	}
+	ft_putstr_fd("\n", STDOUT_FILENO);
+}
+
 static int	print_sorted_env(t_list *environ, int *last_status)
 {
 	t_list	*environ_copy;
-	t_list	*trav;
-	char	**env;
 
 	environ_copy = ft_lstmap(environ, &copy_env, &clear_env);
 	if (environ_copy == NULL)
 		error_exit();
-	trav = environ_copy;
-	while (trav != NULL)
-	{
-		env = trav->content;
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(env[ENV_NAME], STDOUT_FILENO);
-		if (env[ENV_VALUE] != NULL)
-		{
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(env[ENV_VALUE], STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
-		}
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		trav = trav->next;
-	}
-	ft_lstclear(&environ_copy, clear_env);
+	ft_lstiter(environ_copy, &print_exported_env);
+	ft_lstclear(&environ_copy, &clear_env);
 	*last_status = 0;
 	return (0);
 }
