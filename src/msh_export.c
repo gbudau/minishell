@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/28 20:32:13 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/28 21:17:54 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,28 @@ void		*copy_env(void *content)
 static int	print_sorted_env(t_list *environ, int *last_status)
 {
 	t_list	*environ_copy;
+	t_list	*trav;
 	char	**env;
 
 	environ_copy = ft_lstmap(environ, &copy_env, &clear_env);
 	if (environ_copy == NULL)
 		error_exit();
-	while (environ_copy != NULL)
+	trav = environ_copy;
+	while (trav != NULL)
 	{
-		env = environ_copy->content;
+		env = trav->content;
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(env[ENV_NAME], STDOUT_FILENO);
 		if (env[ENV_VALUE] != NULL)
 		{
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
+			ft_putstr_fd("=\"", STDOUT_FILENO);
 			ft_putstr_fd(env[ENV_VALUE], STDOUT_FILENO);
 			ft_putstr_fd("\"", STDOUT_FILENO);
 		}
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		environ_copy = environ_copy->next;
+		trav = trav->next;
 	}
+	ft_lstclear(&environ_copy, clear_env);
 	*last_status = 0;
 	return (0);
 }
