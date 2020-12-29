@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:36:05 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/18 22:57:39 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/29 19:37:52 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	copy_inside_dquotes(char *words, size_t *i, size_t *j)
 	(*i)++;
 	while (words[*i] && words[*i] != '"')
 	{
-		if (words[*i] == '\\' && words[*i + 1] == '"')
+		if (words[*i] == '\\' &&
+				(words[*i + 1] == '"' || words[*i + 1] == '\\'))
 			copy_backslash(words, i, j);
 		else
 			words[(*j)++] = words[(*i)++];
