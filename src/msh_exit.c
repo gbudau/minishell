@@ -6,52 +6,52 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:41:22 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/30 20:45:42 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/30 21:18:35 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int			is_mult_overflow(unsigned long long *result, unsigned long long n,
-		long long sign)
+static int			is_mult_overflow(unsigned long long *n, long long sign)
 {
-	if (sign > 0 && n > (LLONG_MAX / 10))
+	if (sign > 0 && *n > (LLONG_MAX / 10))
 		return (TRUE);
-	else if (sign < 0 && n > ((LLONG_MAX + 1ULL) / 10))
+	else if (sign < 0 && *n > ((LLONG_MAX + 1ULL) / 10))
 		return (TRUE);
-	*result = n * 10;
+	*n = *n * 10;
 	return (FALSE);
 }
 
-int			is_add_overflow(unsigned long long *result,
-			unsigned long long a, long long b, long long sign)
+static int			is_add_overflow(unsigned long long *n, unsigned long long a,
+														long long sign)
 {
-	if (sign > 0 && a > (LLONG_MAX + 0ULL - b))
+	if (sign > 0 && *n > (LLONG_MAX + 0ULL - a))
 		return (TRUE);
-	else if (sign < 0 && a > (LLONG_MAX + 1ULL - b))
+	else if (sign < 0 && *n > (LLONG_MAX + 1ULL - a))
 		return (TRUE);
-	*result = a + b;
+	*n = *n + a;
 	return (FALSE);
 }
 
-long long	exit_atoll(char *str, int *error)
+static long long	exit_atoll(char *str, int *error)
 {
 	unsigned long long	n;
-	unsigned long long	mult;
 	long long			sign;
 
-	n = 0;
-	mult = 0;
-	if (*str == '-' && str++)
+	if (*str == '-')
+	{
+		str++;
 		sign = -1;
+	}
 	else
 		sign = 1;
+	n = 0;
 	while (ft_isdigit(*str))
 	{
-		*error = is_mult_overflow(&mult, n, sign);
+		*error = is_mult_overflow(&n, sign);
 		if (*error == TRUE)
 			break ;
-		*error = is_add_overflow(&n, mult, *str - '0', sign);
+		*error = is_add_overflow(&n, *str - '0', sign);
 		if (*error == TRUE)
 			break ;
 		str++;
@@ -61,7 +61,7 @@ long long	exit_atoll(char *str, int *error)
 	return ((long long)n * sign);
 }
 
-void		print_numeric_argument_error(char *str, int *last_status)
+static void			print_numeric_argument_error(char *str, int *last_status)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
@@ -70,7 +70,7 @@ void		print_numeric_argument_error(char *str, int *last_status)
 	exit(*last_status);
 }
 
-int			msh_exit(t_command *cmd, t_list **environ, int *last_status)
+int					msh_exit(t_command *cmd, t_list **environ, int *last_status)
 {
 	int			error;
 	long long	n;
