@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/28 23:13:42 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/30 18:36:02 by fportela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int	print_sorted_env(t_list *environ, int *last_status)
 	environ_copy = ft_lstmap(environ, &copy_env, &clear_env);
 	if (environ_copy == NULL)
 		error_exit();
+	mergesort(&environ_copy);
 	ft_lstiter(environ_copy, &print_exported_env);
 	ft_lstclear(&environ_copy, &clear_env);
 	*last_status = 0;
