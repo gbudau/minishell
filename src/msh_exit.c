@@ -6,30 +6,29 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:41:22 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/30 21:18:35 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/30 22:18:11 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int			is_mult_overflow(unsigned long long *n, long long sign)
+static int			is_mult_overflow(unsigned long long a, unsigned long long b,
+																long long sign)
 {
-	if (sign > 0 && *n > (LLONG_MAX / 10))
+	if (sign > 0 && a > (LLONG_MAX + 0ULL / b))
 		return (TRUE);
-	else if (sign < 0 && *n > ((LLONG_MAX + 1ULL) / 10))
+	else if (sign < 0 && a > ((LLONG_MAX + 1ULL) / b))
 		return (TRUE);
-	*n = *n * 10;
 	return (FALSE);
 }
 
-static int			is_add_overflow(unsigned long long *n, unsigned long long a,
-														long long sign)
+static int			is_add_overflow(unsigned long long a, unsigned long long b,
+																long long sign)
 {
-	if (sign > 0 && *n > (LLONG_MAX + 0ULL - a))
+	if (sign > 0 && a > (LLONG_MAX + 0ULL - b))
 		return (TRUE);
-	else if (sign < 0 && *n > (LLONG_MAX + 1ULL - a))
+	else if (sign < 0 && a > (LLONG_MAX + 1ULL - b))
 		return (TRUE);
-	*n = *n + a;
 	return (FALSE);
 }
 
@@ -48,13 +47,14 @@ static long long	exit_atoll(char *str, int *error)
 	n = 0;
 	while (ft_isdigit(*str))
 	{
-		*error = is_mult_overflow(&n, sign);
+		*error = is_mult_overflow(n, 10, sign);
 		if (*error == TRUE)
 			break ;
-		*error = is_add_overflow(&n, *str - '0', sign);
+		n = n * 10;
+		*error = is_add_overflow(n, *str - '0', sign);
 		if (*error == TRUE)
 			break ;
-		str++;
+		n = n + *str++ - '0';
 	}
 	if (*str != '\0')
 		*error = TRUE;
