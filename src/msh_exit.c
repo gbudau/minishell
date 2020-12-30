@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:41:22 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/30 22:18:11 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/30 23:12:56 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,12 @@ static long long	exit_atoll(char *str, int *error)
 	unsigned long long	n;
 	long long			sign;
 
-	if (*str == '-')
+	sign = 1;
+	if (*str == '-' || *str == '+')
 	{
+		sign = (*str == '-') ? -1 : sign;
 		str++;
-		sign = -1;
 	}
-	else
-		sign = 1;
 	n = 0;
 	while (ft_isdigit(*str))
 	{
@@ -54,7 +53,8 @@ static long long	exit_atoll(char *str, int *error)
 		*error = is_add_overflow(n, *str - '0', sign);
 		if (*error == TRUE)
 			break ;
-		n = n + *str++ - '0';
+		n = n + *str - '0';
+		str++;
 	}
 	if (*str != '\0')
 		*error = TRUE;
