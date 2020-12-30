@@ -6,29 +6,29 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:41:22 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/30 20:26:12 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/30 20:45:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int			is_mult_overflow(long long *result, long long n,
+int			is_mult_overflow(unsigned long long *result, unsigned long long n,
 		long long sign)
 {
 	if (sign > 0 && n > (LLONG_MAX / 10))
 		return (TRUE);
-	else if (sign < 0 && n > (LLONG_MIN / 10))
+	else if (sign < 0 && n > ((LLONG_MAX + 1ULL) / 10))
 		return (TRUE);
 	*result = n * 10;
 	return (FALSE);
 }
 
-int			is_add_overflow(long long *result,
-		long long a, long long b, long long sign)
+int			is_add_overflow(unsigned long long *result,
+			unsigned long long a, long long b, long long sign)
 {
-	if (sign > 0 && a > (LLONG_MAX - b))
+	if (sign > 0 && a > (LLONG_MAX + 0ULL - b))
 		return (TRUE);
-	else if (sign < 0 && a > (LLONG_MIN - b))
+	else if (sign < 0 && a > (LLONG_MAX + 1ULL - b))
 		return (TRUE);
 	*result = a + b;
 	return (FALSE);
@@ -36,9 +36,9 @@ int			is_add_overflow(long long *result,
 
 long long	exit_atoll(char *str, int *error)
 {
-	long long	n;
-	long long	mult;
-	long long	sign;
+	unsigned long long	n;
+	unsigned long long	mult;
+	long long			sign;
 
 	n = 0;
 	mult = 0;
