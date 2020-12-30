@@ -53,7 +53,10 @@ _OBJ += builtins.o \
 		msh_env.o \
 		msh_unset.o \
 		msh_export.o \
-		msh_cd.o
+		msh_cd.o \
+
+# Builins utils
+_OBJ += sort_export_list.o
 
 # Execute command
 _OBJ += execute_cmd.o \

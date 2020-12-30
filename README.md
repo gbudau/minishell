@@ -42,7 +42,7 @@
     
     - [x] pwd
     
-    - [ ] export
+    - [x] export
     
     - [x] unset
     

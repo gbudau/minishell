@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:35:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/28 18:58:20 by gbudau           ###   ########.fr       */
+/*   Updated: 2020/12/30 18:49:00 by fportela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int		msh_env(t_command *cmd, t_list **environ, int *last_status);
 int		msh_unset(t_command *cmd, t_list **environ, int *last_status);
 int		msh_export(t_command *cmd, t_list **environ, int *last_status);
 int		msh_cd(t_command *cmd, t_list **environ, int *last_status);
+void	mergesort(t_list **alist);
 
 #endif
