@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/22 19:22:30 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/01 18:36:24 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
+# include <string.h>
 # include "libft.h"
 # include "env.h"
 # include "command.h"
