@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/01 19:35:27 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/01 20:54:13 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ static int	print_error(char *str, int *last_status)
 static int	print_cd_error(char *str, int *last_status)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(str, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(strerror(errno), STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	perror(str);
 	*last_status = 1;
 	errno = 0;
 	return (*last_status);
@@ -42,7 +39,12 @@ int			msh_cd(t_command *cmd, t_list **environ, int *last_status)
 		if (home == NULL)
 			return (print_error("minishell: cd: HOME not set\n", last_status));
 		if (chdir(home) == -1)
-			return (print_cd_error(home, last_status));
+		{
+			print_cd_error(home, last_status);
+			free(home);
+			return (*last_status);
+		}
+		free(home);
 	}
 	else if (cmd->argc > 2)
 		return (print_error("minishell: cd: too many arguments\n",
