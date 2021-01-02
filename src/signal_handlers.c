@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 21:46:57 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/20 20:41:37 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 20:25:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ void		signal_handle(int signum)
 {
 	if (signum == SIGQUIT)
 		ft_putstr_fd("\b\b  \b\b", STDERR_FILENO);
-	if (signum == SIGINT || signum == SIGQUIT)
-		ft_putstr_fd("\nminishell> ", STDERR_FILENO);
+	ft_putstr_fd("\nminishell> ", STDERR_FILENO);
 	signal(signum, signal_handle);
 }
 

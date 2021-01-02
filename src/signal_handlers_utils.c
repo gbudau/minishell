@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 20:07:19 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/20 20:41:21 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 20:40:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,17 @@ int			end_of_input(int gnl, char **input)
 		return (1);
 	}
 	return (0);
+}
+
+static void	signal_handle_before_fork(int signum)
+{
+	if (signum == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+}
+
+void		setup_signals_before_fork(void)
+{
+	signal(SIGINT, signal_handle_before_fork);
+	signal(SIGQUIT, signal_handle_before_fork);
 }
