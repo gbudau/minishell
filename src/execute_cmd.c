@@ -73,6 +73,7 @@ void	execute_cmds(t_shell *shell)
 	trav = shell->commands;
 	while (trav != NULL)
 	{
+		errno = 0;
 		cmd = trav->content;
 		if (cmd->ispipe)
 			do_pipeline(&trav, shell->environ, &shell->last_status);
