@@ -6,16 +6,16 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/21 18:54:00 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 18:00:39 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "libft.h"
-#include "pipeline.h"
-#include "ioredirection.h"
-#include "builtins.h"
-#include "command.h"
+#include "../include/minishell.h"
+#include "../include/libft.h"
+#include "../include/pipeline.h"
+#include "../include/ioredirection.h"
+#include "../include/builtins.h"
+#include "../include/command.h"
 
 static void	init_pipeline(t_pipeline *p)
 {
@@ -39,7 +39,6 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ,
 	int	error;
 	int	idx;
 
-	restore_signals_handlers();
 	if (p->havepipe)
 	{
 		dup2(p->lastpipe[0], STDIN_FILENO);
@@ -55,6 +54,7 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ,
 		exit(EXIT_FAILURE);
 	if ((idx = is_builtin(p->cmd)) != -1)
 	{
+		restore_signals_handlers();
 		do_builtin(p->cmd, &environ, idx, last_status);
 		exit(*last_status);
 	}

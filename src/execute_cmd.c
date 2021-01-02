@@ -6,12 +6,12 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 17:38:13 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:58:29 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "env.h"
+#include "../include/minishell.h"
+#include "../include/env.h"
 
 /*
 ** TODO:
@@ -33,6 +33,7 @@
 void	search_path_and_execute(char **argv, t_list *environ)
 {
 	(void)environ;
+	restore_signals_handlers();
 	execvp(argv[0], argv);
 	exit(cmd_not_found(argv[0]));
 }
@@ -54,7 +55,6 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 		error_exit();
 	if (pid == 0)
 	{
-		restore_signals_handlers();
 		error = set_redirections(cmd);
 		if (error)
 			exit(EXIT_FAILURE);
