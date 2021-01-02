@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/21 18:52:56 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:38:13 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	execute_cmds(t_shell *shell)
 	trav = shell->commands;
 	while (trav != NULL)
 	{
+		errno = 0;
 		cmd = trav->content;
 		if (cmd->ispipe)
 			do_pipeline(&trav, shell->environ, &shell->last_status);

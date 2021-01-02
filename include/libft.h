@@ -6,7 +6,7 @@
 /*   By: gbudau <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 21:34:03 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/15 16:42:55 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:11:44 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/uio.h>
+# include <errno.h>
+# include <string.h>
 
 typedef struct	s_list
 {
@@ -115,5 +117,10 @@ void			ft_lstrev(t_list **lst);
 size_t			ft_lstdelcmp(t_list **head,
 				int (*compar)(const void *, const void *),
 				void *match, void (*del)(void *));
+
+/*
+** Other functions
+*/
+void			ft_perror(char *s);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:59:01 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/14 15:07:10 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:13:35 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ioredirection.h"
+#include "../include/ioredirection.h"
 
 int			print_error_io(char *str)
 {
@@ -19,7 +19,7 @@ int			print_error_io(char *str)
 	joined = ft_strjoin("minishell: ", str);
 	if (joined == NULL)
 		error_exit();
-	perror(joined);
+	ft_perror(joined);
 	free(joined);
 	return (1);
 }

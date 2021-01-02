@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_utils.c                                      :+:      :+:    :+:   */
+/*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/09 17:43:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 17:13:42 by gbudau           ###   ########.fr       */
+/*   Created: 2021/01/02 17:03:19 by gbudau            #+#    #+#             */
+/*   Updated: 2021/01/02 17:11:25 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
 
-void	error_exit(void)
+void	ft_perror(char *s)
 {
-	ft_perror("Error");
-	exit(EXIT_FAILURE);
-}
+	char *err;
 
-void	not_a_valid_identifier(char *str)
-{
-	ft_putstr_fd("minishell: export: ", STDERR_FILENO);
-	ft_putstr_fd(str, STDERR_FILENO);
-	ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
+	if (s && *s)
+	{
+		ft_putstr_fd(s, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	err = strerror(errno);
+	ft_putstr_fd(err, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }

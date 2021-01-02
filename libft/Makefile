@@ -6,7 +6,7 @@
 #    By: gbudau <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 00:42:18 by gbudau            #+#    #+#              #
-#    Updated: 2020/11/08 00:14:16 by gbudau           ###   ########.fr        #
+#    Updated: 2021/01/02 17:05:55 by gbudau           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,6 +88,9 @@ OBJ += ft_lstadd_back.o \
 	   ft_lstsize.o \
 	   ft_lstdelcmp.o \
 	   ft_lstrev.o
+
+# other functions
+OBJ += ft_perror.o
 
 .PHONY: all
 all: $(NAME)
