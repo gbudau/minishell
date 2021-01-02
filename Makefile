@@ -102,8 +102,11 @@ $(OBJ): | $(OBJ_DIR)
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
 
-$(NAME): $(OBJ)
+.PHONY: make_library
+make_library:
 	make -C $(LIB_DIR)
+
+$(NAME): make_library $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 
 .PHONY: fsanitize
