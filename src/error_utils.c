@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:43:43 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/20 22:19:36 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:13:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_exit(void)
 {
-	perror("Error");
+	ft_perror("Error");
 	exit(EXIT_FAILURE);
 }
 

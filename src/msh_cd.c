@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/01 20:54:13 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:13:11 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	print_error(char *str, int *last_status)
 static int	print_cd_error(char *str, int *last_status)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	perror(str);
+	ft_perror(str);
 	*last_status = 1;
 	errno = 0;
 	return (*last_status);
