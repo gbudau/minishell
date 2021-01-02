@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 20:37:25 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 20:46:08 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 		return ;
 	}
 	setup_signals_before_fork();
-	pid = fork();
-	if (pid == -1)
+	if ((pid = fork()) == -1)
 		error_exit();
 	if (pid == 0)
 	{

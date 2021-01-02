@@ -34,11 +34,11 @@
   
   - [x] Pipelines
   
-  - [ ] Built-in commands
+  - [x] Built-in commands
     
     - [x] echo with option '-n'
     
-    - [ ] cd with relative or absolute path
+    - [x] cd with relative or absolute path
     
     - [x] pwd
     
