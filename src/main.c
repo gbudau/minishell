@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 17:23:19 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 17:37:54 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int			main(void)
 	gnl = 1;
 	while (gnl > 0)
 	{
-		errno = 0;
 		prompt();
 		setup_signals_handlers();
 		gnl = get_next_line(STDIN_FILENO, &input);
