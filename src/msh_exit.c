@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:41:22 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/30 23:12:56 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/02 18:12:15 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int			is_mult_overflow(unsigned long long a, unsigned long long b,
 																long long sign)
 {
-	if (sign > 0 && a > (LLONG_MAX + 0ULL / b))
+	if (sign > 0 && a > ((LLONG_MAX + 0ULL) / b))
 		return (TRUE);
 	else if (sign < 0 && a > ((LLONG_MAX + 1ULL) / b))
 		return (TRUE);
