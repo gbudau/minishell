@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 20:00:26 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/03 13:45:01 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,35 @@ static char	**create_env(char *env_name, char *env_value)
 	env = ft_calloc(3, sizeof(*env));
 	if (env == NULL)
 		return (NULL);
+	env_name = ft_strdup(env_name);
+	if (env_name == NULL)
+		return (NULL);
 	env[ENV_NAME] = env_name;
+	env_value = ft_strdup(env_value);
+	if (env_value == NULL)
+		return (NULL);
 	env[ENV_VALUE] = env_value;
 	return (env);
 }
 
 static void	set_oldpwd_and_pwd(t_list **environ)
 {
-	char	*pwd_ptr;
+	char	*old_pwd;
 	char	current_pwd[PATH_MAX + 1];
-	char	*tmp;
 	char	**env_ptr;
 
-	if ((pwd_ptr = get_env(*environ, "PWD")) == NULL)
+	old_pwd = get_env(*environ, "PWD");
+	if (old_pwd == NULL)
 		error_exit();
-	if ((tmp = getcwd(current_pwd, PATH_MAX)) == NULL)
-		error_exit();
-	if ((tmp = ft_strdup("OLDPWD")) == NULL)
-		error_exit();
-	if ((env_ptr = create_env(tmp, pwd_ptr)) == NULL)
+	env_ptr = create_env("OLDPWD", old_pwd);
+	free(old_pwd);
+	if (env_ptr == NULL)
 		error_exit();
 	set_env(environ, env_ptr);
-	if ((tmp = ft_strdup("PWD")) == NULL)
+	if (getcwd(current_pwd, PATH_MAX) == NULL)
 		error_exit();
-	if ((pwd_ptr = ft_strdup(current_pwd)) == NULL)
-		error_exit();
-	if ((env_ptr = create_env(tmp, pwd_ptr)) == NULL)
+	env_ptr = create_env("PWD", current_pwd);
+	if (env_ptr == NULL)
 		error_exit();
 	set_env(environ, env_ptr);
 }
