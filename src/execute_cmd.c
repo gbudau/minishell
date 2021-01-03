@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/03 20:37:14 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/03 22:31:50 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ static char	*build_path_binary(char *dir_name, char *cmd_name)
 
 static char	*search_and_build_path(char *path, char *cmd_name)
 {
-	char	**splitted_paths;
-	DIR		*dir_ptr;
-	struct	dirent *dirent_ptr;
-	size_t	i;
+	char			**splitted_paths;
+	DIR				*dir_ptr;
+	struct dirent	*dirent_ptr;
+	size_t			i;
 
 	if (path == NULL || *path == '\0')
 		return (NULL);
@@ -86,45 +86,28 @@ static char	*search_and_build_path(char *path, char *cmd_name)
 	while (splitted_paths[i])
 	{
 		dir_ptr = opendir(splitted_paths[i]);
-		if (dir_ptr == NULL)
-			error_exit();
-		while ((dirent_ptr = readdir(dir_ptr)) != NULL)
+		while (dir_ptr != NULL && (dirent_ptr = readdir(dir_ptr)) != NULL)
 		{
 			if (dirent_ptr->d_type == DT_LNK || dirent_ptr->d_type == DT_REG)
 			{
 				if (ft_strcmp(cmd_name, dirent_ptr->d_name) == 0)
 				{
+					path = build_path_binary(splitted_paths[i], cmd_name);
 					closedir(dir_ptr);
-					path = build_path_binary(dirent_ptr->d_name, cmd_name);
-					break ;
+					ft_free_strarr(splitted_paths);
+					return (path);
 				}
 			}
 		}
+		if (dir_ptr != NULL)
+			closedir(dir_ptr);
 		i++;
 	}
-	free(splitted_paths);
-	closedir(dir_ptr);
+	ft_free_strarr(splitted_paths);
 	return (path);
 }
 
-/*
-** TODO:
-** Create an env array that will get passed to execve
-** Or make environ an array of strings and create functions
-** That can modify it (add/delete/print/etc...) like the ones in env.c
-**
-** TODO:
-** If the command name start with a slash (/) character
-** Use execve directly
-** Else
-** Create a function that search in PATH for the command name
-** Then use execve
-**
-** https://pubs.opengroup.org/onlinepubs/9699919799/utilities/
-** V3_chap02.html#tag_18_09_01_01
-*/
-
-void	search_path_and_execute(char **argv, t_list *environ)
+void		search_path_and_execute(char **argv, t_list *environ)
 {
 	char	**env_array;
 	char	*filename;
@@ -132,18 +115,21 @@ void	search_path_and_execute(char **argv, t_list *environ)
 	env_array = create_env_array(environ);
 	if (env_array == NULL)
 		error_exit();
-	restore_signals_handlers();
 	if (argv[0][0] == '.' || argv[0][0] == '/')
+	{
+		restore_signals_handlers();
 		execve(argv[0], argv, env_array);
+	}
 	else
 	{
 		filename = search_and_build_path(get_env(environ, "PATH"), argv[0]);
+		restore_signals_handlers();
 		execve(filename, argv, env_array);
 	}
 	exit(cmd_not_found(argv[0]));
 }
 
-void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
+void		do_cmd(t_command *cmd, t_list **environ, int *last_status)
 {
 	int		pid;
 	int		status;
@@ -172,7 +158,7 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 	*last_status = get_last_status(status);
 }
 
-void	execute_cmds(t_shell *shell)
+void		execute_cmds(t_shell *shell)
 {
 	t_list		*trav;
 	t_command	*cmd;
