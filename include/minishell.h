@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 19:43:20 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 21:01:34 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ enum	e_redirection_type
 /*
 ** Data used for minishell
 ** environ = List of environmental variables.
-**           The content of a list node is an array
+**           The content of a list node is an array of strings
 **           where an environmental variable is stored
 **           with the format env_array = {"env_name", "env_value", NULL}
 ** commands = List of commands.
@@ -69,6 +69,5 @@ typedef struct	s_shell
 
 void			parse(t_shell *shell, char *input);
 void			execute_cmds(t_shell *shell);
-int				get_last_status(int status);
 
 #endif
