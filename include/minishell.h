@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/03 20:11:36 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 18:24:03 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "execute.h"
 # include "signalhandlers.h"
 # include "clear.h"
+# include "errors.h"
 # define PROMPT "minishell> "
 
 enum	e_bool
@@ -49,10 +50,11 @@ enum	e_redirection_type
 
 /*
 ** Data used for minishell
-** env = list of environmental variables
-** tokens = list of tokens
-** commands = list of commands
-** line	= line of input from terminal
+** environ = list of environmental variables, the content of a list node is an array
+**           where an environmental variable is stored
+**           with the format env_array = {"env_name", "env_value", NULL}
+** commands = list of commands, the content of a list node is a struct s_command
+**            defined in command.h header
 ** last_status = status of the last executed command
 */
 
@@ -66,13 +68,5 @@ typedef struct	s_shell
 void			parse(t_shell *shell, char *input);
 void			execute_cmds(t_shell *shell);
 int				get_last_status(int status);
-
-/*
-** TODO: Maybe set the functions prototyes below to a header
-** that contain only error functions and include it in here
-*/
-
-void			not_a_valid_identifier(char *str);
-void			error_exit(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/03 22:31:50 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 19:08:05 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static char	*search_and_build_path(char *path, char *cmd_name)
 			{
 				if (ft_strcmp(cmd_name, dirent_ptr->d_name) == 0)
 				{
+					free(path);
 					path = build_path_binary(splitted_paths[i], cmd_name);
 					closedir(dir_ptr);
 					ft_free_strarr(splitted_paths);
@@ -104,7 +105,8 @@ static char	*search_and_build_path(char *path, char *cmd_name)
 		i++;
 	}
 	ft_free_strarr(splitted_paths);
-	return (path);
+	free(path);
+	return (NULL);
 }
 
 void		search_path_and_execute(char **argv, t_list *environ)
@@ -126,7 +128,7 @@ void		search_path_and_execute(char **argv, t_list *environ)
 		restore_signals_handlers();
 		execve(filename, argv, env_array);
 	}
-	exit(cmd_not_found(argv[0]));
+	exit(execve_error(argv[0]));
 }
 
 void		do_cmd(t_command *cmd, t_list **environ, int *last_status)

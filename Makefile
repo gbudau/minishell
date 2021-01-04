@@ -84,7 +84,8 @@ _DEPS = minishell.h \
 		pipeline.h \
 		ioredirection.h \
 		builtins.h \
-		clear.h
+		clear.h \
+		errors.h
 
 # TODO: Remove this header when submitting the project
 _DEPS += debugprinting.h
