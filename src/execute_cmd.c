@@ -6,49 +6,59 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:04:17 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 21:37:53 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/env.h"
 
+static char	*search_inside_directory(char *directory_path, char *cmd_name)
+{
+	DIR				*dir_ptr;
+	struct dirent	*dirent_ptr;
+	char			*filename;
+
+	dir_ptr = opendir(directory_path);
+	while (dir_ptr != NULL && (dirent_ptr = readdir(dir_ptr)) != NULL)
+	{
+		if ((dirent_ptr->d_type == DT_LNK || dirent_ptr->d_type == DT_REG) &&
+				ft_strcmp(cmd_name, dirent_ptr->d_name) == 0)
+		{
+			filename = build_path_binary(directory_path, cmd_name);
+			closedir(dir_ptr);
+			return (filename);
+		}
+	}
+	if (dir_ptr != NULL)
+		closedir(dir_ptr);
+	return (NULL);
+}
+
 static char	*search_and_build_path(char *path, char *cmd_name)
 {
 	char			**splitted_paths;
-	DIR				*dir_ptr;
-	struct dirent	*dirent_ptr;
 	size_t			i;
+	char			*filename;
 
 	if (path == NULL || *path == '\0')
 		return (NULL);
 	splitted_paths = ft_split(path, ':');
+	free(path);
 	if (splitted_paths == NULL)
 		return (NULL);
 	i = 0;
 	while (splitted_paths[i])
 	{
-		dir_ptr = opendir(splitted_paths[i]);
-		while (dir_ptr != NULL && (dirent_ptr = readdir(dir_ptr)) != NULL)
+		filename = search_inside_directory(splitted_paths[i], cmd_name);
+		if (filename != NULL)
 		{
-			if (dirent_ptr->d_type == DT_LNK || dirent_ptr->d_type == DT_REG)
-			{
-				if (ft_strcmp(cmd_name, dirent_ptr->d_name) == 0)
-				{
-					free(path);
-					path = build_path_binary(splitted_paths[i], cmd_name);
-					closedir(dir_ptr);
-					ft_free_strarr(splitted_paths);
-					return (path);
-				}
-			}
+			ft_free_strarr(splitted_paths);
+			return (filename);
 		}
-		if (dir_ptr != NULL)
-			closedir(dir_ptr);
 		i++;
 	}
 	ft_free_strarr(splitted_paths);
-	free(path);
 	return (NULL);
 }
 
@@ -69,7 +79,8 @@ void		search_path_and_execute(char **argv, t_list *environ)
 	{
 		filename = search_and_build_path(get_env(environ, "PATH"), argv[0]);
 		restore_signals_handlers();
-		execve(filename, argv, env_array);
+		if (filename)
+			execve(filename, argv, env_array);
 	}
 	exit(execve_error(argv[0]));
 }
