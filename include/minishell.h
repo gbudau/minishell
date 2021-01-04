@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 18:24:03 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 19:43:20 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ enum	e_redirection_type
 
 /*
 ** Data used for minishell
-** environ = list of environmental variables, the content of a list node is an array
+** environ = List of environmental variables.
+**           The content of a list node is an array
 **           where an environmental variable is stored
 **           with the format env_array = {"env_name", "env_value", NULL}
-** commands = list of commands, the content of a list node is a struct s_command
+** commands = List of commands.
+**            The content of a list node is a struct s_command
 **            defined in command.h header
 ** last_status = status of the last executed command
 */
