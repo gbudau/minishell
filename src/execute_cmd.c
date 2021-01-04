@@ -6,39 +6,88 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 20:46:08 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 21:46:39 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/env.h"
 
-/*
-** TODO:
-** Create an env array that will get passed to execve
-** Or make environ an array of strings and create functions
-** That can modify it (add/delete/print/etc...) like the ones in env.c
-**
-** TODO:
-** If the command name start with a slash (/) character
-** Use execve directly
-** Else
-** Create a function that search in PATH for the command name
-** Then use execve
-**
-** https://pubs.opengroup.org/onlinepubs/9699919799/utilities/
-** V3_chap02.html#tag_18_09_01_01
-*/
-
-void	search_path_and_execute(char **argv, t_list *environ)
+static char	*search_inside_directory(char *directory_path, char *cmd_name)
 {
-	(void)environ;
-	restore_signals_handlers();
-	execvp(argv[0], argv);
-	exit(cmd_not_found(argv[0]));
+	DIR				*dir_ptr;
+	struct dirent	*dirent_ptr;
+	char			*filename;
+
+	dir_ptr = opendir(directory_path);
+	if (dir_ptr == NULL)
+		return (NULL);
+	while ((dirent_ptr = readdir(dir_ptr)) != NULL)
+	{
+		if ((dirent_ptr->d_type == DT_LNK || dirent_ptr->d_type == DT_REG) &&
+				ft_strcmp(cmd_name, dirent_ptr->d_name) == 0)
+		{
+			filename = build_path_binary(directory_path, cmd_name);
+			closedir(dir_ptr);
+			return (filename);
+		}
+	}
+	if (dir_ptr != NULL)
+		closedir(dir_ptr);
+	return (NULL);
 }
 
-void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
+static char	*search_and_build_path(char *path, char *cmd_name)
+{
+	char			**splitted_paths;
+	size_t			i;
+	char			*filename;
+
+	if (path == NULL || *path == '\0')
+		return (NULL);
+	splitted_paths = ft_split(path, ':');
+	free(path);
+	if (splitted_paths == NULL)
+		return (NULL);
+	i = 0;
+	while (splitted_paths[i])
+	{
+		filename = search_inside_directory(splitted_paths[i], cmd_name);
+		if (filename != NULL)
+		{
+			ft_free_strarr(splitted_paths);
+			return (filename);
+		}
+		i++;
+	}
+	ft_free_strarr(splitted_paths);
+	return (NULL);
+}
+
+void		search_path_and_execute(char **argv, t_list *environ)
+{
+	char	**env_array;
+	char	*filename;
+
+	env_array = create_env_array(environ);
+	if (env_array == NULL)
+		error_exit();
+	if (argv[0][0] == '.' || argv[0][0] == '/')
+	{
+		restore_signals_handlers();
+		execve(argv[0], argv, env_array);
+	}
+	else
+	{
+		filename = search_and_build_path(get_env(environ, "PATH"), argv[0]);
+		restore_signals_handlers();
+		if (filename)
+			execve(filename, argv, env_array);
+	}
+	exit(execve_error(argv[0]));
+}
+
+void		do_cmd(t_command *cmd, t_list **environ, int *last_status)
 {
 	int		pid;
 	int		status;
@@ -67,7 +116,7 @@ void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 	*last_status = get_last_status(status);
 }
 
-void	execute_cmds(t_shell *shell)
+void		execute_cmds(t_shell *shell)
 {
 	t_list		*trav;
 	t_command	*cmd;

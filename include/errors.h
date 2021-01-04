@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/12 21:18:58 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:08:33 by gbudau           ###   ########.fr       */
+/*   Created: 2021/01/04 18:14:05 by gbudau            #+#    #+#             */
+/*   Updated: 2021/01/04 19:07:40 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTE_H
-# define EXECUTE_H
-# include "minishell.h"
+#ifndef ERRORS_H
+# define ERRORS_H
+# include <errno.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include "libft.h"
 
-void	search_path_and_execute(char **argv, t_list *environ);
-char	*build_path_binary(char *dir_name, char *cmd_name);
-char	**create_env_array(t_list *environ);
+void	not_a_valid_identifier(char *str);
+void	error_exit(void);
+int		execve_error(char *str);
 
 #endif

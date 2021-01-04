@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/01 18:36:24 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 21:01:34 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <dirent.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
@@ -30,6 +31,7 @@
 # include "execute.h"
 # include "signalhandlers.h"
 # include "clear.h"
+# include "errors.h"
 # define PROMPT "minishell> "
 
 enum	e_bool
@@ -48,10 +50,13 @@ enum	e_redirection_type
 
 /*
 ** Data used for minishell
-** env = list of environmental variables
-** tokens = list of tokens
-** commands = list of commands
-** line	= line of input from terminal
+** environ = List of environmental variables.
+**           The content of a list node is an array of strings
+**           where an environmental variable is stored
+**           with the format env_array = {"env_name", "env_value", NULL}
+** commands = List of commands.
+**            The content of a list node is a struct s_command
+**            defined in command.h header
 ** last_status = status of the last executed command
 */
 
@@ -64,14 +69,5 @@ typedef struct	s_shell
 
 void			parse(t_shell *shell, char *input);
 void			execute_cmds(t_shell *shell);
-int				get_last_status(int status);
-
-/*
-** TODO: Maybe set the functions prototyes below to a header
-** that contain only error functions and include it in here
-*/
-
-void			not_a_valid_identifier(char *str);
-void			error_exit(void);
 
 #endif

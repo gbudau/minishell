@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 21:30:34 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:10:12 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 21:09:39 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ typedef struct	s_command
 }				t_command;
 
 int				get_last_status(int status);
-int				cmd_not_found(char *str);
 
 #endif
