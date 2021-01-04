@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:37:53 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/04 21:46:39 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ static char	*search_inside_directory(char *directory_path, char *cmd_name)
 	char			*filename;
 
 	dir_ptr = opendir(directory_path);
-	while (dir_ptr != NULL && (dirent_ptr = readdir(dir_ptr)) != NULL)
+	if (dir_ptr == NULL)
+		return (NULL);
+	while ((dirent_ptr = readdir(dir_ptr)) != NULL)
 	{
 		if ((dirent_ptr->d_type == DT_LNK || dirent_ptr->d_type == DT_REG) &&
 				ft_strcmp(cmd_name, dirent_ptr->d_name) == 0)
