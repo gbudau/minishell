@@ -86,9 +86,6 @@ _DEPS = minishell.h \
 		clear.h \
 		errors.h
 
-# TODO: Remove this header when submitting the project
-_DEPS += debugprinting.h
-
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
 .PHONY: all
