@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/16 23:09:02 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/05 20:03:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 #include "../include/lexer.h"
 #include "../include/wordexp.h"
 #include "../include/command.h"
-
-/*
-** Remove this include when submitting the project
-*/
-
-#include "../include/debugprinting.h"
 
 t_command	*create_new_command(void)
 {
@@ -74,20 +68,12 @@ void		create_commands(t_list *tokens, t_list **commands, int *last_status)
 	ft_lstrev(commands);
 }
 
-/*
-** TODO: Remove printing of tokens and commands before submitting
-*/
-
 void		parse(t_shell *shell, char *input)
 {
 	t_list	*tokens;
 
 	tokens = tokenize(input, &shell->last_status);
 	word_expansion(&tokens, shell->environ, &shell->last_status);
-	if (FALSE)
-		print_tokens(tokens);
 	create_commands(tokens, &shell->commands, &shell->last_status);
-	if (FALSE)
-		print_commands(shell->commands);
 	ft_lstclear(&tokens, clear_token);
 }

@@ -70,9 +70,6 @@ _OBJ += clear.o
 # Error functions
 _OBJ += error_utils.o
 
-# TODO: Remove this object when submitting the project
-_OBJ += debug_printing.o
-
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
 _DEPS = minishell.h \
