@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:46:39 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/05 09:20:11 by fportela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,26 @@ void		search_path_and_execute(char **argv, t_list *environ)
 {
 	char	**env_array;
 	char	*filename;
+	int		error_execve;
 
+	error_execve = 0;
 	env_array = create_env_array(environ);
 	if (env_array == NULL)
 		error_exit();
 	if (argv[0][0] == '.' || argv[0][0] == '/')
 	{
 		restore_signals_handlers();
-		execve(argv[0], argv, env_array);
+		if (execve(argv[0], argv, env_array) == -1)
+			error_execve = -1;
 	}
 	else
 	{
 		filename = search_and_build_path(get_env(environ, "PATH"), argv[0]);
 		restore_signals_handlers();
-		if (filename)
-			execve(filename, argv, env_array);
+		if (filename && execve(filename, argv, env_array) == -1)
+			error_execve = -1;
 	}
-	exit(execve_error(argv[0]));
+	exit(execve_error(argv[0], error_execve));
 }
 
 void		do_cmd(t_command *cmd, t_list **environ, int *last_status)
