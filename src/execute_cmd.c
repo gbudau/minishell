@@ -123,6 +123,7 @@ void		execute_cmds(t_shell *shell)
 {
 	t_list		*trav;
 	t_command	*cmd;
+	char		**env;
 
 	trav = shell->commands;
 	while (trav != NULL)
@@ -130,9 +131,16 @@ void		execute_cmds(t_shell *shell)
 		errno = 0;
 		cmd = trav->content;
 		if (cmd->ispipe)
+		{
 			do_pipeline(&trav, shell->environ, &shell->last_status);
+			unset_env(&shell->environ, "_");
+		}
 		else
 		{
+			env = create_env("_", cmd->argv[cmd->argc - 1]);
+			if (env == NULL)
+				error_exit();
+			set_env(&shell->environ, env);
 			do_cmd(cmd, &shell->environ, &shell->last_status);
 			trav = trav->next;
 		}

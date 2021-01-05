@@ -20,7 +20,9 @@ _OBJ += signal_handlers.o \
 
 # Environment variables
 _OBJ += env.o \
-		env_utils.o
+		env_utils.o \
+		env_utils2.o
+
 
 # Parser
 _OBJ += parser.o \

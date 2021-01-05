@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/03 13:45:01 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/05 19:08:13 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,6 @@ static int	print_cd_error(char *str, int *last_status)
 	ft_perror(str);
 	*last_status = 1;
 	return (*last_status);
-}
-
-static char	**create_env(char *env_name, char *env_value)
-{
-	char	**env;
-
-	env = ft_calloc(3, sizeof(*env));
-	if (env == NULL)
-		return (NULL);
-	env_name = ft_strdup(env_name);
-	if (env_name == NULL)
-		return (NULL);
-	env[ENV_NAME] = env_name;
-	env_value = ft_strdup(env_value);
-	if (env_value == NULL)
-		return (NULL);
-	env[ENV_VALUE] = env_value;
-	return (env);
 }
 
 static void	set_oldpwd_and_pwd(t_list **environ)
