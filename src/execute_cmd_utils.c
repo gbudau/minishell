@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 21:52:08 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:12:17 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/05 19:21:37 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			get_last_status(int status)
 	return (0);
 }
 
-static char	*create_env(void *content)
+static char	*create_env_content(void *content)
 {
 	char	**str_array;
 	char	*env;
@@ -55,7 +55,7 @@ char		**create_env_array(t_list *environ)
 	i = 0;
 	while (environ != NULL)
 	{
-		env = create_env(environ->content);
+		env = create_env_content(environ->content);
 		if (env)
 		{
 			env_array[i] = env;
