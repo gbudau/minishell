@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:16:30 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:18:41 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 00:25:04 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,16 @@ void		add_argument(t_list **tokens, t_command *cmd)
 
 int			add_pipe(t_list **tokens, t_command *cmd)
 {
-	t_token	*token;
+	t_token *token;
 
 	*tokens = (*tokens)->next;
-	if (cmd->argc == 0 || *tokens == NULL)
+	if (*tokens == NULL)
 		return (1);
 	token = (*tokens)->content;
-	if (token->type != TOKEN_WORD)
+	if (token->type == TOKEN_PIPE)
 		return (1);
-	cmd->ispipe = 1;
+	if (cmd->argv)
+		cmd->ispipe = 1;
 	return (0);
 }
 
@@ -115,5 +116,5 @@ int			add_command(t_list **tokens, t_command *cmd)
 		else if (token->type == TOKEN_DGREAT)
 			error = add_output_redirection(tokens, cmd, REDIRECTION_APPEND);
 	}
-	return (error == TRUE || cmd->argc == 0 ? -1 : 0);
+	return (error ? -1 : 0);
 }

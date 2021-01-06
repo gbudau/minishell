@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/05 09:20:11 by fportela         ###   ########.fr       */
+/*   Updated: 2021/01/06 22:51:44 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,24 +123,22 @@ void		execute_cmds(t_shell *shell)
 {
 	t_list		*trav;
 	t_command	*cmd;
-	char		**env;
 
 	trav = shell->commands;
 	while (trav != NULL)
 	{
 		errno = 0;
 		cmd = trav->content;
+		unset_env(&shell->environ, "_");
 		if (cmd->ispipe)
-		{
 			do_pipeline(&trav, shell->environ, &shell->last_status);
-			unset_env(&shell->environ, "_");
-		}
 		else
 		{
-			env = create_env("_", cmd->argv[cmd->argc - 1]);
-			if (env == NULL)
-				error_exit();
-			set_env(&shell->environ, env);
+			if (cmd->argv)
+			{
+				create_and_set_env(&shell->environ,
+						"_", cmd->argv[cmd->argc - 1]);
+			}
 			do_cmd(cmd, &shell->environ, &shell->last_status);
 			trav = trav->next;
 		}
