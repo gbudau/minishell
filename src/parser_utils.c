@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:16:30 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 12:12:49 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 12:39:40 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int			add_input_redirection(t_list **tokens, t_command *cmd)
 	*tokens = (*tokens)->next;
 	if (*tokens == NULL || cmd->input != NULL)
 		return (1);
+	if (cmd->output == NULL)
+		cmd->redirection_order = REDIRECT_INPUT_FIRST;
 	token = (*tokens)->content;
 	if (token->type != TOKEN_WORD)
 		return (1);
@@ -80,6 +82,8 @@ int			add_output_redirection(t_list **tokens, t_command *cmd,
 	*tokens = (*tokens)->next;
 	if (*tokens == NULL || cmd->output != NULL)
 		return (1);
+	if (cmd->input == NULL)
+		cmd->redirection_order = REDIRECT_OUTPUT_FIRST;
 	token = (*tokens)->content;
 	if (token->type != TOKEN_WORD)
 		return (1);
