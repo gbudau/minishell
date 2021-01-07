@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 21:30:34 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 12:37:53 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 13:01:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 enum	e_redirection_type
 {
 	REDIRECTION_NONE,
-	REDIRECTION_OUTPUT,
 	REDIRECTION_INPUT,
+	REDIRECTION_OUTPUT,
 	REDIRECTION_APPEND
 };
 
