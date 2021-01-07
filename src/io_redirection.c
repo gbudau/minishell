@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:59:01 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 12:43:29 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 12:51:18 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	set_input_redirection(t_command *cmd)
 	return (0);
 }
 
-static int set_output_redirection(t_command *cmd)
+static int	set_output_redirection(t_command *cmd)
 {
 	int	out_fd;
 
