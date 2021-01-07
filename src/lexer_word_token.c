@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:45 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 00:18:26 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 13:59:18 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	advance_quote(t_scanner *scanner)
 	while (!is_at_end(scanner) && peek(scanner) != CHAR_QUOTE)
 		advance(scanner);
 	if (is_at_end(scanner))
-		scanner->error = TRUE;
+		scanner->error = ERR_INCOMPLETE_QUOTE;
 	else
 		advance(scanner);
 }
@@ -39,7 +39,7 @@ static void	advance_backslash(t_scanner *scanner)
 	if (!is_at_end(scanner))
 		advance(scanner);
 	else
-		scanner->error = TRUE;
+		scanner->error = ERR_INCOMPLETE_BACKSLASH;
 }
 
 /*
@@ -65,7 +65,7 @@ static void	advance_double_quote(t_scanner *scanner)
 		c = peek(scanner);
 	}
 	if (is_at_end(scanner))
-		scanner->error = TRUE;
+		scanner->error = ERR_INCOMPLETE_DQUOTE;
 	else
 		advance(scanner);
 }

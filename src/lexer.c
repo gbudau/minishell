@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:29:26 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/16 19:04:32 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 13:57:57 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 /*
 ** Make a token tokentype with the string between start and current pointers
 ** And adds the token to the tokens list
-** In case of error sets scanner->error to TRUE
 */
 
 static void	make_token(t_tokentype type, t_scanner *scanner)
@@ -108,9 +107,7 @@ t_list		*tokenize(char *line, int *last_status)
 	}
 	if (scanner.error)
 	{
-		if (errno != 0)
-			error_exit();
-		ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
+		error_missing_closing_quote(scanner.error);
 		ft_lstclear(&scanner.tokens, clear_token);
 		*last_status = 2;
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:01:02 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/16 19:15:16 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 13:58:54 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ typedef enum	e_scan_state
 	STATE_BACKSLASH
 }				t_scan_state;
 
+enum	e_lexer_errors
+{
+	NO_LEXER_ERR,
+	ERR_INCOMPLETE_QUOTE,
+	ERR_INCOMPLETE_DQUOTE,
+	ERR_INCOMPLETE_BACKSLASH
+};
+
 /*
 ** Struct containing the type of the token (OPERATORS or WORD)
 ** And the token itself
@@ -69,7 +77,7 @@ typedef	struct	s_token
 ** *start = start of the token
 ** *current = current character that is being analyzed
 ** state = current state of the WORD token
-** error = malloc or syntax errors while lexing
+** error = syntax errors while lexing (e_lexer_errors)
 */
 
 typedef struct	s_scanner
