@@ -6,13 +6,13 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 19:07:44 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/05 19:08:24 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/06 22:34:01 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	**create_env(char *env_name, char *env_value)
+static char	**create_env(char *env_name, char *env_value)
 {
 	char	**env;
 
@@ -28,4 +28,14 @@ char	**create_env(char *env_name, char *env_value)
 		return (NULL);
 	env[ENV_VALUE] = env_value;
 	return (env);
+}
+
+void		create_and_set_env(t_list **environ, char *name, char *value)
+{
+	char	**env;
+
+	env = create_env(name, value);
+	if (env == NULL)
+		error_exit();
+	set_env(environ, env);
 }
