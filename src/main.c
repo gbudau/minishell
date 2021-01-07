@@ -6,11 +6,16 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 00:53:11 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/05 19:51:40 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static void	prompt(void)
+{
+	ft_putstr_fd(PROMPT, STDERR_FILENO);
+}
 
 static void	init_shell(t_shell *shell)
 {
@@ -35,7 +40,7 @@ int			main(void)
 	gnl = 1;
 	while (gnl > 0)
 	{
-		ft_putstr_fd(PROMPT, STDERR_FILENO);
+		prompt();
 		setup_signals_handlers();
 		gnl = get_next_line(STDIN_FILENO, &input);
 		if (gnl < 0)
