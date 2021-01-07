@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:01:34 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 00:55:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # include "signalhandlers.h"
 # include "clear.h"
 # include "errors.h"
-# define PROMPT "minishell> "
+# define PROMPT "\x1b[1;36mminishell> \x1b[0m"
 
 enum	e_bool
 {
