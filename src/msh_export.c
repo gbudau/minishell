@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/30 18:36:02 by fportela         ###   ########.fr       */
+/*   Updated: 2021/01/08 17:50:58 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	print_exported_env(void *content)
 	char	**env;
 
 	env = content;
+	if (ft_strcmp(env[ENV_NAME], "_") == 0)
+		return ;
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	ft_putstr_fd(env[ENV_NAME], STDOUT_FILENO);
 	if (env[ENV_VALUE] != NULL)
