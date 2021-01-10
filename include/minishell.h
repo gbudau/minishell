@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:01:34 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 12:33:35 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,6 @@ enum	e_bool
 {
 	FALSE,
 	TRUE
-};
-
-enum	e_redirection_type
-{
-	REDIRECTION_NONE,
-	REDIRECTION_OUTPUT,
-	REDIRECTION_INPUT,
-	REDIRECTION_APPEND
 };
 
 /*

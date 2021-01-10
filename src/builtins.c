@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:34:40 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/28 19:00:43 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/06 22:53:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int		is_builtin(t_command *cmd)
 	int					i;
 
 	i = 0;
+	if (cmd->argv == NULL)
+		return (-2);
 	while (builtins[i])
 	{
 		if (ft_strcmp(cmd->argv[0], builtins[i]) == 0)
@@ -57,13 +59,10 @@ void	do_builtin(t_command *cmd, t_list **environ, int idx, int *last_status)
 	{msh_echo, msh_exit, msh_pwd, msh_env, msh_unset, msh_export, msh_cd, NULL};
 	int			stdin_fd_copy;
 	int			stdout_fd_copy;
-	int			error;
 
 	save_stdin_and_stdout(&stdin_fd_copy, &stdout_fd_copy);
-	error = set_redirections(cmd);
-	if (error == FALSE)
+	*last_status = set_redirections(cmd);
+	if (*last_status == 0 && idx != -2)
 		fptr[idx](cmd, environ, last_status);
-	else
-		*last_status = error;
 	restore_and_close_stdin_and_stdout(stdin_fd_copy, stdout_fd_copy);
 }

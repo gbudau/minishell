@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/05 19:08:13 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/06 22:38:15 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,15 @@ static void	set_oldpwd_and_pwd(t_list **environ)
 {
 	char	*old_pwd;
 	char	current_pwd[PATH_MAX + 1];
-	char	**env_ptr;
 
 	old_pwd = get_env(*environ, "PWD");
 	if (old_pwd == NULL)
 		error_exit();
-	env_ptr = create_env("OLDPWD", old_pwd);
+	create_and_set_env(environ, "OLDPWD", old_pwd);
 	free(old_pwd);
-	if (env_ptr == NULL)
-		error_exit();
-	set_env(environ, env_ptr);
 	if (getcwd(current_pwd, PATH_MAX) == NULL)
 		error_exit();
-	env_ptr = create_env("PWD", current_pwd);
-	if (env_ptr == NULL)
-		error_exit();
-	set_env(environ, env_ptr);
+	create_and_set_env(environ, "PWD", current_pwd);
 }
 
 int			msh_cd(t_command *cmd, t_list **environ, int *last_status)

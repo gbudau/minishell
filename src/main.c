@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/05 19:51:40 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/06 22:34:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,9 @@ static void	prompt(void)
 
 static void	init_shell(t_shell *shell)
 {
-	char	**env;
-
 	ft_bzero(shell, sizeof(*shell));
 	init_env(&shell->environ);
-	env = create_env("_", "PATH");
-	if (env == NULL)
-		error_exit();
-	set_env(&shell->environ, env);
+	create_and_set_env(&shell->environ, "_", "PATH");
 }
 
 int			main(void)
