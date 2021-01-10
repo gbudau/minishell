@@ -32,7 +32,7 @@
 # include "signalhandlers.h"
 # include "clear.h"
 # include "errors.h"
-# define PROMPT "minishell> "
+# define PROMPT "\x1b[1;36mminishell> \x1b[0m"
 
 enum	e_bool
 {
