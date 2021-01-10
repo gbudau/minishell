@@ -28,7 +28,7 @@
 
 - [x] Parse (analyze and substitute) the tokens into commands
 
-- [ ] Command Execution
+- [x] Command Execution
   
   - [x] Redirection of IO
   
@@ -50,7 +50,7 @@
     
     - [x] exit
   
-  - [ ] Execute nonbuilt-in commands
+  - [x] Execute nonbuilt-in commands
   
   - [x] Exit status
   
