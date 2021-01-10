@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 18:00:39 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/06 18:28:05 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ static void	init_pipeline(t_pipeline *p)
 {
 	ft_bzero(p, sizeof(*p));
 	p->havepipe = 1;
-	p->lastpipe[0] = -1;
-	p->lastpipe[1] = -1;
+	p->lastpipe[STDIN_FILENO] = -1;
+	p->lastpipe[STDOUT_FILENO] = -1;
 }
 
 void		close_pipe_fds(int *pipefds)
 {
-	if (pipefds[0] != -1)
-		close(pipefds[0]);
-	if (pipefds[1] != -1)
-		close(pipefds[1]);
+	if (pipefds[STDIN_FILENO] != -1)
+		close(pipefds[STDIN_FILENO]);
+	if (pipefds[STDOUT_FILENO] != -1)
+		close(pipefds[STDOUT_FILENO]);
 }
 
 void		execute_in_child_process(t_pipeline *p, t_list *environ,
@@ -41,12 +41,12 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ,
 
 	if (p->havepipe)
 	{
-		dup2(p->lastpipe[0], STDIN_FILENO);
+		dup2(p->lastpipe[STDIN_FILENO], STDIN_FILENO);
 		close_pipe_fds(p->lastpipe);
 	}
 	if (p->cmd->ispipe)
 	{
-		dup2(p->curpipe[1], STDOUT_FILENO);
+		dup2(p->curpipe[STDOUT_FILENO], STDOUT_FILENO);
 		close_pipe_fds(p->curpipe);
 	}
 	error = set_redirections(p->cmd);
@@ -63,8 +63,8 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ,
 
 void		set_lastpipe_to_curpipe(int *lastpipe, int *curpipe)
 {
-	lastpipe[0] = curpipe[0];
-	lastpipe[1] = curpipe[1];
+	lastpipe[STDIN_FILENO] = curpipe[STDIN_FILENO];
+	lastpipe[STDOUT_FILENO] = curpipe[STDOUT_FILENO];
 }
 
 void		do_pipeline(t_list **commands, t_list *environ, int *last_status)
