@@ -6,27 +6,21 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:59:01 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 17:13:35 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 12:51:18 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ioredirection.h"
 
-int			print_error_io(char *str)
+static int	print_error_io(char *str)
 {
-	char	*joined;
-
-	joined = ft_strjoin("minishell: ", str);
-	if (joined == NULL)
-		error_exit();
-	ft_perror(joined);
-	free(joined);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_perror(str);
 	return (1);
 }
 
-int			set_redirections(t_command *cmd)
+static int	set_input_redirection(t_command *cmd)
 {
-	int	out_fd;
 	int	in_fd;
 
 	if (cmd->input)
@@ -37,6 +31,13 @@ int			set_redirections(t_command *cmd)
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
+	return (0);
+}
+
+static int	set_output_redirection(t_command *cmd)
+{
+	int	out_fd;
+
 	if (cmd->output)
 	{
 		if (cmd->redirect_type == REDIRECTION_APPEND)
@@ -49,6 +50,31 @@ int			set_redirections(t_command *cmd)
 			return (print_error_io(cmd->output));
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);
+	}
+	return (0);
+}
+
+int			set_redirections(t_command *cmd)
+{
+	int	error;
+
+	if (cmd->redirection_order == REDIRECT_INPUT_FIRST)
+	{
+		error = set_input_redirection(cmd);
+		if (error)
+			return (1);
+		error = set_output_redirection(cmd);
+		if (error)
+			return (1);
+	}
+	else
+	{
+		error = set_output_redirection(cmd);
+		if (error)
+			return (1);
+		error = set_input_redirection(cmd);
+		if (error)
+			return (1);
 	}
 	return (0);
 }

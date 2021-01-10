@@ -6,13 +6,27 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 21:30:34 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/04 21:09:39 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/07 13:01:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_H
 # define COMMAND_H
 # include "minishell.h"
+
+enum	e_redirection_type
+{
+	REDIRECTION_NONE,
+	REDIRECTION_INPUT,
+	REDIRECTION_OUTPUT,
+	REDIRECTION_APPEND
+};
+
+enum	e_redirection_order
+{
+	REDIRECT_INPUT_FIRST,
+	REDIRECT_OUTPUT_FIRST
+};
 
 /*
 ** Command
@@ -24,6 +38,7 @@
 ** input = input redirection file
 ** output = output redirection file
 ** redirect_type = type of output redirection (normal or append)
+** redirection_order = which redirection is first(from left to right)
 ** pid = pid running this command
 */
 
@@ -37,6 +52,7 @@ typedef struct	s_command
 	int		ispipe;
 	int		status;
 	int		redirect_type;
+	int		redirection_order;
 	pid_t	pid;
 }				t_command;
 

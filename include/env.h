@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:54:37 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/05 19:08:37 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/06 22:36:10 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void	add_env_front(t_list **environ, char **env);
 int		is_env_format(char c, int flag);
 int		verify_env(const char *str);
 char	**split_env(const char *str, int idx);
-char	**create_env(char *env_name, char *env_value);
+void	create_and_set_env(t_list **environ, char *name, char *value);
 
 #endif
