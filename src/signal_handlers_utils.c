@@ -6,12 +6,12 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/20 20:07:19 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/02 20:40:47 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:28:12 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "signalhandlers.h"
+#include "../include/minishell.h"
+#include "../include/signalhandlers.h"
 
 /*
 ** Join the line with the input until it finds a newline in it

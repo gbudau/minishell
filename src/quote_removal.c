@@ -6,65 +6,65 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:36:05 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/29 19:37:52 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:27:09 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/lexer.h"
 
-void	copy_inside_squotes(char *words, size_t *i, size_t *j)
+static void	copy_inside_squotes(char *words, size_t *src_idx, size_t *dst_idx)
 {
-	(*i)++;
-	while (words[*i] && words[*i] != '\'')
-		words[(*j)++] = words[(*i)++];
-	if (words[*i])
-		(*i)++;
+	(*src_idx)++;
+	while (words[*src_idx] && words[*src_idx] != '\'')
+		words[(*dst_idx)++] = words[(*src_idx)++];
+	if (words[*src_idx])
+		(*src_idx)++;
 }
 
-void	copy_backslash(char *words, size_t *i, size_t *j)
+static void	copy_backslash(char *words, size_t *src_idx, size_t *dst_idx)
 {
-	(*i)++;
-	words[(*j)++] = words[(*i)++];
+	(*src_idx)++;
+	words[(*dst_idx)++] = words[(*src_idx)++];
 }
 
-void	copy_inside_dquotes(char *words, size_t *i, size_t *j)
+static void	copy_inside_dquotes(char *words, size_t *src_idx, size_t *dst_idx)
 {
-	(*i)++;
-	while (words[*i] && words[*i] != '"')
+	(*src_idx)++;
+	while (words[*src_idx] && words[*src_idx] != '"')
 	{
-		if (words[*i] == '\\' &&
-				(words[*i + 1] == '"' || words[*i + 1] == '\\'))
-			copy_backslash(words, i, j);
+		if (words[*src_idx] == '\\' &&
+				(words[*src_idx + 1] == '"' || words[*src_idx + 1] == '\\'))
+			copy_backslash(words, src_idx, dst_idx);
 		else
-			words[(*j)++] = words[(*i)++];
+			words[(*dst_idx)++] = words[(*src_idx)++];
 	}
-	if (words[*i])
-		(*i)++;
+	if (words[*src_idx])
+		(*src_idx)++;
 }
 
-void	copy_without_quotes(char *words)
+static void	copy_without_quotes(char *words)
 {
-	size_t	i;
-	size_t	j;
+	size_t	src_idx;
+	size_t	dst_idx;
 
-	i = 0;
-	j = 0;
-	while (words[i])
+	src_idx = 0;
+	dst_idx = 0;
+	while (words[src_idx])
 	{
-		if (words[i] == '\'')
-			copy_inside_squotes(words, &i, &j);
-		else if (words[i] == '"')
-			copy_inside_dquotes(words, &i, &j);
-		else if (words[i] == '\\')
-			copy_backslash(words, &i, &j);
+		if (words[src_idx] == '\'')
+			copy_inside_squotes(words, &src_idx, &dst_idx);
+		else if (words[src_idx] == '"')
+			copy_inside_dquotes(words, &src_idx, &dst_idx);
+		else if (words[src_idx] == '\\')
+			copy_backslash(words, &src_idx, &dst_idx);
 		else
-			words[j++] = words[i++];
+			words[dst_idx++] = words[src_idx++];
 	}
-	words[j] = '\0';
+	words[dst_idx] = '\0';
 }
 
-void	remove_quotes(t_list *word_list, char *words, size_t expanded)
+void		remove_quotes(t_list *word_list, char *words, size_t expanded)
 {
 	if (!expanded)
 		copy_without_quotes(words);

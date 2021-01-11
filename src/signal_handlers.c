@@ -6,14 +6,14 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 21:46:57 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 00:53:00 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:28:39 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "signalhandlers.h"
+#include "../include/minishell.h"
+#include "../include/signalhandlers.h"
 
-void		signal_handle(int signum)
+static void	signal_handle(int signum)
 {
 	if (signum == SIGQUIT)
 		ft_putstr_fd("\b\b  \b\b", STDERR_FILENO);

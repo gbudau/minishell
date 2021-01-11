@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/06 18:28:05 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:20:04 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	init_pipeline(t_pipeline *p)
 	p->lastpipe[STDOUT_FILENO] = -1;
 }
 
-void		close_pipe_fds(int *pipefds)
+static void	close_pipe_fds(int *pipefds)
 {
 	if (pipefds[STDIN_FILENO] != -1)
 		close(pipefds[STDIN_FILENO]);
@@ -33,7 +33,7 @@ void		close_pipe_fds(int *pipefds)
 		close(pipefds[STDOUT_FILENO]);
 }
 
-void		execute_in_child_process(t_pipeline *p, t_list *environ,
+static void	execute_in_child_process(t_pipeline *p, t_list *environ,
 		int *last_status)
 {
 	int	error;
@@ -61,7 +61,7 @@ void		execute_in_child_process(t_pipeline *p, t_list *environ,
 	search_path_and_execute(p->cmd->argv, environ);
 }
 
-void		set_lastpipe_to_curpipe(int *lastpipe, int *curpipe)
+static void	set_lastpipe_to_curpipe(int *lastpipe, int *curpipe)
 {
 	lastpipe[STDIN_FILENO] = curpipe[STDIN_FILENO];
 	lastpipe[STDOUT_FILENO] = curpipe[STDOUT_FILENO];

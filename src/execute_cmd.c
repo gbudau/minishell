@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/06 22:51:44 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:14:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void		search_path_and_execute(char **argv, t_list *environ)
 	exit(execve_error(argv[0], error_execve));
 }
 
-void		do_cmd(t_command *cmd, t_list **environ, int *last_status)
+static void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 {
 	int		pid;
 	int		status;

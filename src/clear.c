@@ -6,12 +6,12 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 19:28:58 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/06 19:34:05 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:11:44 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "clear.h"
+#include "../include/minishell.h"
+#include "../include/clear.h"
 
 void	clear_env(void *content)
 {

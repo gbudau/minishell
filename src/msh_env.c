@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 19:44:53 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/27 19:44:54 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:18:08 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ int	msh_env(t_command *cmd, t_list **environ, int *last_status)
 	{
 		ft_putstr_fd("env: too many arguments\n", STDERR_FILENO);
 		*last_status = 1;
-		return (1);
 	}
 	else
 	{
 		print_env(*environ);
 		*last_status = 0;
 	}
-	return (0);
+	return (*last_status);
 }
