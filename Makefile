@@ -1,4 +1,5 @@
 NAME = minishell
+LIBFT = libft.a
 
 CC = gcc
 DEBUGGER = lldb
@@ -10,6 +11,9 @@ INC_DIR = include
 SRC_DIR = src
 LIB_DIR = libft
 OBJ_DIR = obj
+
+LIBS = $(LIB_DIR)/$(LIBFT)
+
 UNAME = $(shell uname -s)
 
 _OBJ = main.o
@@ -89,7 +93,7 @@ _DEPS = minishell.h \
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
 .PHONY: all
-all: $(NAME)
+all: make_library $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
 	$(CC) $(CFLAGS) -I$(INC_DIR) -c -o $@ $<
@@ -103,7 +107,7 @@ $(OBJ_DIR):
 make_library:
 	make -C $(LIB_DIR)
 
-$(NAME): make_library $(OBJ)
+$(NAME): $(LIBS) $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 
 .PHONY: fsanitize
