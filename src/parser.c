@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/05 20:03:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/10 23:58:29 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,39 @@
 #include "../include/wordexp.h"
 #include "../include/command.h"
 
-t_command	*create_new_command(void)
+int					skip_semicolon_token(t_list **tokens, t_command *cmd)
+{
+	t_token *t;
+
+	if (*tokens != NULL)
+	{
+		t = (*tokens)->content;
+		if (t->type == TOKEN_SEMICOLON)
+		{
+			if (cmd->argv == NULL && cmd->output == NULL && cmd->input == NULL)
+				return (ERR_UNEXPECTED_TOKEN_SEMICOLON);
+			*tokens = (*tokens)->next;
+		}
+	}
+	return (NO_PARSER_ERROR);
+}
+
+int					parse_error_token_type(int token_type)
+{
+	if (token_type == TOKEN_SEMICOLON)
+		return (ERR_UNEXPECTED_TOKEN_SEMICOLON);
+	else if (token_type == TOKEN_PIPE)
+		return (ERR_UNEXPECTED_TOKEN_PIPE);
+	else if (token_type == TOKEN_LESS)
+		return (ERR_UNEXPECTED_TOKEN_LESS);
+	else if (token_type == TOKEN_GREAT)
+		return (ERR_UNEXPECTED_TOKEN_GREAT);
+	else if (token_type == TOKEN_DGREAT)
+		return (ERR_UNEXPECTED_TOKEN_DGREAT);
+	return (NO_PARSER_ERROR);
+}
+
+static t_command	*create_new_command(void)
 {
 	t_command *cmd;
 
@@ -27,29 +59,15 @@ t_command	*create_new_command(void)
 	return (cmd);
 }
 
-void		skip_semicolon_tokens(t_list **tokens)
-{
-	t_token *t;
-
-	while (*tokens != NULL)
-	{
-		t = (*tokens)->content;
-		if (t->type != TOKEN_SEMICOLON)
-			break ;
-		*tokens = (*tokens)->next;
-	}
-}
-
-void		create_commands(t_list *tokens, t_list **commands, int *last_status)
+static void			create_commands(t_list *tokens, t_list **commands,
+													int *last_status)
 {
 	t_command	*cmd;
 	t_list		*node;
+	int			error;
 
 	while (tokens != NULL)
 	{
-		skip_semicolon_tokens(&tokens);
-		if (tokens == NULL)
-			break ;
 		cmd = create_new_command();
 		if (cmd == NULL)
 			error_exit();
@@ -57,9 +75,10 @@ void		create_commands(t_list *tokens, t_list **commands, int *last_status)
 		if (node == NULL)
 			error_exit();
 		ft_lstadd_front(commands, node);
-		if (add_command(&tokens, (*commands)->content) == -1)
+		error = add_command(&tokens, (*commands)->content);
+		if (error)
 		{
-			ft_putstr_fd("minishell: syntax error\n", STDERR_FILENO);
+			error_unexpected_token(error);
 			ft_lstclear(commands, clear_command);
 			*last_status = 2;
 			return ;
@@ -68,7 +87,7 @@ void		create_commands(t_list *tokens, t_list **commands, int *last_status)
 	ft_lstrev(commands);
 }
 
-void		parse(t_shell *shell, char *input)
+void				parse(t_shell *shell, char *input)
 {
 	t_list	*tokens;
 
