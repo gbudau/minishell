@@ -6,12 +6,12 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 21:52:08 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/05 19:21:37 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:15:55 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "command.h"
+#include "../include/minishell.h"
+#include "../include/command.h"
 
 int			get_last_status(int status)
 {

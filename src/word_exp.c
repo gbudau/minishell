@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:35:25 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/16 19:25:31 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 17:00:16 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,16 @@
 #include "../include/wordexp.h"
 #include "../include/env.h"
 
-char	*env_value(char **words, size_t *i, t_list *environ)
+static void		skip_single_quote(char **words, size_t *i)
 {
-	size_t	len;
-	char	*env_name;
-	char	*tmp;
-
 	(*i)++;
-	len = *i;
-	while (is_env_format((*words)[len], 1))
-		len++;
-	if ((env_name = ft_strndup(*words + *i, len - *i)) == NULL)
-		error_exit();
-	tmp = env_name;
-	env_name = get_env(environ, env_name);
-	free(tmp);
-	if (env_name == NULL)
-	{
-		env_name = ft_strdup("");
-		if (env_name == NULL)
-			error_exit();
-	}
-	*i += (len - *i);
-	return (env_name);
+	while ((*words)[*i] && (*words)[*i] != '\'')
+		(*i)++;
+	if ((*words)[*i])
+		(*i)++;
 }
 
-size_t	substitute_env(char **words, size_t *i,
+static size_t	substitute_env(char **words, size_t *i,
 						t_list *environ, int *last_status)
 {
 	char	*beginning;
@@ -67,7 +51,7 @@ size_t	substitute_env(char **words, size_t *i,
 	return (1);
 }
 
-size_t	parse_double_quotes(char **words, size_t *i,
+static size_t	parse_double_quotes(char **words, size_t *i,
 							t_list *environ, int *last_status)
 {
 	size_t	expanded;
@@ -86,7 +70,7 @@ size_t	parse_double_quotes(char **words, size_t *i,
 	return (expanded);
 }
 
-int		variable_expansion(char **words, t_list **word_list,
+static int		variable_expansion(char **words, t_list **word_list,
 							t_list *environ, int *last_status)
 {
 	size_t	expanded;
@@ -113,7 +97,8 @@ int		variable_expansion(char **words, t_list **word_list,
 	return (expanded);
 }
 
-void	word_expansion(t_list **tokens, t_list *environ, int *last_status)
+void			word_expansion(t_list **tokens, t_list *environ,
+												int *last_status)
 {
 	t_list	*trav;
 	t_list	*sublist;

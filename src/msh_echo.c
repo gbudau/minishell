@@ -6,11 +6,11 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:40:39 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/27 16:00:00 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 16:17:27 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
 /*
 ** Check if the string is "-n" flag
