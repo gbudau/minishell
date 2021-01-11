@@ -107,6 +107,9 @@ $(OBJ_DIR):
 make_library:
 	make -C $(LIB_DIR)
 
+$(LIB_DIR)/$(LIBFT):
+	make -C $(LIB_DIR)
+
 $(NAME): $(LIBS) $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIB_DIR) $(LDFLAGS)
 
