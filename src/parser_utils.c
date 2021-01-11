@@ -6,16 +6,17 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:16:30 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 12:39:40 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 01:37:27 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/parser.h"
 #include "../include/lexer.h"
 #include "../include/wordexp.h"
 #include "../include/command.h"
 
-void		add_argument(t_list **tokens, t_command *cmd)
+static void	add_argument(t_list **tokens, t_command *cmd)
 {
 	t_token	*token;
 	char	**tmp_argv;
@@ -40,59 +41,72 @@ void		add_argument(t_list **tokens, t_command *cmd)
 	*tokens = (*tokens)->next;
 }
 
-int			add_pipe(t_list **tokens, t_command *cmd)
+static int	add_pipe(t_list **tokens, t_command *cmd)
+{
+	t_token	*token;
+
+	*tokens = (*tokens)->next;
+	if (cmd->argv == NULL && cmd->input == NULL && cmd->output == NULL)
+		return (ERR_UNEXPECTED_TOKEN_PIPE);
+	if (*tokens == NULL)
+		return (ERR_UNEXPECTED_NEWLINE);
+	token = (*tokens)->content;
+	if (token->type == TOKEN_PIPE)
+		return (ERR_UNEXPECTED_TOKEN_PIPE);
+	if (token->type == TOKEN_SEMICOLON)
+		return (ERR_UNEXPECTED_TOKEN_SEMICOLON);
+	if (cmd->argv != NULL)
+		cmd->ispipe = 1;
+	return (NO_PARSER_ERROR);
+}
+
+static int	add_input_redirection(t_list **tokens, t_command *cmd)
 {
 	t_token	*token;
 
 	*tokens = (*tokens)->next;
 	if (*tokens == NULL)
-		return (1);
-	token = (*tokens)->content;
-	if (token->type == TOKEN_PIPE || token->type == TOKEN_SEMICOLON)
-		return (1);
-	if (cmd->argv != NULL)
-		cmd->ispipe = 1;
-	return (0);
-}
-
-int			add_input_redirection(t_list **tokens, t_command *cmd)
-{
-	t_token	*token;
-
-	*tokens = (*tokens)->next;
-	if (*tokens == NULL || cmd->input != NULL)
-		return (1);
+		return (ERR_UNEXPECTED_NEWLINE);
+	if (cmd->input != NULL)
+		return (ERR_UNEXPECTED_TOKEN_LESS);
 	if (cmd->output == NULL)
 		cmd->redirection_order = REDIRECT_INPUT_FIRST;
 	token = (*tokens)->content;
 	if (token->type != TOKEN_WORD)
-		return (1);
+		return (parse_error_token_type(token->type));
 	cmd->input = ft_strdup(token->str);
 	if (cmd->input == NULL)
 		error_exit();
 	*tokens = (*tokens)->next;
-	return (0);
+	return (NO_PARSER_ERROR);
 }
 
-int			add_output_redirection(t_list **tokens, t_command *cmd,
+static int	add_output_redirection(t_list **tokens, t_command *cmd,
 		int redirect_type)
 {
 	t_token *token;
 
 	*tokens = (*tokens)->next;
-	if (*tokens == NULL || cmd->output != NULL)
-		return (1);
+	if (*tokens == NULL)
+		return (ERR_UNEXPECTED_NEWLINE);
+	if (cmd->output != NULL)
+	{
+		if (redirect_type == REDIRECTION_OUTPUT)
+			return (ERR_UNEXPECTED_TOKEN_GREAT);
+		else if (redirect_type == REDIRECTION_APPEND)
+			return (ERR_UNEXPECTED_TOKEN_DGREAT);
+	}
 	if (cmd->input == NULL)
 		cmd->redirection_order = REDIRECT_OUTPUT_FIRST;
 	token = (*tokens)->content;
 	if (token->type != TOKEN_WORD)
-		return (1);
+		return (parse_error_token_type(token->type));
 	cmd->output = ft_strdup(token->str);
 	if (cmd->output == NULL)
 		error_exit();
 	cmd->redirect_type = redirect_type;
 	*tokens = (*tokens)->next;
-	return (0);
+	return (NO_PARSER_ERROR);
 }
 
 int			add_command(t_list **tokens, t_command *cmd)
@@ -100,17 +114,14 @@ int			add_command(t_list **tokens, t_command *cmd)
 	t_token	*token;
 	int		error;
 
-	error = FALSE;
-	while (*tokens != NULL && error == FALSE)
+	error = NO_PARSER_ERROR;
+	while (*tokens != NULL && !error)
 	{
 		token = (*tokens)->content;
 		if (token->type == TOKEN_SEMICOLON)
-			break ;
+			return (skip_semicolon_token(tokens, cmd));
 		else if (token->type == TOKEN_PIPE)
-		{
-			error = add_pipe(tokens, cmd);
-			break ;
-		}
+			return (add_pipe(tokens, cmd));
 		else if (token->type == TOKEN_WORD)
 			add_argument(tokens, cmd);
 		else if (token->type == TOKEN_LESS)
@@ -120,5 +131,5 @@ int			add_command(t_list **tokens, t_command *cmd)
 		else if (token->type == TOKEN_DGREAT)
 			error = add_output_redirection(tokens, cmd, REDIRECTION_APPEND);
 	}
-	return (error == TRUE ? -1 : 0);
+	return (error);
 }
