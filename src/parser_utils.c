@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:16:30 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/11 00:11:11 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 01:37:27 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,9 @@ int			add_command(t_list **tokens, t_command *cmd)
 	{
 		token = (*tokens)->content;
 		if (token->type == TOKEN_SEMICOLON)
-			break ;
+			return (skip_semicolon_token(tokens, cmd));
 		else if (token->type == TOKEN_PIPE)
-		{
-			error = add_pipe(tokens, cmd);
-			break ;
-		}
+			return (add_pipe(tokens, cmd));
 		else if (token->type == TOKEN_WORD)
 			add_argument(tokens, cmd);
 		else if (token->type == TOKEN_LESS)
@@ -134,7 +131,5 @@ int			add_command(t_list **tokens, t_command *cmd)
 		else if (token->type == TOKEN_DGREAT)
 			error = add_output_redirection(tokens, cmd, REDIRECTION_APPEND);
 	}
-	if (!error)
-		error = skip_semicolon_token(tokens, cmd);
 	return (error);
 }
