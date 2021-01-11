@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:46:36 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 01:30:54 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 17:43:26 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		is_backslash(char c)
 
 int		is_general_delimiter(char c)
 {
-	return (ft_isspace(c) ||
+	return (ft_isblank(c) ||
 			ft_strchr(OPERATORS, c) || ft_strchr(QUOTES, c));
 }
 

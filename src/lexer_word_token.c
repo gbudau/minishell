@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:45 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 13:59:18 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 17:43:36 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int			advance_word(t_scanner *scanner)
 	char	c;
 
 	c = peek(scanner);
-	if (!scanner->state && (ft_isspace(c) || ft_strchr(OPERATORS, c)))
+	if (!scanner->state && (ft_isblank(c) || ft_strchr(OPERATORS, c)))
 		return (TRUE);
 	if (scanner->state == STATE_IN_QUOTE)
 		advance_quote(scanner);
