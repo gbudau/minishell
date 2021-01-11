@@ -6,7 +6,7 @@
 #    By: gbudau <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 00:42:18 by gbudau            #+#    #+#              #
-#    Updated: 2021/01/02 17:05:55 by gbudau           ###   ########.fr        #
+#    Updated: 2021/01/11 17:42:36 by gbudau           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ OBJ = ft_atoi.o \
 	  ft_isdigit.o \
 	  ft_isprint.o \
 	  ft_isspace.o \
+	  ft_isblank.o \
 	  ft_putchar_fd.o \
 	  ft_putendl_fd.o \
 	  ft_putnbr_fd.o \

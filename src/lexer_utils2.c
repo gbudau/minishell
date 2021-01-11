@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:54:10 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 19:51:59 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/11 17:43:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 void	skip_space(t_scanner *scanner)
 {
-	while (ft_isspace(peek(scanner)))
+	while (ft_isblank(peek(scanner)))
 		advance(scanner);
 }
 
