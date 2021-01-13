@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/10 23:58:29 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/13 16:46:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void				parse(t_shell *shell, char *input)
 	t_list	*tokens;
 
 	tokens = tokenize(input, &shell->last_status);
-	word_expansion(&tokens, shell->environ, &shell->last_status);
 	create_commands(tokens, &shell->commands, &shell->last_status);
 	ft_lstclear(&tokens, clear_token);
 }

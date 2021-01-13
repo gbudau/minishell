@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:36:05 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/11 16:27:09 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/13 20:24:54 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,14 @@ static void	copy_without_quotes(char *words)
 	words[dst_idx] = '\0';
 }
 
-void		remove_quotes(t_list *word_list, char *words, size_t expanded)
+void		remove_quotes(t_list *word_list)
 {
-	if (!expanded)
-		copy_without_quotes(words);
-	else
+	t_token	*token;
+
+	while (word_list != NULL)
 	{
-		while (word_list != NULL)
-		{
-			copy_without_quotes(word_list->content);
-			word_list = word_list->next;
-		}
+		token = word_list->content;
+		copy_without_quotes(token->str);
+		word_list = word_list->next;
 	}
 }

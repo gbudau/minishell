@@ -6,12 +6,13 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 13:57:25 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/13 19:17:43 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/env.h"
+#include "../include/wordexp.h"
 
 static char	*search_inside_directory(char *directory_path, char *cmd_name)
 {
@@ -97,6 +98,8 @@ static void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 	int		idx;
 	int		error;
 
+	if (word_expansion(cmd, *environ, last_status) == -1)
+		return ;
 	if ((idx = is_builtin(cmd)) != -1)
 	{
 		do_builtin(cmd, environ, idx, last_status);
