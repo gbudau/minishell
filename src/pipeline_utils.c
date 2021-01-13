@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:19:57 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/15 23:20:58 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/13 13:57:36 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ t_list		*wait_all_childrens(t_pipeline *p, int *last_status)
 		p->havepipe = p->cmd->ispipe;
 		p->trav = p->trav->next;
 	}
+	print_interrupt_signal(*last_status);
 	return (p->trav);
 }
