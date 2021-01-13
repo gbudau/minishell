@@ -42,7 +42,9 @@ _OBJ += lexer.o \
 # Words Expansion
 _OBJ += word_exp.o \
 		word_exp_utils.o \
-		quote_removal.o
+		quote_removal.o \
+		word_exp_io.o \
+		word_exp_argv.o
 
 # Pipeline
 _OBJ += pipeline.o \

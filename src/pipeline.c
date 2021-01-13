@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/11 16:20:04 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/13 22:48:08 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "../include/ioredirection.h"
 #include "../include/builtins.h"
 #include "../include/command.h"
+#include "../include/wordexp.h"
 
 static void	init_pipeline(t_pipeline *p)
 {
@@ -39,6 +40,8 @@ static void	execute_in_child_process(t_pipeline *p, t_list *environ,
 	int	error;
 	int	idx;
 
+	if (word_expansion(p->cmd, environ, last_status) == -1)
+		exit(*last_status);
 	if (p->havepipe)
 	{
 		dup2(p->lastpipe[STDIN_FILENO], STDIN_FILENO);
