@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 19:17:43 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/14 23:01:53 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ static void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 	int		idx;
 	int		error;
 
-	if (word_expansion(cmd, *environ, last_status) == -1)
-		return ;
 	if ((idx = is_builtin(cmd)) != -1)
 	{
 		do_builtin(cmd, environ, idx, last_status);
@@ -124,23 +122,25 @@ void		execute_cmds(t_shell *shell)
 {
 	t_list		*trav;
 	t_command	*cmd;
+	int			error;
 
 	trav = shell->commands;
 	while (trav != NULL)
 	{
 		errno = 0;
 		cmd = trav->content;
-		unset_env(&shell->environ, "_");
+		if (cmd->argv == NULL || cmd->ispipe)
+			unset_env(&shell->environ, "_");
 		if (cmd->ispipe)
 			do_pipeline(&trav, shell->environ, &shell->last_status);
 		else
 		{
+			error = word_expansion(cmd, shell->environ, &shell->last_status);
 			if (cmd->argv)
-			{
 				create_and_set_env(&shell->environ,
 						"_", cmd->argv[cmd->argc - 1]);
-			}
-			do_cmd(cmd, &shell->environ, &shell->last_status);
+			if (error != -1)
+				do_cmd(cmd, &shell->environ, &shell->last_status);
 			trav = trav->next;
 		}
 	}
