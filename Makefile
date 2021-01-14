@@ -70,6 +70,9 @@ _OBJ += sort_export_list.o
 _OBJ += execute_cmd.o \
 		execute_cmd_utils.o
 
+# Set SHLVL
+_OBJ += set_shlvl.o
+
 # Clear lists functions
 _OBJ += clear.o
 
