@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/06 22:34:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/14 19:19:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	init_shell(t_shell *shell)
 	ft_bzero(shell, sizeof(*shell));
 	init_env(&shell->environ);
 	create_and_set_env(&shell->environ, "_", "PATH");
+	set_shlvl(&shell->environ);
 }
 
 int			main(void)
