@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:59:01 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 12:51:18 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/14 18:44:08 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static int	print_error_io(char *str)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (str != NULL && *str == '\0')
+		ft_putstr_fd(": ", STDERR_FILENO);
 	ft_perror(str);
 	return (1);
 }
