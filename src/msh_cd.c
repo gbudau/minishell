@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/06 22:38:15 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/14 18:18:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			msh_cd(t_command *cmd, t_list **environ, int *last_status)
 		}
 		free(home);
 	}
-	else if (cmd->argc == 2 && chdir(cmd->argv[1]) == -1)
+	else if (cmd->argc == 2 && cmd->argv[1][0] && chdir(cmd->argv[1]) == -1)
 		return (print_cd_error(cmd->argv[1], last_status));
 	set_oldpwd_and_pwd(environ);
 	*last_status = 0;
