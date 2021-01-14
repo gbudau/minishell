@@ -6,72 +6,78 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:36:05 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 20:24:54 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/14 18:07:23 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/lexer.h"
+#include "../include/wordexp.h"
 
-static void	copy_inside_squotes(char *words, size_t *src_idx, size_t *dst_idx)
+static void	copy_inside_squotes(struct s_unquote *u)
 {
-	(*src_idx)++;
-	while (words[*src_idx] && words[*src_idx] != '\'')
-		words[(*dst_idx)++] = words[(*src_idx)++];
-	if (words[*src_idx])
-		(*src_idx)++;
+	u->src_idx++;
+	while (u->str[u->src_idx] && u->str[u->src_idx] != '\'')
+		u->str[u->dst_idx++] = u->str[u->src_idx++];
+	if (u->str[u->src_idx])
+		u->src_idx++;
 }
 
-static void	copy_backslash(char *words, size_t *src_idx, size_t *dst_idx)
+static void	copy_inside_dquotes(struct s_unquote *u)
 {
-	(*src_idx)++;
-	words[(*dst_idx)++] = words[(*src_idx)++];
-}
-
-static void	copy_inside_dquotes(char *words, size_t *src_idx, size_t *dst_idx)
-{
-	(*src_idx)++;
-	while (words[*src_idx] && words[*src_idx] != '"')
+	u->src_idx++;
+	while (u->str[u->src_idx] && u->str[u->src_idx] != '"')
 	{
-		if (words[*src_idx] == '\\' &&
-				(words[*src_idx + 1] == '"' || words[*src_idx + 1] == '\\'))
-			copy_backslash(words, src_idx, dst_idx);
-		else
-			words[(*dst_idx)++] = words[(*src_idx)++];
+		if (u->str[u->src_idx] == '\\' &&
+			(u->str[u->src_idx] == '"' || u->str[u->src_idx + 1] == '\\'))
+		{
+			u->src_idx++;
+		}
+		u->str[u->dst_idx++] = u->str[u->src_idx++];
 	}
-	if (words[*src_idx])
-		(*src_idx)++;
+	if (u->str[u->src_idx])
+		u->src_idx++;
 }
 
-static void	copy_without_quotes(char *words)
+/*
+** https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
+** #tag_18_06_07
+** Removing the quotes by copying the string in place without the quotes
+** Using two indexes, one for the copy and one to traverse the string
+*/
+
+static void	copy_without_quotes(char *str)
 {
-	size_t	src_idx;
-	size_t	dst_idx;
+	struct s_unquote	u;
 
-	src_idx = 0;
-	dst_idx = 0;
-	while (words[src_idx])
+	u.str = str;
+	u.dst_idx = 0;
+	u.src_idx = 0;
+	while (u.str[u.src_idx])
 	{
-		if (words[src_idx] == '\'')
-			copy_inside_squotes(words, &src_idx, &dst_idx);
-		else if (words[src_idx] == '"')
-			copy_inside_dquotes(words, &src_idx, &dst_idx);
-		else if (words[src_idx] == '\\')
-			copy_backslash(words, &src_idx, &dst_idx);
+		if (u.str[u.src_idx] == '\'')
+			copy_inside_squotes(&u);
+		else if (u.str[u.src_idx] == '"')
+			copy_inside_dquotes(&u);
+		else if (u.str[u.src_idx] == '\\')
+		{
+			u.src_idx++;
+			u.str[u.dst_idx++] = u.str[u.src_idx++];
+		}
 		else
-			words[dst_idx++] = words[src_idx++];
+			u.str[u.dst_idx++] = u.str[u.src_idx++];
 	}
-	words[dst_idx] = '\0';
+	u.str[u.dst_idx] = '\0';
 }
 
-void		remove_quotes(t_list *word_list)
+void		remove_quotes(t_list *word_token_list)
 {
 	t_token	*token;
 
-	while (word_list != NULL)
+	while (word_token_list != NULL)
 	{
-		token = word_list->content;
+		token = word_token_list->content;
 		copy_without_quotes(token->str);
-		word_list = word_list->next;
+		word_token_list = word_token_list->next;
 	}
 }
