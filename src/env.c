@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:38:55 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/23 11:47:19 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/14 18:27:36 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,13 @@ void	set_env(t_list **environ, char **newenv)
 		}
 		if (node == NULL)
 			add_env_front(environ, newenv);
-		else
+		else if (newenv[ENV_VALUE] != NULL)
 		{
 			ft_free_strarr(env);
 			node->content = newenv;
 		}
+		else
+			ft_free_strarr(newenv);
 	}
 }
 
