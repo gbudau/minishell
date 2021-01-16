@@ -1,0 +1,118 @@
+echo $?
+echo $??
+echo $???
+/usr/bin/env | sort
+echo $?
+export SAVEPWD=$PWD
+echo $?
+echo ok
+echo -nnnnnn hello
+echo -n -n -n hello
+echo -n-n hello
+echo --n hello
+echo $?
+echo $PATH
+echo $_
+echo $___
+echo $?
+ls -a .. | sort | cat -ev
+echo $?
+echo '\\'
+echo $?
+echo '"'
+echo $?
+echo "'"
+echo $?
+echo "\\"
+echo $?
+export OLDPATH=$PATH
+echo $?
+unset PATH
+echo $PATH
+export PATH=$OLDPATH
+echo $?
+echo \"
+echo $?
+echo \'
+echo $?
+echo \\
+echo $?
+echo \$?
+echo $?
+export OLDPATH=$PATH
+echo $?
+unset PATH
+export
+export PATH=$OLDPATH
+echo $?
+export
+echo $?
+cd
+echo $?
+echo $PWD
+echo $OLDPWD
+env | sort | grep -v _=
+echo $?
+pwd
+echo $?
+env | sort | grep -v _=
+echo $?
+cd $OLDPWD
+echo $?
+cd nonexistantdir
+echo $?
+export OLDPATH=$PATH
+echo $?
+unset PATH
+echo $?
+echo $PATH
+ls $HOME
+echo $?
+cd
+echo $?
+export PATH=$OLDPATH
+echo $?
+export TEST=test
+echo $_
+cd 1234567890
+echo $?
+echo
+echo $?
+ls .. ; ls .. | sort | cat -ev; echo "Hello world!";
+invalid_command
+echo $?
+;;;
+echo $?
+;
+echo $?
+ls .. ;
+echo $?
+export TEST=test2
+echo $TEST
+export TEST
+echo $TEST
+export TEST=test3
+echo $TEST
+echo test > ""
+echo $?
+cd ''
+pwd
+echo $PWD
+echo $OLDPWD
+export TEST='aaaaaaaa bbbbbbbb cccccccc'
+echo $?
+cd $SAVEPWD
+pwd
+cat < $TEST
+echo $?
+echo $TEST
+echo $TEST | wc -w
+echo $?
+echo $abcd
+echo $?
+ls $HOME | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat | cat -ev | sort
+echo $?
+echo $PWD;
+unset TEST
+export TEST=test; echo $TEST
+echo "ok" | sleep 1 | cat -ev | ls not_a_directory
