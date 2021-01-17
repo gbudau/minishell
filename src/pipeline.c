@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 17:31:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 22:48:08 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/17 22:14:18 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ static void	close_pipe_fds(int *pipefds)
 static void	execute_in_child_process(t_pipeline *p, t_list *environ,
 		int *last_status)
 {
-	int	error;
 	int	idx;
 
 	if (word_expansion(p->cmd, environ, last_status) == -1)
 		exit(*last_status);
+	if (p->cmd->argv)
+		create_and_set_env(&environ, "_", p->cmd->argv[p->cmd->argc - 1]);
 	if (p->havepipe)
 	{
 		dup2(p->lastpipe[STDIN_FILENO], STDIN_FILENO);
@@ -52,8 +53,7 @@ static void	execute_in_child_process(t_pipeline *p, t_list *environ,
 		dup2(p->curpipe[STDOUT_FILENO], STDOUT_FILENO);
 		close_pipe_fds(p->curpipe);
 	}
-	error = set_redirections(p->cmd);
-	if (error)
+	if (set_redirections(p->cmd))
 		exit(EXIT_FAILURE);
 	if ((idx = is_builtin(p->cmd)) != -1)
 	{
