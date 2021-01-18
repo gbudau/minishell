@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:43:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/17 21:31:25 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/18 01:42:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,26 @@ void	error_unexpected_token(int error)
 	ft_putstr_fd("'\n", STDERR_FILENO);
 }
 
-int		execve_error(char *str, int error)
+int		execve_error(t_list *environ, char *str)
 {
-	if (error == 0)
+	struct stat	statbuf;
+	char		*path;
+
+	path = get_env(environ, "PATH");
+	if (path && *path && !ft_strchr(str, '/'))
 	{
 		ft_putstr_fd(str, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		free(path);
+		return (127);
 	}
-	else
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_perror(str);
-	}
-	if (errno == EACCES)
+	if (stat(str, &statbuf) != -1 && S_ISDIR(statbuf.st_mode))
+		errno = EISDIR;
+	errno = errno ? errno : ENOENT;
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_perror(str);
+	free(path);
+	if (errno == EACCES || errno == EISDIR)
 		return (126);
 	else
 		return (127);

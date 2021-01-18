@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/14 23:01:53 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/18 02:26:19 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,27 @@ static char	*search_inside_directory(char *directory_path, char *cmd_name)
 
 static char	*search_and_build_path(char *path, char *cmd_name)
 {
-	char			**splitted_paths;
+	char			**paths;
 	size_t			i;
 	char			*filename;
 
-	if (path == NULL || *path == '\0')
+	if (path == NULL)
 		return (NULL);
-	splitted_paths = ft_split(path, ':');
-	free(path);
-	if (splitted_paths == NULL)
+	paths = ft_split(path, ':');
+	if (paths == NULL)
 		return (NULL);
 	i = 0;
-	while (splitted_paths[i])
+	while (paths[i])
 	{
-		filename = search_inside_directory(splitted_paths[i], cmd_name);
+		filename = search_inside_directory(paths[i], cmd_name);
 		if (filename != NULL)
 		{
-			ft_free_strarr(splitted_paths);
+			ft_free_strarr(paths);
 			return (filename);
 		}
 		i++;
 	}
-	ft_free_strarr(splitted_paths);
+	ft_free_strarr(paths);
 	return (NULL);
 }
 
@@ -69,26 +68,28 @@ void		search_path_and_execute(char **argv, t_list *environ)
 {
 	char	**env_array;
 	char	*filename;
-	int		error_execve;
+	char	*path;
 
-	error_execve = 0;
 	env_array = create_env_array(environ);
 	if (env_array == NULL)
 		error_exit();
-	if (argv[0][0] == '.' || argv[0][0] == '/')
+	if (argv[0][0] == '/')
 	{
 		restore_signals_handlers();
-		if (execve(argv[0], argv, env_array) == -1)
-			error_execve = -1;
+		execve(argv[0], argv, env_array);
 	}
 	else
 	{
-		filename = search_and_build_path(get_env(environ, "PATH"), argv[0]);
+		path = get_env(environ, "PATH");
+		filename = search_and_build_path(path, argv[0]);
+		free(path);
 		restore_signals_handlers();
-		if (filename && execve(filename, argv, env_array) == -1)
-			error_execve = -1;
+		if (filename)
+			execve(filename, argv, env_array);
+		else
+			execve(argv[0], argv, env_array);
 	}
-	exit(execve_error(argv[0], error_execve));
+	exit(execve_error(environ, argv[0]));
 }
 
 static void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
