@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 22:12:42 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 23:07:27 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/17 18:09:55 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ static char	**create_argv_array(t_list *head)
 	t_token	*token;
 	char	**argv;
 	int		i;
+	int		len;
 
-	argv = ft_calloc((ft_lstsize(head) + 1), sizeof(*argv));
+	len = ft_lstsize(head);
+	if (len == 0)
+		return (NULL);
+	argv = ft_calloc((len + 1), sizeof(*argv));
 	if (argv == NULL)
 		error_exit();
 	i = 0;
