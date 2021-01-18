@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:29:26 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 13:57:57 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/17 21:23:29 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ static void	scan_tokens(t_scanner *scanner)
 {
 	char		c;
 
-	c = advance(scanner);
-	if (c == '|')
+	if ((c = advance(scanner)) == '|')
 		make_token(TOKEN_PIPE, scanner);
 	else if (c == ';')
-		make_token(TOKEN_SEMICOLON, scanner);
+	{
+		if (match(';', scanner))
+			scanner->error = ERR_UNEXPECTED_TOKEN_DOUBLE_SEMICOLON;
+		else
+			make_token(TOKEN_SEMICOLON, scanner);
+	}
 	else if (c == '<')
 		make_token(TOKEN_LESS, scanner);
 	else if (c == '>')
@@ -107,7 +111,7 @@ t_list		*tokenize(char *line, int *last_status)
 	}
 	if (scanner.error)
 	{
-		error_missing_closing_quote(scanner.error);
+		error_syntax_scanner(scanner.error);
 		ft_lstclear(&scanner.tokens, clear_token);
 		*last_status = 2;
 		return (NULL);
