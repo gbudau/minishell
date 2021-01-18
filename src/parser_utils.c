@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:16:30 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/11 01:37:27 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/17 21:09:56 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ static int	add_pipe(t_list **tokens, t_command *cmd)
 	if (*tokens == NULL)
 		return (ERR_UNEXPECTED_NEWLINE);
 	token = (*tokens)->content;
-	if (token->type == TOKEN_PIPE)
-		return (ERR_UNEXPECTED_TOKEN_PIPE);
-	if (token->type == TOKEN_SEMICOLON)
-		return (ERR_UNEXPECTED_TOKEN_SEMICOLON);
+	if (token->type == TOKEN_PIPE || token->type == TOKEN_SEMICOLON)
+		return (parse_error_token_type(token->type));
 	if (cmd->argv != NULL)
 		cmd->ispipe = 1;
 	return (NO_PARSER_ERROR);

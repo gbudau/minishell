@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 00:01:02 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/07 13:58:54 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/17 21:12:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ enum	e_lexer_errors
 	NO_LEXER_ERR,
 	ERR_INCOMPLETE_QUOTE,
 	ERR_INCOMPLETE_DQUOTE,
-	ERR_INCOMPLETE_BACKSLASH
+	ERR_INCOMPLETE_BACKSLASH,
+	ERR_UNEXPECTED_TOKEN_DOUBLE_SEMICOLON
 };
 
 /*

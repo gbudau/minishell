@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/08 17:50:58 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/17 21:50:02 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int			msh_export(t_command *cmd, t_list **environ, int *last_status)
 			str_array = split_env(*argv, idx);
 			if (str_array == NULL)
 				error_exit();
+			create_and_set_env(environ, "_", str_array[ENV_NAME]);
 			set_env(environ, str_array);
 		}
 	}

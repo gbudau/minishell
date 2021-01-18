@@ -20,7 +20,7 @@
 void	not_a_valid_identifier(char *str);
 void	error_exit(void);
 int		execve_error(t_list *environ, char *str);
-void	error_missing_closing_quote(int error);
+void	error_syntax_scanner(int error);
 void	error_unexpected_token(int error);
 
 #endif

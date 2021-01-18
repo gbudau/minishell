@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/14 19:19:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/17 20:08:04 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int			main(void)
 		ft_lstclear(&shell.commands, clear_command);
 	}
 	ft_lstclear(&shell.environ, clear_env);
-	return (0);
+	return (shell.last_status);
 }

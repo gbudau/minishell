@@ -32,16 +32,22 @@ void	not_a_valid_identifier(char *str)
 **         Used as an index for quotes[] array
 */
 
-void	error_missing_closing_quote(int error)
+void	error_syntax_scanner(int error)
 {
 	const char	quotes[] = {'\0', '\'', '"', '\\'};
 
 	if (error == NO_LEXER_ERR)
 		return ;
-	ft_putstr_fd("minishell: syntax error: missing closing quote `",
+	if (error == ERR_UNEXPECTED_TOKEN_DOUBLE_SEMICOLON)
+		ft_putstr_fd("minishell: syntax error near unexpected token `;;'\n",
 																STDERR_FILENO);
-	ft_putchar_fd(quotes[error], STDERR_FILENO);
-	ft_putstr_fd("'\n", STDERR_FILENO);
+	else
+	{
+		ft_putstr_fd("minishell: syntax error: missing closing quote `",
+																STDERR_FILENO);
+		ft_putchar_fd(quotes[error], STDERR_FILENO);
+		ft_putstr_fd("'\n", STDERR_FILENO);
+	}
 }
 
 /*
