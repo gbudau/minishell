@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 17:34:40 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/11 16:11:28 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/19 14:01:30 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,13 @@ void		do_builtin(t_command *cmd, t_list **environ, int idx,
 	{msh_echo, msh_exit, msh_pwd, msh_env, msh_unset, msh_export, msh_cd, NULL};
 	int			stdin_fd_copy;
 	int			stdout_fd_copy;
+	int			error;
 
 	save_stdin_and_stdout(&stdin_fd_copy, &stdout_fd_copy);
-	*last_status = set_redirections(cmd);
-	if (*last_status == 0 && idx != -2)
+	error = set_redirections(cmd);
+	if (!error && idx != -2)
 		fptr[idx](cmd, environ, last_status);
+	else
+		*last_status = error ? error : 0;
 	restore_and_close_stdin_and_stdout(stdin_fd_copy, stdout_fd_copy);
 }
