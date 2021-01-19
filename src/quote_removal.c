@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:36:05 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/14 18:07:23 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/19 18:50:22 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	copy_inside_dquotes(struct s_unquote *u)
 	while (u->str[u->src_idx] && u->str[u->src_idx] != '"')
 	{
 		if (u->str[u->src_idx] == '\\' &&
-			(u->str[u->src_idx] == '"' || u->str[u->src_idx + 1] == '\\'))
+			(u->str[u->src_idx + 1] == '"' || u->str[u->src_idx + 1] == '\\'))
 		{
 			u->src_idx++;
 		}
@@ -59,13 +59,12 @@ static void	copy_without_quotes(char *str)
 			copy_inside_squotes(&u);
 		else if (u.str[u.src_idx] == '"')
 			copy_inside_dquotes(&u);
-		else if (u.str[u.src_idx] == '\\')
+		else
 		{
-			u.src_idx++;
+			if (u.str[u.src_idx] == '\\')
+				u.src_idx++;
 			u.str[u.dst_idx++] = u.str[u.src_idx++];
 		}
-		else
-			u.str[u.dst_idx++] = u.str[u.src_idx++];
 	}
 	u.str[u.dst_idx] = '\0';
 }
