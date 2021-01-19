@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:35:25 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 22:45:00 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/19 19:26:39 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static void	parse_double_quotes(char **words, size_t *i,
 		else if ((*words)[*i])
 			(*i)++;
 	}
+	if ((*words)[*i])
+		(*i)++;
 }
 
 void		variable_expansion(char **words, t_list **word_list,
