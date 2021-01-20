@@ -1,4 +1,81 @@
+/bin/uname
+/bin/uname -a
+/bin/hostname
 echo $?
+/bin/hostname -V
+echo $?
+/bin/ls filethatdoesntexist
+echo $?
+/bin/echo HELLO;/bin/echo WORLD ; /bin/echo;
+/bin/echo ";Hello"
+/bin/echo ";;"
+/bin/echo " ; Hello World ;;;"
+/bin/echo '"Hello World;'
+/bin/echo "' ; \test"
+/bin/echo ""''''""""''''""''""''
+/bin/echo "\'\"\"\"\;\|\>\<\""
+echo "$HOME"
+echo '$HOME'
+echo '\$HOME'
+echo '\$HOME'
+echo "\$HOME"
+echo ""'$HOME'\"\'"$HOME"
+export SAVEDIR=$PWD
+echo $?
+cd
+echo $?
+pwd
+echo $?
+cd ..
+echo $?
+pwd
+echo $?
+cd .
+echo $?
+pwd
+echo $?
+cd /
+echo $?
+pwd
+echo $?
+cd $SAVEPWD
+echo $?
+pwd
+echo $?
+cd ../../../././../././././
+echo $?
+pwd
+echo $?
+cd $SAVEPWD
+echo $?
+pwd
+echo $?
+pwd .
+echo $?
+pwd ..
+echo $?
+pwd hello world
+echo $?
+cd hello world
+echo $?
+cd '' ''
+echo $?
+pwd
+cd ''
+echo $?
+pwd
+ls > redirection_test.txt
+ls redirection_test.txt
+rm redirection_test.txt
+ls >> redirection_test.txt
+ls redirection_test.txt
+rm redirection_test.txt
+ls $HOME > redirection_test.txt
+wc -l redirection_test.txt
+ls $HOME >> redirection_test.txt
+wc -l redirection_test.txt
+cat < redirection_test.txt
+rm redirection_test.txt
 echo $??
 echo $???
 /usr/bin/env | sort
@@ -115,4 +192,25 @@ echo $?
 echo $PWD;
 unset TEST
 export TEST=test; echo $TEST
+/usr/bin/env | sort | echo $_
+echo $_
+/usr/bin/env | sort | cat -ev
+echo $_
+ls | /usr/bin/env | sort
+echo $_
+$TEST
+echo $?
+/
+echo $?
+./
+echo $?
+../
+echo $?
+echo \test\backslash
+ls | > redirection_test.txt | < redirection_test.txt
+rm redirection_test.txt
+ls | cat -ev | wc -l >> redirection_test.txt
+wc -c redirection_test.txt
+rm redirection_test.txt
 echo "ok" | sleep 1 | cat -ev | ls not_a_directory
+exit
