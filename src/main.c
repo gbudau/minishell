@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/17 20:08:04 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/20 23:45:15 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,23 @@ static void	init_shell(t_shell *shell)
 	set_shlvl(&shell->environ);
 }
 
-int			main(void)
+int			run_once(t_shell shell, int argc, char **argv)
+{
+	if (argc < 3)
+	{
+		ft_putstr_fd("minishell: -c: option requires an argument\n",
+																STDERR_FILENO);
+		return (2);
+	}
+	ignore_signals();
+	parse(&shell, argv[2]);
+	execute_cmds(&shell);
+	ft_lstclear(&shell.commands, clear_command);
+	ft_lstclear(&shell.environ, clear_env);
+	return (shell.last_status);
+}
+
+int			main(int argc, char **argv)
 {
 	t_shell	shell;
 	char	*input;
@@ -33,6 +49,8 @@ int			main(void)
 
 	setup_signals_handlers();
 	init_shell(&shell);
+	if (argc > 1 && ft_strcmp(argv[1], "-c") == 0)
+		return (run_once(shell, argc, argv));
 	gnl = 1;
 	while (gnl > 0)
 	{
