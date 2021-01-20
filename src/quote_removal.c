@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:36:05 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/19 18:50:22 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/20 13:23:29 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	copy_inside_dquotes(struct s_unquote *u)
 	while (u->str[u->src_idx] && u->str[u->src_idx] != '"')
 	{
 		if (u->str[u->src_idx] == '\\' &&
-			(u->str[u->src_idx + 1] == '"' || u->str[u->src_idx + 1] == '\\'))
+				is_dquote_backslash_special(u->str[u->src_idx + 1]))
 		{
 			u->src_idx++;
 		}
