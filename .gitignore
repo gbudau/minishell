@@ -3,6 +3,7 @@ tags
 *.swp
 *.txt
 minishell
+result.log
 
 # Prerequisites
 *.d
@@ -47,6 +48,8 @@ minishell
 *.su
 *.idb
 *.pdb
+launch.json
+tasks.json
 
 # Kernel Module Compile Results
 *.mod*
