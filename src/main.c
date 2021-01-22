@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/20 23:45:15 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/22 01:25:52 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,15 @@ static void	prompt(void)
 
 static void	init_shell(t_shell *shell)
 {
+	char	curr_dir[PATH_MAX + 1];
+
 	ft_bzero(shell, sizeof(*shell));
 	init_env(&shell->environ);
 	create_and_set_env(&shell->environ, "_", "PATH");
 	set_shlvl(&shell->environ);
+	if (getcwd(curr_dir, PATH_MAX) == NULL)
+		error_exit();
+	create_and_set_env(&shell->environ, "PWD", curr_dir);
 }
 
 int			run_once(t_shell shell, int argc, char **argv)
