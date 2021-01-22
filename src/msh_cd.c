@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/22 00:54:51 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/22 23:01:53 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ static void	set_oldpwd_and_pwd(t_list **environ)
 	char	current_pwd[PATH_MAX + 1];
 
 	old_pwd = get_env(*environ, "PWD");
+	if (old_pwd == NULL)
+	{
+		old_pwd = ft_strdup("");
+		if (old_pwd == NULL)
+			error_exit();
+	}
 	create_and_set_env(environ, "OLDPWD", old_pwd);
 	free(old_pwd);
 	if (getcwd(current_pwd, PATH_MAX) == NULL)
