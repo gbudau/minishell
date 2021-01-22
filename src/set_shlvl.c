@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 19:16:20 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/14 20:18:50 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/22 02:00:37 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	is_valid_shlvl(char *str)
 {
 	if (*str == '\0')
 		return (FALSE);
+	while (ft_isspace(*str))
+		str++;
 	if (*str == '+' || *str == '-')
 		str++;
 	if (!ft_isdigit(*str))
@@ -51,8 +53,6 @@ void		set_shlvl(t_list **environ)
 	new_shlvl = NULL;
 	if (old_shlvl == NULL || !is_valid_shlvl(old_shlvl))
 		create_and_set_env(environ, "SHLVL", "1");
-	else if (*old_shlvl == '-')
-		create_and_set_env(environ, "SHLVL", "0");
 	else
 	{
 		shlvl = ft_atoi(old_shlvl);
