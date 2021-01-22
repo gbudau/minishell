@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 19:07:44 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/06 22:34:01 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/22 00:55:18 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ static char	**create_env(char *env_name, char *env_value)
 	if (env_name == NULL)
 		return (NULL);
 	env[ENV_NAME] = env_name;
-	env_value = ft_strdup(env_value);
-	if (env_value == NULL)
-		return (NULL);
+	if (env_value)
+	{
+		env_value = ft_strdup(env_value);
+		if (env_value == NULL)
+			return (NULL);
+	}
 	env[ENV_VALUE] = env_value;
 	return (env);
 }
