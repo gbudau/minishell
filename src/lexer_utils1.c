@@ -6,11 +6,12 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:51:27 by gbudau            #+#    #+#             */
-/*   Updated: 2020/11/09 01:24:19 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 23:07:13 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/lexer.h"
 
 /*
 ** Return TRUE if the current pointer is at the end of the string

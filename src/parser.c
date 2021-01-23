@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/23 02:19:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 22:27:43 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ static t_command	*create_new_command(void)
 	return (cmd);
 }
 
-static void			create_commands(t_list *tokens, t_list **commands,
-													int *last_status)
+static void			create_commands(t_list *tokens, t_shell *shell)
 {
 	t_command	*cmd;
 	t_list		*node;
@@ -76,24 +75,17 @@ static void			create_commands(t_list *tokens, t_list **commands,
 		node = ft_lstnew(cmd);
 		if (node == NULL)
 			error_exit();
-		error = add_command(&tokens, node->content);
+		ft_lstadd_front(&shell->commands, node);
+		error = add_command(&tokens, shell);
 		if (error && error != ERR_REDIRECTION)
 		{
 			error_unexpected_token(error);
-			ft_lstclear(&node, clear_command);
-			ft_lstclear(commands, clear_command);
-			*last_status = 2;
+			ft_lstclear(&shell->commands, clear_command);
+			shell->last_status = 2;
 			return ;
 		}
-		else if (error && error == ERR_REDIRECTION)
-		{
-			ft_lstclear(&node, clear_command);
-			*last_status = 1;
-		}
-		else
-			ft_lstadd_front(commands, node);
 	}
-	ft_lstrev(commands);
+	ft_lstrev(&shell->commands);
 }
 
 void				parse(t_shell *shell, char *input)
@@ -101,6 +93,6 @@ void				parse(t_shell *shell, char *input)
 	t_list	*tokens;
 
 	tokens = tokenize(input, &shell->last_status);
-	create_commands(tokens, &shell->commands, &shell->last_status);
+	create_commands(tokens, shell);
 	ft_lstclear(&tokens, clear_token);
 }

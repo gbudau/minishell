@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:35:25 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/19 19:26:39 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 22:21:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,11 @@ void		variable_expansion(char **words, t_list **word_list,
 
 int			word_expansion(t_command *cmd, t_list *environ, int *last_status)
 {
-	if (word_exp_io(cmd, environ, last_status) == -1)
+	if (cmd->redirection_error == TRUE)
+	{
+		*last_status = 1;
 		return (-1);
+	}
 	word_exp_argv(cmd, environ, last_status);
 	return (0);
 }
