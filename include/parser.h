@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 15:55:58 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/11 00:47:53 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 01:34:36 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ enum	e_parser_errors
 	ERR_UNEXPECTED_TOKEN_GREAT,
 	ERR_UNEXPECTED_TOKEN_LESS,
 	ERR_UNEXPECTED_TOKEN_DGREAT,
-	ERR_UNEXPECTED_NEWLINE
+	ERR_UNEXPECTED_NEWLINE,
+	ERR_REDIRECTION
 };
 
 void	clear_command(void *command);

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:16:30 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/17 21:09:56 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 02:21:36 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../include/lexer.h"
 #include "../include/wordexp.h"
 #include "../include/command.h"
+#include "../include/ioredirection.h"
 
 static void	add_argument(t_list **tokens, t_command *cmd)
 {
@@ -55,26 +56,45 @@ static int	add_pipe(t_list **tokens, t_command *cmd)
 		return (parse_error_token_type(token->type));
 	if (cmd->argv != NULL)
 		cmd->ispipe = 1;
+	if (cmd->redirection_error)
+		return (ERR_REDIRECTION);
 	return (NO_PARSER_ERROR);
 }
 
 static int	add_input_redirection(t_list **tokens, t_command *cmd)
 {
 	t_token	*token;
+	int		fd;
 
 	*tokens = (*tokens)->next;
 	if (*tokens == NULL)
 		return (ERR_UNEXPECTED_NEWLINE);
-	if (cmd->input != NULL)
-		return (ERR_UNEXPECTED_TOKEN_LESS);
-	if (cmd->output == NULL)
-		cmd->redirection_order = REDIRECT_INPUT_FIRST;
 	token = (*tokens)->content;
 	if (token->type != TOKEN_WORD)
 		return (parse_error_token_type(token->type));
-	cmd->input = ft_strdup(token->str);
-	if (cmd->input == NULL)
-		error_exit();
+	if (cmd->redirection_error == FALSE)
+	{
+		if (cmd->input != NULL)
+		{
+			free(cmd->input);
+			cmd->input = NULL;
+		}
+		if (cmd->output == NULL)
+			cmd->redirection_order = REDIRECT_INPUT_FIRST;
+		if ((fd = open(token->str, O_RDONLY)) == -1)
+		{
+			cmd->redirection_error = TRUE;
+			print_error_io(token->str);
+		}
+		if (fd != -1)
+			close(fd);
+		if (cmd->redirection_error == FALSE)
+		{
+			cmd->input = ft_strdup(token->str);
+			if (cmd->input == NULL)
+				error_exit();
+		}
+	}
 	*tokens = (*tokens)->next;
 	return (NO_PARSER_ERROR);
 }
@@ -129,5 +149,7 @@ int			add_command(t_list **tokens, t_command *cmd)
 		else if (token->type == TOKEN_DGREAT)
 			error = add_output_redirection(tokens, cmd, REDIRECTION_APPEND);
 	}
+	if (cmd->redirection_error)
+		error = ERR_REDIRECTION;
 	return (error);
 }

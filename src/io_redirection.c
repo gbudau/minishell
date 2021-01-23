@@ -6,13 +6,13 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 20:59:01 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/14 18:44:08 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 01:17:51 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ioredirection.h"
 
-static int	print_error_io(char *str)
+int			print_error_io(char *str)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (str != NULL && *str == '\0')

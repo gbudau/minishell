@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 16:46:47 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 02:19:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int					skip_semicolon_token(t_list **tokens, t_command *cmd)
 			*tokens = (*tokens)->next;
 		}
 	}
+	if (cmd->redirection_error)
+		return (ERR_REDIRECTION);
 	return (NO_PARSER_ERROR);
 }
 
@@ -74,15 +76,22 @@ static void			create_commands(t_list *tokens, t_list **commands,
 		node = ft_lstnew(cmd);
 		if (node == NULL)
 			error_exit();
-		ft_lstadd_front(commands, node);
-		error = add_command(&tokens, (*commands)->content);
-		if (error)
+		error = add_command(&tokens, node->content);
+		if (error && error != ERR_REDIRECTION)
 		{
 			error_unexpected_token(error);
+			ft_lstclear(&node, clear_command);
 			ft_lstclear(commands, clear_command);
 			*last_status = 2;
 			return ;
 		}
+		else if (error && error == ERR_REDIRECTION)
+		{
+			ft_lstclear(&node, clear_command);
+			*last_status = 1;
+		}
+		else
+			ft_lstadd_front(commands, node);
 	}
 	ft_lstrev(commands);
 }
