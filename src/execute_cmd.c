@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/22 01:13:01 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/24 22:59:32 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static char	*search_inside_directory(char *directory_path, char *cmd_name)
 
 	dir_ptr = opendir(directory_path);
 	if (dir_ptr == NULL)
+	{
+		errno = 0;
 		return (NULL);
+	}
 	while ((dirent_ptr = readdir(dir_ptr)) != NULL)
 	{
 		if ((dirent_ptr->d_type == DT_LNK || dirent_ptr->d_type == DT_REG) &&
@@ -82,6 +85,7 @@ void		search_path_and_execute(char **argv, t_list *environ)
 	else
 	{
 		path = get_env(environ, "PATH");
+		path = add_curr_dir_to_path(path);
 		filename = search_and_build_path(path, argv[0]);
 		free(path);
 		restore_signals_handlers();
