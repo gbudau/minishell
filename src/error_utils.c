@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:43:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/22 02:12:57 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/24 22:38:01 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ int		execve_error(t_list *environ, char *str)
 	if (errno == ENOEXEC)
 		return (0);
 	path = get_env(environ, "PATH");
-	if (path && *path && !ft_strchr(str, '/'))
+	if (!errno && path && *path && !ft_strchr(str, '/'))
 	{
 		ft_putstr_fd(str, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		free(path);
 		return (127);
 	}
-	if (stat(str, &statbuf) != -1 && S_ISDIR(statbuf.st_mode))
+	if (!errno && stat(str, &statbuf) != -1 && S_ISDIR(statbuf.st_mode))
 		errno = EISDIR;
 	errno = errno ? errno : ENOENT;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);

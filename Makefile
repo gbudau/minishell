@@ -69,7 +69,8 @@ _OBJ += sort_export_list.o
 
 # Execute command
 _OBJ += execute_cmd.o \
-		execute_cmd_utils.o
+		execute_cmd_utils.o \
+		execute_cmd_utils2.o
 
 # Set SHLVL
 _OBJ += set_shlvl.o
