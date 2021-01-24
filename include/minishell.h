@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/14 20:14:42 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 23:06:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include "libft.h"
 # include "env.h"
 # include "command.h"
-# include "parser.h"
 # include "pipeline.h"
 # include "ioredirection.h"
 # include "builtins.h"

@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 21:50:31 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 22:44:41 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 23:15:16 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	print_ambiguous_redirect(char *str, int *last_status)
 	return (-1);
 }
 
-static int	expand_word(char **word, t_list *environ, int *last_status)
+int			expand_word(char **word, t_list *environ, int *last_status)
 {
 	char	*copy;
 	int		error;
@@ -56,13 +56,4 @@ static int	expand_word(char **word, t_list *environ, int *last_status)
 	ft_lstclear(&word_list, clear_token);
 	free(copy);
 	return (error);
-}
-
-int			word_exp_io(t_command *cmd, t_list *environ, int *last_status)
-{
-	if (expand_word(&cmd->output, environ, last_status) == -1)
-		return (-1);
-	if (expand_word(&cmd->input, environ, last_status) == -1)
-		return (-1);
-	return (0);
 }

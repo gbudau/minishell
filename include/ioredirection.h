@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:04:08 by gbudau            #+#    #+#             */
-/*   Updated: 2020/12/12 21:06:49 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 01:18:06 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@
 # include "command.h"
 
 int			set_redirections(t_command *cmd);
+int			print_error_io(char *str);
 
 #endif

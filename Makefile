@@ -30,7 +30,8 @@ _OBJ += env.o \
 
 # Parser
 _OBJ += parser.o \
-		parser_utils.o
+		parser_utils.o \
+		parser_utils2.o
 
 # Lexer
 _OBJ += lexer.o \

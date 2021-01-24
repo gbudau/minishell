@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 21:30:34 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 13:56:43 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/23 00:43:22 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ enum	e_redirection_order
 ** redirect_type = type of output redirection (normal or append)
 ** redirection_order = which redirection is first(from left to right)
 ** pid = pid running this command
+** redirection_error = if there is no redirection error this flag is FALSE
 */
 
 typedef struct	s_command
@@ -54,6 +55,7 @@ typedef struct	s_command
 	int		redirect_type;
 	int		redirection_order;
 	pid_t	pid;
+	int		redirection_error;
 }				t_command;
 
 int				get_last_status(int status);
