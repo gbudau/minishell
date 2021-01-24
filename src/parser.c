@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:01:10 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/23 22:27:43 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/24 23:31:13 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int					skip_semicolon_token(t_list **tokens, t_command *cmd)
 		t = (*tokens)->content;
 		if (t->type == TOKEN_SEMICOLON)
 		{
-			if (cmd->argv == NULL && cmd->output == NULL && cmd->input == NULL)
+			if (!cmd->redirection_error && cmd->argv == NULL &&
+					cmd->output == NULL && cmd->input == NULL)
 				return (ERR_UNEXPECTED_TOKEN_SEMICOLON);
 			*tokens = (*tokens)->next;
 		}
