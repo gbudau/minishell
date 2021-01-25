@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:14:41 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/23 23:06:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/25 21:52:41 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ typedef struct	s_shell
 void			set_shlvl(t_list **environ);
 void			parse(t_shell *shell, char *input);
 void			execute_cmds(t_shell *shell);
+long long		atoll_error(char *str, int *error);
 
 #endif
