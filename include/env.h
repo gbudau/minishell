@@ -33,5 +33,6 @@ int		is_env_format(char c, int flag);
 int		verify_env(const char *str);
 char	**split_env(const char *str, int idx);
 void	create_and_set_env(t_list **environ, char *name, char *value);
+char	*double_quoting(const char *str);
 
 #endif
