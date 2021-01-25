@@ -75,6 +75,9 @@ char	**split_env(const char *str, int idx)
 		str_array[1] = ft_strdup(&str[idx + 1]);
 		if (str_array[1] == NULL)
 			return (NULL);
+		str_array[1] = double_quoting(str_array[1]);
+		if (str_array[1] == NULL)
+			return (NULL);
 	}
 	return (str_array);
 }

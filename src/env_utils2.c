@@ -42,3 +42,27 @@ void		create_and_set_env(t_list **environ, char *name, char *value)
 		error_exit();
 	set_env(environ, env);
 }
+
+char		*double_quoting(char *str)
+{
+	int		i;
+	int		cont;
+	char	*dest;
+
+	i = -1;
+	cont = 0;
+	while (str[++i])
+		if (str[i] == '\"' || str[i] == '$' || str[i] == '\\')
+			cont++;
+	dest = ft_calloc(sizeof(char), i + cont + 1);
+	cont = 0;
+	i = 0;
+	while (str[i])
+	{
+		dest[cont++] = str[i++];
+		if (str[i] == '"' || str[i] == '$' || str[i] == '\\')
+			dest[cont++] = '\\';
+	}
+	free(str);
+	return (dest);
+}
