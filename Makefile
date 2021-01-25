@@ -81,6 +81,9 @@ _OBJ += clear.o
 # Error functions
 _OBJ += error_utils.o
 
+# Misc
+_OBJ += atoll_error.o
+
 OBJ := $(patsubst %, $(OBJ_DIR)/%, $(_OBJ))
 
 _DEPS = minishell.h \

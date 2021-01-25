@@ -6,13 +6,13 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 17:41:10 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/11 17:41:42 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/25 22:08:53 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isblank(char c)
+int	ft_isblank(int c)
 {
 	return (c == ' ' || c == '\t');
 }

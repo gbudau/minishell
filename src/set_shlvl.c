@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 19:16:20 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/22 02:00:37 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/25 22:19:45 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	is_valid_shlvl(char *str)
 		return (FALSE);
 	while (ft_isdigit(*str))
 		str++;
+	while (ft_isblank(*str))
+		str++;
 	return (*str == '\0');
 }
 
@@ -43,6 +45,22 @@ static int	print_shlvl_too_high(int shlvl)
 	return (1);
 }
 
+static int	get_shlvl(char *old_shlvl)
+{
+	int	error;
+	int	shlvl;
+
+	atoll_error(old_shlvl, &error);
+	if (error)
+		shlvl = 1;
+	else
+	{
+		shlvl = ft_atoi(old_shlvl);
+		shlvl++;
+	}
+	return (shlvl);
+}
+
 void		set_shlvl(t_list **environ)
 {
 	char	*old_shlvl;
@@ -55,8 +73,7 @@ void		set_shlvl(t_list **environ)
 		create_and_set_env(environ, "SHLVL", "1");
 	else
 	{
-		shlvl = ft_atoi(old_shlvl);
-		shlvl++;
+		shlvl = get_shlvl(old_shlvl);
 		if (shlvl < 0)
 			shlvl = 0;
 		else if (shlvl > 999)
