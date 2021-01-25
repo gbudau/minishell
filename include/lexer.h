@@ -97,7 +97,6 @@ int				is_at_end(t_scanner *scanner);
 int				is_backslash(char c);
 int				is_general_delimiter(char c);
 int				is_dquote_backslash_special(char c);
-int				is_dquote_backslash_special(char c);
 void			regress(t_scanner *scanner);
 char			advance(t_scanner *scanner);
 char			peek(t_scanner *scanner);

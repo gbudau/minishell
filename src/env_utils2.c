@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+# include "../include/lexer.h"
+
 
 static char	**create_env(char *env_name, char *env_value)
 {
@@ -52,16 +54,17 @@ char		*double_quoting(const char *str)
 	i = -1;
 	cont = 0;
 	while (str[++i])
-		if (str[i] == 34 || str[i] == 36 || str[i] == 92)
+		if (is_dquote_backslash_special(str[i]))
 			cont++;
-	dest = ft_calloc(sizeof(char), i + cont + 1);
+	if (!(dest = ft_calloc(sizeof(char), i + cont + 1)))
+		return (NULL);
 	cont = 0;
 	i = 0;
 	while (str[i])
 	{
+		if (is_dquote_backslash_special(str[i]))
+			dest[cont++] = CHAR_BACKSLASH;
 		dest[cont++] = str[i++];
-		if (str[i] == 34 || str[i] == 36 || str[i] == 92)
-			dest[cont++] = 92;
 	}
 	return (dest);
 }
