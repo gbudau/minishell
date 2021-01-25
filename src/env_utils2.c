@@ -52,7 +52,7 @@ char		*double_quoting(const char *str)
 	i = -1;
 	cont = 0;
 	while (str[++i])
-		if (str[i] == '\"' || str[i] == '$' || str[i] == '\\')
+		if (str[i] == 34 || str[i] == 36 || str[i] == 92)
 			cont++;
 	dest = ft_calloc(sizeof(char), i + cont + 1);
 	cont = 0;
@@ -60,8 +60,8 @@ char		*double_quoting(const char *str)
 	while (str[i])
 	{
 		dest[cont++] = str[i++];
-		if (str[i] == '"' || str[i] == '$' || str[i] == '\\')
-			dest[cont++] = '\\';
+		if (str[i] == 34 || str[i] == 36 || str[i] == 92)
+			dest[cont++] = 92;
 	}
 	return (dest);
 }
