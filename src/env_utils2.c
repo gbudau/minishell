@@ -43,7 +43,7 @@ void		create_and_set_env(t_list **environ, char *name, char *value)
 	set_env(environ, env);
 }
 
-char		*double_quoting(char *str)
+char		*double_quoting(const char *str)
 {
 	int		i;
 	int		cont;
@@ -63,6 +63,5 @@ char		*double_quoting(char *str)
 		if (str[i] == '"' || str[i] == '$' || str[i] == '\\')
 			dest[cont++] = '\\';
 	}
-	free(str);
 	return (dest);
 }
