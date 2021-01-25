@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-# include "../include/lexer.h"
-
+#include "../include/lexer.h"
 
 static char	**create_env(char *env_name, char *env_value)
 {
