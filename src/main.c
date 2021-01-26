@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 18:36:53 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/22 01:25:52 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/26 23:14:08 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	init_shell(t_shell *shell)
 	create_and_set_env(&shell->environ, "PWD", curr_dir);
 }
 
-int			run_once(t_shell shell, int argc, char **argv)
+static int	run_once(t_shell shell, int argc, char **argv)
 {
 	if (argc < 3)
 	{
