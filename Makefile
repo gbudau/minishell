@@ -98,7 +98,8 @@ _DEPS = minishell.h \
 		ioredirection.h \
 		builtins.h \
 		clear.h \
-		errors.h
+		errors.h \
+		execute.h
 
 DEPS := $(patsubst %, $(INC_DIR)/%, $(_DEPS))
 
