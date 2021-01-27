@@ -10,27 +10,27 @@
 
 [The Architecture of Open Source Applications: The Bourne-Again Shell](https://www.aosabook.org/en/bash.html)
 
-## Minishell roadmap/progress status
+## Minishell progress status
 
-- [x] Save the environment variables
+- [x] Environment variables
 
 - [x] Lexical analysis
   
-  - [x] Split the line into tokens
-
-- [x] Expansion
-  
-  - [x] Environment variables substitution
-  
-  - [x] Field splitting
-  
-  - [x] Quote removal
+  - [x] Split input into tokens
 
 - [x] Parse (analyze and substitute) the tokens into commands
 
 - [x] Command Execution
   
-  - [x] Redirection of IO
+  - [x] Word expansion
+    
+    - [x] Environment variables substitution
+    
+    - [x] Field splitting
+    
+    - [x] Quote removal
+  
+  - [x] Redirection of I/O
   
   - [x] Pipelines
   
@@ -50,10 +50,8 @@
     
     - [x] exit
   
-  - [x] Execute nonbuilt-in commands
+  - [x] Execution of non-built-in commands
   
-  - [x] Exit status
+  - [x] Exit status of last command
   
-  - [x] Signals SIGINT (CTRL-C), SIGQUIT \(CTRL-\\\) and EOF \(CTRL-D\)
-  
-    
+  - [x] Signals: SIGINT (CTRL-C), SIGQUIT \(CTRL-\\\) and EOF \(CTRL-D\)
