@@ -33,7 +33,7 @@ enum	e_redirection_order
 ** argc = number of arguments
 ** argv = arguments array for execve
 ** env = environment variables array for execve
-** status = status of the command
+** wstatus = return of waitpid for the current command
 ** ispipe = pipe simbol follow this command
 ** input = input redirection file
 ** output = output redirection file
@@ -51,7 +51,7 @@ typedef struct	s_command
 	char	*input;
 	char	*output;
 	int		ispipe;
-	int		status;
+	int		wstatus;
 	int		redirect_type;
 	int		redirection_order;
 	pid_t	pid;

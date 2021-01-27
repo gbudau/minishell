@@ -18,8 +18,8 @@ t_list		*wait_all_childrens(t_pipeline *p, int *last_status)
 	while (p->havepipe)
 	{
 		p->cmd = p->trav->content;
-		waitpid(p->cmd->pid, &p->status, 0);
-		*last_status = get_last_status(p->status);
+		waitpid(p->cmd->pid, &p->wstatus, 0);
+		*last_status = get_last_status(p->wstatus);
 		if (*last_status == 130 || *last_status == 131)
 			print_interrupt_signal(*last_status, p->cmd->ispipe);
 		p->havepipe = p->cmd->ispipe;
