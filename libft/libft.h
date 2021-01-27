@@ -6,7 +6,7 @@
 /*   By: gbudau <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 21:34:03 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/25 22:09:06 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 21:08:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,10 @@ void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *l, void *(*f)(void *), void (*del)(void *));
 void			ft_lstrev(t_list **lst);
 size_t			ft_lstdelcmp(t_list **head,
-				int (*compar)(const void *, const void *),
-				void *match, void (*del)(void *));
+									int (*compar)(const void *, const void *),
+									void *match, void (*del)(void *));
+void			ft_lstmergesort(t_list **alist,
+									int (*fcmp)(const void *, const void *));
 
 /*
 ** Other functions

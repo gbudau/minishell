@@ -6,7 +6,7 @@
 #    By: gbudau <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/11 00:42:18 by gbudau            #+#    #+#              #
-#    Updated: 2021/01/11 17:42:36 by gbudau           ###   ########.fr        #
+#    Updated: 2021/01/27 20:56:19 by gbudau           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,8 @@ OBJ += ft_lstadd_back.o \
 	   ft_lstnew.o \
 	   ft_lstsize.o \
 	   ft_lstdelcmp.o \
-	   ft_lstrev.o
+	   ft_lstrev.o \
+	   ft_lstmergesort.o
 
 # other functions
 OBJ += ft_perror.o
