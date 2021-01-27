@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/25 21:00:01 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 19:16:28 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static void	do_cmd(t_command *cmd, t_list **environ, int *last_status)
 	if (waitpid(pid, &status, 0) < 0)
 		error_exit();
 	*last_status = get_last_status(status);
-	print_interrupt_signal(*last_status);
+	print_interrupt_signal(*last_status, 0);
 }
 
 void		execute_cmds(t_shell *shell)

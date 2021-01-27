@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 23:19:57 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/27 21:37:24 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 21:48:59 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ t_list		*wait_all_childrens(t_pipeline *p, int *last_status)
 		p->cmd = p->trav->content;
 		waitpid(p->cmd->pid, &p->wstatus, 0);
 		*last_status = get_last_status(p->wstatus);
+		if (*last_status == 130 || *last_status == 131)
+			print_interrupt_signal(*last_status, p->cmd->ispipe);
 		p->havepipe = p->cmd->ispipe;
 		p->trav = p->trav->next;
 	}
-	print_interrupt_signal(*last_status);
 	return (p->trav);
 }
