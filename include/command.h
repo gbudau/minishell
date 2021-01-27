@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 21:30:34 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/23 00:43:22 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 19:16:47 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ typedef struct	s_command
 }				t_command;
 
 int				get_last_status(int status);
-void			print_interrupt_signal(int last_status);
+void			print_interrupt_signal(int last_status, int flag);
 
 #endif

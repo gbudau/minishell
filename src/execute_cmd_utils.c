@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/15 21:52:08 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/13 13:59:18 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 19:23:02 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,23 @@ int			get_last_status(int status)
 	return (0);
 }
 
-void		print_interrupt_signal(int last_status)
+/*
+** Print a newline when a blocking command is interrupted
+** by Ctrl-C or Ctrl-\ signal
+** last_status = exit status of the last command
+** flag = simple command or pipeline
+**        0 - simple command
+**        1 - pipeline
+*/
+
+void		print_interrupt_signal(int last_status, int flag)
 {
 	int	signum;
 
 	signum = last_status - 128;
-	if (signum == SIGQUIT)
+	if (signum == SIGQUIT && flag == 0)
 		ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
-	if (signum == SIGINT || signum == SIGQUIT)
+	if (signum == SIGINT || (signum == SIGQUIT && flag == 0))
 		ft_putstr_fd("\n", STDERR_FILENO);
 }
 
