@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:54:37 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/06 22:36:10 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 21:07:29 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int		verify_env(const char *str);
 char	**split_env(const char *str, int idx);
 void	create_and_set_env(t_list **environ, char *name, char *value);
 char	*double_quoting(const char *str);
+int		compare_env_name(const void *a, const void *b);
 
 #endif

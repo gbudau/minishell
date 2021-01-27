@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/05 19:07:44 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/22 00:55:18 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 21:06:38 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,14 @@ char		*double_quoting(const char *str)
 		dest[cont++] = str[i++];
 	}
 	return (dest);
+}
+
+int			compare_env_name(const void *a, const void *b)
+{
+	const char	**a_str_arr;
+	const char	**b_str_arr;
+
+	a_str_arr = (const char **)a;
+	b_str_arr = (const char **)b;
+	return (ft_strcmp(a_str_arr[ENV_NAME], b_str_arr[ENV_NAME]));
 }

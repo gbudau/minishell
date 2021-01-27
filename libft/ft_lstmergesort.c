@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_export_list.c                                 :+:      :+:    :+:   */
+/*   ft_lstmergesort.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/30 18:27:42 by fportela          #+#    #+#             */
-/*   Updated: 2020/12/30 18:41:37 by fportela         ###   ########.fr       */
+/*   Updated: 2021/01/27 21:10:33 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
 
 static void		frontbacksplit(t_list *source, t_list **frontref,
-	t_list **backref)
+															t_list **backref)
 {
 	t_list	*fast;
 	t_list	*slow;
@@ -34,33 +34,31 @@ static void		frontbacksplit(t_list *source, t_list **frontref,
 	slow->next = NULL;
 }
 
-static t_list	*sortedmerge(t_list *a, t_list *b)
+static t_list	*sortedmerge(t_list *a, t_list *b,
+										int (*fcmp)(const void *, const void *))
 {
 	t_list	*result;
-	char	**a_str;
-	char	**b_str;
 
 	result = NULL;
 	if (a == NULL)
 		return (b);
 	else if (b == NULL)
 		return (a);
-	a_str = a->content;
-	b_str = b->content;
-	if (ft_strcmp(a_str[ENV_NAME], b_str[ENV_NAME]) <= 0)
+	if (fcmp(a->content, b->content) <= 0)
 	{
 		result = a;
-		result->next = sortedmerge(a->next, b);
+		result->next = sortedmerge(a->next, b, fcmp);
 	}
 	else
 	{
 		result = b;
-		result->next = sortedmerge(a, b->next);
+		result->next = sortedmerge(a, b->next, fcmp);
 	}
 	return (result);
 }
 
-void			mergesort(t_list **alist)
+void			ft_lstmergesort(t_list **alist,
+										int (*fcmp)(const void *, const void *))
 {
 	t_list	*list;
 	t_list	*a;
@@ -70,7 +68,7 @@ void			mergesort(t_list **alist)
 	if ((list == NULL) || (list->next == NULL))
 		return ;
 	frontbacksplit(list, &a, &b);
-	mergesort(&a);
-	mergesort(&b);
-	*alist = sortedmerge(a, b);
+	ft_lstmergesort(&a, fcmp);
+	ft_lstmergesort(&b, fcmp);
+	*alist = sortedmerge(a, b, fcmp);
 }
