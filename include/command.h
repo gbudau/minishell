@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 21:30:34 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/23 00:43:22 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/27 21:36:09 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ enum	e_redirection_order
 ** argc = number of arguments
 ** argv = arguments array for execve
 ** env = environment variables array for execve
-** status = status of the command
+** wstatus = return of waitpid for the current command
 ** ispipe = pipe simbol follow this command
 ** input = input redirection file
 ** output = output redirection file
@@ -51,7 +51,7 @@ typedef struct	s_command
 	char	*input;
 	char	*output;
 	int		ispipe;
-	int		status;
+	int		wstatus;
 	int		redirect_type;
 	int		redirection_order;
 	pid_t	pid;
