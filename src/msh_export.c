@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 18:59:16 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/27 21:11:11 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/28 21:24:11 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ static void	*copy_env(void *content)
 	while (env[i])
 	{
 		new_env[i] = ft_strdup(env[i]);
-		if (new_env == NULL)
+		if (new_env[i] == NULL)
+		{
+			ft_free_strarr(new_env);
 			return (NULL);
+		}
 		i++;
 	}
 	return ((void *)new_env);
