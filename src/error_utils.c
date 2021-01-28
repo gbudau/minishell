@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 17:43:43 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/25 21:31:17 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/28 22:49:14 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ int		execve_error(t_list *environ, char *str)
 	struct stat	statbuf;
 	char		*path;
 
-	if (errno == ENOEXEC)
-		return (0);
 	path = get_env(environ, "PATH");
 	if (!errno && path && *path && !ft_strchr(str, '/'))
 	{

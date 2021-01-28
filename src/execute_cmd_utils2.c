@@ -6,10 +6,11 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 22:54:42 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/24 23:08:36 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/28 23:22:46 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/minishell.h"
 #include "../include/libft.h"
 #include "../include/errors.h"
 
@@ -40,4 +41,20 @@ char	*add_curr_dir_to_path(char *path)
 			error_exit();
 	}
 	return (path);
+}
+
+int		is_absolute_cmd(char *str)
+{
+	return (str[0] == '/' || !ft_strncmp(str, "./", 2)
+							|| !ft_strncmp(str, "../", 3));
+}
+
+void	exec_file(char *filename, char **env_array)
+{
+	char	*argv[3];
+
+	argv[0] = "/bin/bash";
+	argv[1] = filename;
+	argv[2] = NULL;
+	execve(argv[0], argv, env_array);
 }
