@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 21:50:31 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/23 23:15:16 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/29 14:35:30 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ int			expand_word(char **word, t_list *environ, int *last_status)
 	if (copy == NULL)
 		error_exit();
 	error = 0;
-	word_list = NULL;
-	variable_expansion(word, &word_list, environ, last_status);
+	word_list = variable_expansion(word, environ, last_status);
 	if (ft_lstsize(word_list) == 1)
 		set_word_to_node_content(word, word_list);
 	else

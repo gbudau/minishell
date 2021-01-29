@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 19:35:25 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/23 22:21:38 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/29 14:50:42 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,82 +15,91 @@
 #include "../include/wordexp.h"
 #include "../include/env.h"
 
-static void	skip_single_quote(char **words, size_t *i)
+static size_t	skip_single_quote(char *str, size_t i)
 {
-	(*i)++;
-	while ((*words)[*i] && (*words)[*i] != '\'')
-		(*i)++;
-	if ((*words)[*i])
-		(*i)++;
+	i++;
+	while (str[i] && str[i] != '\'')
+		i++;
+	if (str[i])
+		i++;
+	return (i);
 }
 
-static void	substitute_env(char **words, size_t *i,
-						t_list *environ, int last_status)
+static char		*substitute_env(char *str, size_t *i,
+											t_list *environ, int last_status)
 {
 	char	*beginning;
 	char	*middle;
 	char	*end;
 
-	if ((*words)[*i + 1] == '\0' || (!is_env_format((*words)[*i + 1], 0) &&
-			(*words)[*i + 1] != '?'))
+	if (str[*i + 1] == '\0' || (!is_env_format(str[*i + 1], 0) &&
+			str[*i + 1] != '?'))
 	{
 		(*i)++;
-		return ;
+		return (str);
 	}
-	if ((beginning = ft_strndup(*words, *i)) == NULL)
+	if ((beginning = ft_strndup(str, *i)) == NULL)
 		error_exit();
-	middle = env_or_last_status(words, i, environ, last_status);
-	if ((end = ft_strndup(*words + *i, ft_strlen(*words + *i))) == NULL)
+	middle = env_or_last_status(str, i, environ, last_status);
+	if ((end = ft_strndup(str + *i, ft_strlen(str + *i))) == NULL)
 		error_exit();
 	*i = ft_strlen(beginning) + ft_strlen(middle);
-	free(*words);
-	if ((*words = ft_strjoin_free(beginning, middle, FREE_BOTH)) == NULL)
+	free(str);
+	if ((str = ft_strjoin_free(beginning, middle, FREE_BOTH)) == NULL)
 		error_exit();
-	if ((*words = ft_strjoin_free(*words, end, FREE_BOTH)) == NULL)
+	if ((str = ft_strjoin_free(str, end, FREE_BOTH)) == NULL)
 		error_exit();
+	return (str);
 }
 
-static void	parse_double_quotes(char **words, size_t *i,
-							t_list *environ, int last_status)
+static char		*parse_double_quotes(char *str, size_t *i,
+											t_list *environ, int last_status)
 {
 	(*i)++;
-	while ((*words)[*i] != '\0' && (*words)[*i] != '"')
+	while (str[*i] != '\0' && str[*i] != '"')
 	{
-		if ((*words)[*i] == '\\')
+		if (str[*i] == '\\')
 			*i += 2;
-		else if ((*words)[*i] == '$')
-			substitute_env(words, i, environ, last_status);
-		else if ((*words)[*i])
+		else if (str[*i] == '$')
+			str = substitute_env(str, i, environ, last_status);
+		else if (str[*i])
 			(*i)++;
 	}
-	if ((*words)[*i])
+	if (str[*i])
 		(*i)++;
+	return (str);
 }
 
-void		variable_expansion(char **words, t_list **word_list,
-							t_list *environ, int *last_status)
+t_list			*variable_expansion(char **words, t_list *environ,
+															int *last_status)
 {
 	size_t	i;
+	t_list	*word_list;
+	char	*str;
 
 	i = 0;
-	while ((*words)[i])
+	str = *words;
+	while (str[i])
 	{
-		if ((*words)[i] == '\'')
-			skip_single_quote(words, &i);
-		else if ((*words)[i] == '"')
-			parse_double_quotes(words, &i, environ, *last_status);
-		else if ((*words)[i] == '\\')
+		if (str[i] == '\'')
+			i = skip_single_quote(str, i);
+		else if (str[i] == '"')
+			str = parse_double_quotes(str, &i, environ, *last_status);
+		else if (str[i] == '\\')
 			i += 2;
-		else if ((*words)[i] == '$')
-			substitute_env(words, &i, environ, *last_status);
-		else if ((*words)[i])
+		else if (str[i] == '$')
+			str = substitute_env(str, &i, environ, *last_status);
+		else if (str[i])
 			i++;
 	}
-	*word_list = tokenize(*words, last_status);
-	remove_quotes(*word_list);
+	word_list = tokenize(str, last_status);
+	remove_quotes(word_list);
+	*words = str;
+	return (word_list);
 }
 
-int			word_expansion(t_command *cmd, t_list *environ, int *last_status)
+int				word_expansion(t_command *cmd, t_list *environ,
+															int *last_status)
 {
 	if (cmd->redirection_error == TRUE)
 	{
