@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/28 23:24:37 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/29 11:03:33 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		search_path_and_execute(char **argv, t_list *environ)
 			execve(filename, argv, env_array);
 	}
 	if (errno == ENOEXEC)
-		exec_file(filename ? filename : argv[0], env_array);
+		exit(exec_file(filename ? filename : argv[0], environ));
 	exit(execve_error(environ, filename ? filename : argv[0]));
 }
 

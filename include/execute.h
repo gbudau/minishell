@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:18:58 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/28 23:21:00 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/29 11:04:05 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ char	*build_path_binary(char *dir_name, char *cmd_name);
 char	**create_env_array(t_list *environ);
 char	*add_curr_dir_to_path(char *path);
 int		is_absolute_cmd(char *str);
-void	exec_file(char *filename, char **env_array);
+int		exec_file(char *filename, t_list *environ);
 
 #endif

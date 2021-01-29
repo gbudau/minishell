@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 22:54:42 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/28 23:22:46 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/29 11:27:53 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 ** path = ":/bin:"  -> path = ".:/bin:."
 */
 
-char	*add_curr_dir_to_path(char *path)
+char		*add_curr_dir_to_path(char *path)
 {
 	if (path && (*path == '\0' || *path == ':'))
 	{
@@ -43,18 +43,62 @@ char	*add_curr_dir_to_path(char *path)
 	return (path);
 }
 
-int		is_absolute_cmd(char *str)
+int			is_absolute_cmd(char *str)
 {
 	return (str[0] == '/' || !ft_strncmp(str, "./", 2)
 							|| !ft_strncmp(str, "../", 3));
 }
 
-void	exec_file(char *filename, char **env_array)
+static void	init_subshell(t_shell *shell, t_list *environ)
 {
-	char	*argv[3];
+	char	curr_dir[PATH_MAX + 1];
 
-	argv[0] = "/bin/bash";
-	argv[1] = filename;
-	argv[2] = NULL;
-	execve(argv[0], argv, env_array);
+	ft_bzero(shell, sizeof(*shell));
+	shell->environ = environ;
+	create_and_set_env(&shell->environ, "_", "PATH");
+	set_shlvl(&shell->environ);
+	if (getcwd(curr_dir, PATH_MAX) == NULL)
+		error_exit();
+	create_and_set_env(&shell->environ, "PWD", curr_dir);
+}
+
+static int	dup_file_to_stdin(char *filename)
+{
+	int		fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (-1);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (0);
+}
+
+int			exec_file(char *filename, t_list *environ)
+{
+	t_shell	shell;
+	char	*line;
+	int		gnl;
+
+	ignore_signals();
+	if (dup_file_to_stdin(filename) == -1)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_perror(filename);
+		return (127);
+	}
+	init_subshell(&shell, environ);
+	gnl = 1;
+	while (gnl > 0)
+	{
+		gnl = get_next_line(STDIN_FILENO, &line);
+		if (gnl < 0)
+			error_exit();
+		parse(&shell, line);
+		free(line);
+		execute_cmds(&shell);
+		ft_lstclear(&shell.commands, clear_command);
+	}
+	ft_lstclear(&shell.environ, clear_env);
+	return (shell.last_status);
 }
