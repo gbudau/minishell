@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 22:12:42 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/17 18:09:55 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/29 14:35:21 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ void		word_exp_argv(t_command *cmd, t_list *environ, int *last_status)
 		return ;
 	while (cmd->argv[i])
 	{
-		word_list = NULL;
-		variable_expansion(&cmd->argv[i], &word_list, environ, last_status);
+		word_list = variable_expansion(&cmd->argv[i], environ, last_status);
 		ft_lstadd_back(&head, word_list);
 		i++;
 	}
