@@ -6,7 +6,7 @@
 /*   By: gbudau <gbudau@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/24 22:54:42 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/29 11:27:53 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/31 01:28:32 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,11 @@ static void	init_subshell(t_shell *shell, t_list *environ)
 	create_and_set_env(&shell->environ, "PWD", curr_dir);
 }
 
-static int	dup_file_to_stdin(char *filename)
+static int	open_error(char *filename)
 {
-	int		fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	return (0);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_perror(filename);
+	return (127);
 }
 
 int			exec_file(char *filename, t_list *environ)
@@ -79,26 +74,25 @@ int			exec_file(char *filename, t_list *environ)
 	t_shell	shell;
 	char	*line;
 	int		gnl;
+	int		fd;
 
 	ignore_signals();
-	if (dup_file_to_stdin(filename) == -1)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_perror(filename);
-		return (127);
-	}
+	if ((fd = open(filename, O_RDONLY)) == -1)
+		open_error(filename);
 	init_subshell(&shell, environ);
 	gnl = 1;
 	while (gnl > 0)
 	{
-		gnl = get_next_line(STDIN_FILENO, &line);
-		if (gnl < 0)
+		if ((gnl = get_next_line(fd, &line)) < 0)
 			error_exit();
 		parse(&shell, line);
 		free(line);
+		signal(SIGINT, SIG_DFL);
 		execute_cmds(&shell);
+		signal(SIGINT, SIG_IGN);
 		ft_lstclear(&shell.commands, clear_command);
 	}
 	ft_lstclear(&shell.environ, clear_env);
+	close(fd);
 	return (shell.last_status);
 }
