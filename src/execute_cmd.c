@@ -6,7 +6,7 @@
 /*   By: fportela <fportela@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/12 21:14:13 by gbudau            #+#    #+#             */
-/*   Updated: 2021/01/27 19:16:28 by gbudau           ###   ########.fr       */
+/*   Updated: 2021/01/29 11:03:33 by gbudau           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,10 @@ void		search_path_and_execute(char **argv, t_list *environ)
 	char	*filename;
 	char	*path;
 
-	env_array = create_env_array(environ);
-	if (env_array == NULL)
+	if ((env_array = create_env_array(environ)) == NULL)
 		error_exit();
 	filename = NULL;
-	if (argv[0][0] == '/' || ft_strncmp(argv[0], "./", 2) == 0 ||
-							ft_strncmp(argv[0], "../", 3) == 0)
+	if (is_absolute_cmd(argv[0]))
 	{
 		restore_signals_handlers();
 		execve(argv[0], argv, env_array);
@@ -93,6 +91,8 @@ void		search_path_and_execute(char **argv, t_list *environ)
 		if (filename)
 			execve(filename, argv, env_array);
 	}
+	if (errno == ENOEXEC)
+		exit(exec_file(filename ? filename : argv[0], environ));
 	exit(execve_error(environ, filename ? filename : argv[0]));
 }
 
